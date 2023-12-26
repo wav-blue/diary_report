@@ -12,6 +12,6 @@ userRouter.post("/users/register", userController.createUser);
 userRouter.post("/users/login", userController.loginUser);
 
 // 로그아웃
-userRouter.post("/:userId/logout", userController.logoutUser);
+userRouter.post("/users/logout", userController.logoutUser);
 
 export { userRouter };
