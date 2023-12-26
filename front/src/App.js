@@ -23,6 +23,7 @@ function App() {
           <Routes>
             <Route path="/" exact element={<Main />} />
             <Route path="/test" exact element={<Test />} />
+            <Route path="/report" exact element={<ReportPage />} />
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
         </Router>
