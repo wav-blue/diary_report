@@ -24,6 +24,7 @@ exports.createUser = async function (req, res, next) {
   }
 };
 
+// 로그인
 exports.loginUser = async function (req, res, next) {
   try {
     const { email, password } = req.body;
@@ -33,16 +34,16 @@ exports.loginUser = async function (req, res, next) {
     }
     console.log("email >> '", email, password);
     const user = await userService.loginUser({ email, password });
-
+    console.log("user: ", user.accessToken, "으로 쿠키 설정");
     res.cookie("accessToken", user.accessToken, {
-      httpOnly: true,
-      signed: true,
       maxAge: 1 * 60 * 60 * 1000,
+      signed: true,
     });
 
     const user_data = {
       user_id: user.user_id,
-      Authorization: user.refreshToken,
+      user_name: user.user_name,
+      Authorization: user.refreshToken ?? null,
     };
     res.status(200).send(user_data);
   } catch (error) {
