@@ -8,13 +8,15 @@ import Header from "./components/Header";
 import Main from "./components/Main";
 import NotFoundPage from "./components/errors/NotFoundPage";
 import Test from "./components/Test";
-import ReportPage from "./components/ReportPage";
+import DiaryPage from "./components/DiaryPage";
 import { loginReducer } from "./reducer";
+import LoginPage from "./components/LoginPage";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
-    user: null,
+    user_id: null,
   });
+
   return (
     <DispatchContext.Provider value={dispatch}>
       <UserStateContext.Provider value={userState}>
@@ -23,7 +25,8 @@ function App() {
           <Routes>
             <Route path="/" exact element={<Main />} />
             <Route path="/test" exact element={<Test />} />
-            <Route path="/report" exact element={<ReportPage />} />
+            <Route path="/login" exact element={<LoginPage />} />
+            <Route path="/diary" exact element={<DiaryPage />} />
             <Route path="/*" element={<NotFoundPage />} />
           </Routes>
         </Router>

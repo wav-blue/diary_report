@@ -14,7 +14,7 @@ class User {
     });
   }
   static async findUserByEmail({ email }) {
-    const query = `SELECT user_id, email, password FROM user WHERE email = ?`;
+    const query = `SELECT user_id, user_name, email, password FROM user WHERE email = ?`;
     return new Promise((resolve, reject) => {
       db.query(query, email, function (error, results, fields) {
         if (error) {

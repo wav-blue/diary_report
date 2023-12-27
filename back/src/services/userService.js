@@ -43,6 +43,7 @@ class userService {
     const loginUser = {
       accessToken,
       user_id: findUser[0]["user_id"],
+      user_name: findUser[0]["user_name"],
     };
 
     return loginUser;
