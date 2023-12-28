@@ -3,7 +3,7 @@ import { readDiaryDto } from "../DTO/readDiaryDto";
 
 class Diary {
   static async getDiary({ user_id }) {
-    const sql = `SELECT meal, sleep, satisfaction, createdAt, updatedAt FROM diary WHERE user_id= ? ;`;
+    const sql = `SELECT createdAt, updatedAt, meal, sleep, activity, satisfaction, comment FROM diary WHERE user_id= ? ;`;
     return new Promise((resolve, reject) => {
       db.query(sql, user_id, function (error, results, fields) {
         if (error) {

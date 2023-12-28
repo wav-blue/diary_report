@@ -14,13 +14,13 @@ exports.readDiary = async function (req, res) {
 exports.writeDiary = async function (req, res, next) {
   try {
     const { userId } = req.params;
-    const { meal, sleep, satisfaction } = req.body;
+    const { meal, sleep, activity, satisfaction, comment } = req.body;
 
-    if (!userId || !meal || !sleep || !satisfaction) {
-      throw new Error("잘못된 요청 정보 입니다.");
+    if (!userId || !meal || !sleep || !activity || !satisfaction) {
+      throw new Error("잘못된 요청 정보 입니다!");
     }
     const newDiary = new createDiaryDto(
-      { user_id: userId, meal, sleep, satisfaction },
+      { user_id: userId, meal, sleep, activity, satisfaction, comment },
       new Date()
     );
     diaryService.createDiary({ newDiary });
