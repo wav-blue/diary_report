@@ -25,6 +25,18 @@ class User {
       });
     });
   }
+  static async findUsernameById({ user_id }) {
+    const query = `SELECT user_name FROM user WHERE user_id = ?`;
+    return new Promise((resolve, reject) => {
+      db.query(query, user_id, function (error, results, fields) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+  }
 }
 
 export { User };

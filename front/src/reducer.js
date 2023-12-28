@@ -11,9 +11,15 @@ export function loginReducer(userState, action) {
       };
     case "LOGOUT":
       console.log("%c로그아웃!", "color: #d93d1a;");
+      console.log("리듀서 >> ", {
+        ...userState,
+        user_id: null,
+        user_name: null,
+      });
       return {
         ...userState,
-        user: null,
+        user_id: null,
+        user_name: null,
       };
     default:
       return userState;

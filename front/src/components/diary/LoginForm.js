@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Form, Button } from "react-bootstrap";
-import * as Api from "../../api";
+import * as Api from "../../Api";
 import { DispatchContext } from "../../App";
 
 function LoginForm() {
@@ -13,12 +13,18 @@ function LoginForm() {
     e.preventDefault();
     console.log("요청 시도");
     try {
-      const res = await Api.post("users/login", {
-        email,
-        password,
-      });
+      console.log("email, pwd: ", email, password);
+
+      const res = await Api.post(
+        "users/login",
+        {
+          email,
+          password,
+        },
+        1,
+        "application/json"
+      );
       console.log("응답: ", res);
-      console.log("응답: ", res.headers);
 
       // 유저 정보는 response의 data임.
       const user = res.data;

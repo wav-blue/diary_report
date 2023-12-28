@@ -1,3 +1,4 @@
+import { NotFoundError } from "../../libraries/custom-error";
 import { createUserDto } from "../db/DTO/createUserDto";
 import { userService } from "../services/userService";
 import { createRandomId } from "../utils/loginUtils";
@@ -28,13 +29,13 @@ exports.createUser = async function (req, res, next) {
 exports.loginUser = async function (req, res, next) {
   try {
     const { email, password } = req.body;
+    console.log("email: ", email, password);
 
     if (!email || !password) {
       throw new Error("필수 정보가 입력되지 않았습니다.");
     }
     console.log("email >> '", email, password);
     const user = await userService.loginUser({ email, password });
-    console.log("user: ", user.accessToken, "으로 쿠키 설정");
     res.cookie("accessToken", user.accessToken, {
       maxAge: 1 * 60 * 60 * 1000,
       signed: true,
@@ -58,6 +59,23 @@ exports.logoutUser = async function (req, res, next) {
       maxAge: 0,
     });
     res.send("로그아웃 완료");
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.currentUser = async function (req, res, next) {
+  try {
+    const user_id = req.currentUserId;
+    if (!user_id) {
+      throw NotFoundError("Access Token 없음");
+    }
+    const user_name = await userService.getUsernameById({ user_id });
+    const user = {
+      user_id,
+      user_name,
+    };
+    res.json(user);
   } catch (error) {
     next(error);
   }

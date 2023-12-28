@@ -9,11 +9,16 @@ class userService {
     const result = await User.getUser({ user_id });
     return result;
   }
+  static async getUsernameById({ user_id }) {
+    const user_name = await User.findUsernameById({ user_id });
+    return user_name;
+  }
   // 추가
   static async createUser({ newUser }) {
     const result = User.createUser({ newUser });
     return result;
   }
+
   // 유저 로그인
   static async loginUser({ email, password }) {
     // 이메일로 유저 정보 조회
