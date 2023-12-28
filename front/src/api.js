@@ -10,18 +10,22 @@ async function get(endpoint) {
 
   return axios.get(serverUrl + endpoint, {
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
   });
 }
 
-async function post(endpoint, bodyData, isLogin) {
+async function post(endpoint, bodyData, isLogin, content_type) {
   console.log(`%cPOST 요청 ${serverUrl + endpoint}`, "color: #a25cd1;");
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
 
+  //"application/x-www-form-urlencoded"
+  //"application/json"
   return axios.post(serverUrl + endpoint, bodyData, {
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": `${content_type}`,
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
   });
 }
