@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import DiaryForm from "../diary/DiaryForm";
 
-function DiaryPage() {
+function InputPage() {
   return <DiaryForm />;
 }
 
-export default DiaryPage;
+export default InputPage;
