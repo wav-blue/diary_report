@@ -1,11 +1,19 @@
 import { createDiaryDto } from "../db/DTO/createDiaryDto";
 import { diaryService } from "../services/diaryService";
+import { parseDatewithTime } from "../utils/dateFunction";
 
-exports.readDiary = async function (req, res) {
+exports.readDiary = async function (req, res, next) {
   try {
     const { userId } = req.params;
-    const diary = await diaryService.getDiary({ user_id: userId });
-    res.json(diary);
+    const results = await diaryService.getDiary({ user_id: userId });
+    console.log("results.length > ", results.length);
+    if (results.length > 0) {
+      for (let i = 0; i < results.length; i++) {
+        results[i].date = parseDatewithTime(results[i].createdAt);
+      }
+    }
+
+    res.json(results);
   } catch (error) {
     next(error);
   }
@@ -15,7 +23,8 @@ exports.writeDiary = async function (req, res, next) {
   try {
     const { userId } = req.params;
     const { meal, sleep, activity, satisfaction, comment } = req.body;
-
+    console.log({ userId });
+    console.log({ meal, sleep, activity, satisfaction, comment });
     if (!userId || !meal || !sleep || !activity || !satisfaction) {
       throw new Error("잘못된 요청 정보 입니다!");
     }

@@ -1,3 +1,5 @@
+import { parseDate } from "../../utils/dateFunction";
+
 class readDiaryDto {
   /** @type {Datetime} */
   createdAt;
@@ -14,8 +16,8 @@ class readDiaryDto {
     this.meal = String(data?.meal);
     this.sleep = String(data?.sleep);
     this.satisfaction = String(data?.satisfaction);
-    this.createdAt = String(data?.createdAt);
-    this.updatedAt = String(data?.updatedAt);
+    this.createdAt = parseDate(data?.createdAt);
+    this.updatedAt = parseDate(data?.updatedAt);
   }
 }
 

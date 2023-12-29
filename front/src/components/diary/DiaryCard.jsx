@@ -28,7 +28,6 @@ function DiaryCard(props) {
         <label>나의 한마디</label>
         <p>{props.comment}</p>
       </div>
-      <button onClick={() => navigate("/")}>메인으로 돌아가기</button>
     </div>
   );
 }

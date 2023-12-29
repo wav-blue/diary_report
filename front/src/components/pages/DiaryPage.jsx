@@ -7,37 +7,32 @@ import { useNavigate } from "react-router-dom";
 function DiaryPage() {
   const navigate = useNavigate();
   const userState = useContext(UserStateContext);
-  const userId = "01HJKR4QXTRA8E4KXFJWGCEAS8";
+  const { user_id, user_name } = userState;
 
   // useState 훅을 통해 users 상태를 생성함.
-  const [diarys, setDiarys] = useState({
-    date: "2023-12-29",
-    meal: "5",
-    sleep: "2",
-    activity: "4",
-    satisfaction: "5",
-    comment: "테스트 코멘트.",
-  });
+  const [diarys, setDiarys] = useState();
 
   console.log("diarys 값>>>", diarys);
   useEffect(() => {
-    //Api.get(`userId/diary`).then((res) => setDiarys(res.data));
+    Api.get(`${user_id}/diary`).then((res) => setDiarys(res.data));
 
     console.log("res dairys: ", diarys);
   }, [userState, navigate]);
 
-  return (
-    <div>
-      <DiaryCard
-        date={diarys.date}
-        meal={diarys.meal}
-        sleep={diarys.sleep}
-        activity={diarys.activity}
-        satisfaction={diarys.satisfaction}
-        comment={diarys.comment}
-      />
-    </div>
-  );
+  if (!diarys) {
+    return <div>표시할 내용이 없습니다!</div>;
+  }
+
+  return diarys.map((diary) => (
+    <DiaryCard
+      date={diary.date}
+      meal={diary.meal}
+      sleep={diary.sleep}
+      activity={diary.activity}
+      satisfaction={diary.satisfaction}
+      comment={diary.comment}
+    />
+  ));
 }
 
 export default DiaryPage;
