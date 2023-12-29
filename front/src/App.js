@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import * as Api from "./Api.js";
+
+import "./CSS/App.css";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -26,14 +29,27 @@ function App() {
 
   const fetchCurrentUser = async () => {
     try {
-      // 이전에 발급받은 토큰이 있다면, 이를 가지고 유저 정보를 받아옴.
-      const res = await Api.get("current");
-      const currentUser = res.data;
+      const accessToken = sessionStorage.getItem("accessToken");
+      const refreshToken = sessionStorage.getItem("refreshToken");
 
-      // dispatch 함수를 통해 로그인 성공 상태로 만듦.
+      if (refreshToken) {
+        console.log("refresh >. ", { accessToken, refreshToken });
+        await Api.post(
+          "accessToken",
+          { accessToken, refreshToken },
+          true,
+          "application/json"
+        );
+      }
+      const res = await Api.get("current");
+      console.log("refreshToken res : ", res);
+      // 유저 정보는 response의 data임.
+      const user = res.data;
+      console.log("유저 정보: ", user);
+      // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
       dispatch({
         type: "LOGIN",
-        payload: currentUser,
+        payload: { user_id: user.user_id, user_name: user.user_name },
       });
 
       console.log("%c 쿠키에 토큰 있음.", "color: #d93d1a;");

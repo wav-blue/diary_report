@@ -31,8 +31,10 @@ function LoginForm() {
       console.log("const user = res.data;");
       console.log(user.user_id);
       // JWT 토큰은 유저 정보의 token임.
-      const refreshToken = user.Authorization ?? "";
+      const accessToken = user.accessToken;
+      const refreshToken = user.authorization ?? "";
 
+      sessionStorage.setItem("accessToken", accessToken);
       sessionStorage.setItem("refreshToken", refreshToken);
 
       // dispatch 함수를 이용해 로그인 성공 상태로 만듦.

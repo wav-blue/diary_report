@@ -44,7 +44,8 @@ exports.loginUser = async function (req, res, next) {
     const user_data = {
       user_id: user.user_id,
       user_name: user.user_name,
-      Authorization: user.refreshToken ?? null,
+      accessToken: user.accessToken,
+      authorization: user.refreshToken ?? null,
     };
     res.status(200).send(user_data);
   } catch (error) {
@@ -66,6 +67,7 @@ exports.logoutUser = async function (req, res, next) {
 
 exports.currentUser = async function (req, res, next) {
   try {
+    console.log("currentUser호출");
     const user_id = req.currentUserId;
     if (!user_id) {
       throw NotFoundError("Access Token 없음");
@@ -75,6 +77,7 @@ exports.currentUser = async function (req, res, next) {
       user_id,
       user_name,
     };
+    console.log("user정보: ", user);
     res.json(user);
   } catch (error) {
     next(error);

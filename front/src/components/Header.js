@@ -21,7 +21,8 @@ function Header() {
   // 로그아웃 클릭 시 실행되는 함수
   const logout = () => {
     alert("로그아웃 실행");
-    // 기본 페이지로 돌아감.
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("refreshToken");
     dispatch({
       type: "LOGOUT",
     });

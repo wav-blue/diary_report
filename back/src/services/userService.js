@@ -1,6 +1,6 @@
 import { User } from "../db/DAO/User";
 import bcrypt from "bcrypt";
-import { createAccessToken } from "../utils/createToken";
+import { createAccessToken, createRefreshToken } from "../utils/createToken";
 import { UnauthorizedError } from "../../libraries/custom-error";
 
 class userService {
@@ -11,7 +11,7 @@ class userService {
   }
   static async getUsernameById({ user_id }) {
     const user_name = await User.findUsernameById({ user_id });
-    return user_name;
+    return user_name[0].user_name;
   }
   // 추가
   static async createUser({ newUser }) {
@@ -43,10 +43,12 @@ class userService {
     const user_data = { user_id: findUser[0]["user_id"] };
 
     const accessToken = await createAccessToken(user_data, secretKey);
+    const refreshToken = await createRefreshToken(secretKey);
 
     // 반환할 loginuser 객체
     const loginUser = {
       accessToken,
+      refreshToken,
       user_id: findUser[0]["user_id"],
       user_name: findUser[0]["user_name"],
     };
