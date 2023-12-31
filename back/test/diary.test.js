@@ -12,7 +12,7 @@ test("일기 생성 테스트", async () => {
       satisfaction: 3,
       comment: "피자를 먹었어요",
     },
-    lastMonth(parseDate(new Date()))
+    new Date()
   );
   console.log(newDiary);
   const result = await Diary.createDiary({ newDiary });

@@ -8,6 +8,7 @@ import { validateRefreshToken } from "../utils/validateToken";
 
 import jwt from "jsonwebtoken";
 import { createAccessToken } from "../utils/createToken";
+import diaryController from "../controller/diaryController";
 
 const userRouter = Router();
 
@@ -22,6 +23,9 @@ userRouter.get("/users/logout", userController.logoutUser);
 
 // 현재 사용자 확인
 userRouter.get("/current", loginRequired, userController.currentUser);
+
+// 해당 유저 오늘 날짜 조회
+userRouter.get("/diary/today", diaryController.readDiaryToday);
 
 // Access Token 재발급
 userRouter.post("/accessToken", async function (req, res, next) {

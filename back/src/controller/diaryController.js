@@ -2,11 +2,31 @@ import { createDiaryDto } from "../db/DTO/createDiaryDto";
 import { diaryService } from "../services/diaryService";
 import { parseDatewithTime } from "../utils/dateFunction";
 
+exports.readDiaryToday = async function (req, res, next) {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      console.log(">>>>>>");
+      res.json([]);
+      return;
+    }
+    const results = await diaryService.getDiaryToday({ user_id: userId });
+    if (results.length > 0) {
+      for (let i = 0; i < results.length; i++) {
+        results[i].date = parseDatewithTime(results[i].createdAt);
+      }
+    }
+
+    res.json(results);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.readDiary = async function (req, res, next) {
   try {
     const { userId } = req.params;
     const results = await diaryService.getDiary({ user_id: userId });
-    console.log("results.length > ", results.length);
     if (results.length > 0) {
       for (let i = 0; i < results.length; i++) {
         results[i].date = parseDatewithTime(results[i].createdAt);
