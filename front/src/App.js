@@ -8,7 +8,7 @@ export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
 
 import Header from "./components/Header";
-import Main from "./components/Main";
+import MainPage from "./components/pages/MainPage.jsx";
 import NotFoundPage from "./components/errors/NotFoundPage";
 import Test from "./components/Test";
 import InputPage from "./components/pages/InputPage";
@@ -76,7 +76,7 @@ function App() {
         <Router>
           <Header />
           <Routes>
-            <Route path="/" exact element={<Main />} />
+            <Route path="/" exact element={<MainPage />} />
             <Route path="/test" exact element={<Test />} />
             <Route path="/login" exact element={<LoginPage />} />
             <Route path="/diary" exact element={<DiaryPage />} />

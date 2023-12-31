@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function DiaryPage() {
   const navigate = useNavigate();
   const userState = useContext(UserStateContext);
-  const { user_id, user_name } = userState;
+  const { user_id } = userState;
 
   // useState 훅을 통해 users 상태를 생성함.
   const [diarys, setDiarys] = useState();
