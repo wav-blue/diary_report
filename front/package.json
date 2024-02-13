@@ -17,7 +17,8 @@
     "react-bootstrap": "^2.9.2",
     "react-datepicker": "^4.25.0",
     "react-router-dom": "^6.21.1",
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "styled-components": "^6.1.6"
   },
   "browserslist": {
     "production": [

@@ -1,0 +1,6 @@
+server:
+  port: 5001
+
+db:
+  type: 'mysql'
+  port: 3306
