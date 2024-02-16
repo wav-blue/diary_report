@@ -10,6 +10,7 @@ export abstract class IUserRepository {
     createUserDto: CreateUserDto,
     queryRunner: QueryRunner,
   ): Promise<User>;
+
   abstract findUserByEmail(
     email: string,
     queryRunner: QueryRunner,

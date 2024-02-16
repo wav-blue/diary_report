@@ -10,16 +10,17 @@ import { IUserRepository } from '../DAO/user.dao';
 import { User } from '../entity/user.entity';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from '../DTO/loginUser.dto';
-import { createAccessToken, createRefreshToken } from '../utils/createToken';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
-export class UserLoginService {
+export class AuthService {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly dataSource: DataSource,
+    private jwtService: JwtService,
     private logger: MyLogger,
   ) {
-    this.logger.setContext(UserLoginService.name);
+    this.logger.setContext(AuthService.name);
   }
 
   async loginUser(loginUserDto: LoginUserDto) {
@@ -38,7 +39,6 @@ export class UserLoginService {
 
     try {
       findUser = await this.userRepository.findUserByEmail(email, queryRunner);
-
       if (!findUser) {
         this.logger.error('검색된 정보 없음');
         throw new ConflictException('가입 이력이 없습니다.');
@@ -50,7 +50,6 @@ export class UserLoginService {
     } finally {
       await queryRunner.release();
     }
-
     // 비밀번호 확인
     const correctPasswordHash = findUser.password;
     const isPasswordCorrect = await bcrypt.compare(
@@ -62,12 +61,16 @@ export class UserLoginService {
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
-
-    const user_data = { user_id: findUser.userId };
-
-    const accessToken = await createAccessToken(user_data, secretKey);
-    const refreshToken = await createRefreshToken(secretKey);
+    const accessTokenPayload = { userId: findUser.userId };
+    const accessToken = await this.jwtService.signAsync(accessTokenPayload, {
+      expiresIn: '30m',
+      secret: process.env.JWT_ACCESS_TOKEN_KEY,
+    });
+    const refreshTokenPayload = {};
+    const refreshToken = await this.jwtService.signAsync(refreshTokenPayload, {
+      expiresIn: '7d',
+      secret: process.env.JWT_REFRESH_TOKEN_KEY,
+    });
 
     // 반환할 loginuser 객체
     const loginUser = {

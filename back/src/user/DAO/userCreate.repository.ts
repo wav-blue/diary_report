@@ -5,7 +5,7 @@ import { User } from '../entity/user.entity';
 import { IUserRepository } from './user.dao';
 import { CreateUserDto } from '../DTO/createUser.dto';
 
-@Injectable(User)
+@Injectable()
 export class UserRepository implements IUserRepository {
   constructor(private logger: MyLogger) {
     this.logger.setContext(UserRepository.name);
@@ -33,7 +33,6 @@ export class UserRepository implements IUserRepository {
       .from(User, 'user')
       .where('user.email = :email', { email })
       .getOne();
-
     return found;
   }
 

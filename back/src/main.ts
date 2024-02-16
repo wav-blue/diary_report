@@ -4,6 +4,7 @@ import { MyLogger } from './logger/logger.service';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 import * as config from 'config';
+import { setupSwagger } from 'common/swagger/setupSwagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -15,7 +16,8 @@ async function bootstrap() {
     origin: ['http://localhost:3000'],
     credentials: true,
   });
-  app.use(cookieParser());
+  app.use(cookieParser('other-cookie-secret!!'));
+  //app.use(cookieParser("secret"));
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -24,6 +26,7 @@ async function bootstrap() {
     }),
   );
   app.useLogger(new MyLogger());
+  setupSwagger(app);
 
   await app.listen(serverConfig.port);
 }
