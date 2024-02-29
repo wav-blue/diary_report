@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../CSS/main.css";
 import { UserStateContext } from "../../App";
 import * as Api from "../../Api";
 
 function MainPage() {
   const navigate = useNavigate();
   const userState = useContext(UserStateContext);
-  const { user_id, user_name } = userState;
+  const { userId, userName } = userState;
 
   // useState 훅을 통해 users 상태를 생성함.
   const [diarys, setDiarys] = useState();

@@ -1,16 +1,14 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../Api";
-import { ScoreBoard } from "./ScoreBoard";
 import { UserStateContext, DispatchContext } from "../../App";
+import { ScoreBoard } from "../common/ScoreBoard";
+import { TextArea } from "../common/TextArea";
 
 function DiaryForm() {
   const [username, setUsername] = useState("기본 닉네임");
-  const [meal, setMeal] = useState();
-  const [sleep, setSleep] = useState();
-  const [activity, setActivity] = useState();
-  const [satisfaction, setSatisfaction] = useState();
-  const [comment, setComment] = useState("");
+  const [satisfy, setSatisfy] = useState();
+  const [content, setContent] = useState("");
 
   const navigate = useNavigate();
 
@@ -19,9 +17,9 @@ function DiaryForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { user_id, user_name } = userState;
+    const { userId, userName } = userState;
 
-    if (!user_id) {
+    if (!userId) {
       alert("유저 정보가 존재하지 않습니다!");
       navigate("/");
       return;
@@ -33,16 +31,16 @@ function DiaryForm() {
       meal,
       sleep,
       activity,
-      satisfaction,
-      comment,
+      satisfy,
+      content,
     };
     console.log("값 : ", req);
 
-    console.log(`${user_id}로 요청 시도`);
+    console.log(`${userId}로 요청 시도`);
     try {
       // "user" 엔드포인트로 post요청
       const res = await Api.post(
-        `${user_id}/diary`,
+        `${userId}/diary`,
         req,
         true,
         "application/json"
@@ -58,32 +56,18 @@ function DiaryForm() {
     <form>
       <hr />
       <div>{username}님의 하루 어떠셨나요?</div>
-      <h4>식사</h4>
-      <ScoreBoard title="식사" name="meal" setScore={setMeal} />
-      <h4>수면</h4>
-      <ScoreBoard title="수면" name="sleep" setScore={setSleep} />
-      <h4>운동(활동량)</h4>
-      <ScoreBoard title="운동(활동량)" name="activity" setScore={setActivity} />
-
-      <h4>전체 만족도</h4>
-      <ScoreBoard
-        title="전체 만족도"
-        name="satisfaction"
-        setScore={setSatisfaction}
-      />
-      <hr />
-      <h4>Comment</h4>
-      <input
+      <h4>Content</h4>
+      <TextArea
         type="text"
-        id="name"
-        name="name"
-        minlength="4"
-        maxlength="8"
-        size="10"
+        id="content"
+        name="content"
         onChange={(e) => {
-          setComment(e.target.value);
+          setContent(e.target.value);
         }}
       />
+      <h4>전체 만족도</h4>
+      <ScoreBoard title="전체 만족도" name="satisfy" setScore={setSatisfy} />
+      <hr />
 
       <button onClick={handleSubmit} variant="primary" type="submit">
         제출

@@ -2,8 +2,6 @@ import React, { useState, useEffect, useReducer, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import * as Api from "./Api.js";
 
-import "./CSS/App.css";
-
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
 
@@ -18,7 +16,7 @@ import LoginPage from "./components/LoginPage";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
-    user_id: null,
+    userId: null,
   });
 
   //--------------------------------------
@@ -49,7 +47,7 @@ function App() {
       // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
       dispatch({
         type: "LOGIN",
-        payload: { user_id: user.user_id, user_name: user.user_name },
+        payload: { userId: user.userId, userName: user.userName },
       });
 
       console.log("%c 쿠키에 토큰 있음.", "color: #d93d1a;");

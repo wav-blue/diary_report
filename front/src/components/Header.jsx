@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../App";
-import "../CSS/header.css";
 
 function Header() {
   const navigate = useNavigate();
@@ -11,9 +10,9 @@ function Header() {
 
   console.log("현재 userState: ", userState);
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태
-  const isLogin = !!userState.user_id;
+  const isLogin = !!userState.userId;
 
-  console.log("현재 isLogin: ", isLogin, userState.user_id);
+  console.log("현재 isLogin: ", isLogin, userState.userId);
   const login = () => {
     navigate("/login");
   };

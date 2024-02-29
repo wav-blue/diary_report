@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function ScoreBoard(props) {
+const ScoreBoard = (props) => {
   const handleContent = (e) => {
     props.setScore(e.target.value);
   };
@@ -14,5 +14,5 @@ function ScoreBoard(props) {
       onChange={(e) => handleContent(e)}
     ></input>
   ));
-}
+};
 export { ScoreBoard };
