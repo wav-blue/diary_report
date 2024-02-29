@@ -1,9 +1,10 @@
 import * as Api from "../../Api";
+import { DateKorean } from "../common/DateKorean";
 
 function DiaryCard(props) {
   return (
     <div>
-      <h4>{props.date}</h4>
+      <DateKorean>{props.date}</DateKorean>
       <div>
         <p>{props.summary}</p>
       </div>

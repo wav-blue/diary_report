@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as Api from "../../Api";
 import { UserStateContext, DispatchContext } from "../../App";
 import { ScoreBoard } from "../common/ScoreBoard";
-import { TextArea } from "../common/TextArea";
+import { TextArea } from "../styled/TextArea";
 
 function DiaryForm() {
   const [username, setUsername] = useState("기본 닉네임");
