@@ -11,7 +11,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
   const serverConfig = config.get('server');
-  app.setGlobalPrefix('/api');
+  // app.setGlobalPrefix('/api');
   app.enableCors({
     origin: ['http://localhost:3000'],
     credentials: true,
