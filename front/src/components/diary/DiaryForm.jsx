@@ -9,43 +9,55 @@ function DiaryForm() {
   const [username, setUsername] = useState("기본 닉네임");
   const [satisfy, setSatisfy] = useState();
   const [content, setContent] = useState("");
+  const [contentLength, setContentLength] = useState(0);
 
   const navigate = useNavigate();
 
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
 
+  const validateValue = () => {
+    if (content.length <= 10) {
+      alert("내용을 10자 이상 입력해주세요!");
+      return false;
+    }
+
+    if (!satisfy) {
+      alert("만족도를 입력해주세요!");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { userId, userName } = userState;
 
-    if (!userId) {
-      alert("유저 정보가 존재하지 않습니다!");
-      navigate("/");
+    if (!validateValue()) {
       return;
     }
 
-    console.log(meal, setMeal);
+    if (!userId) {
+      alert("로그인 후 작성 가능합니다!");
+      return;
+    }
 
     const req = {
-      meal,
-      sleep,
-      activity,
-      satisfy,
       content,
+      satisfy,
     };
-    console.log("값 : ", req);
 
     console.log(`${userId}로 요청 시도`);
     try {
       // "user" 엔드포인트로 post요청
       const res = await Api.post(
-        `${userId}/diary`,
+        `diary/${userId}`,
         req,
         true,
         "application/json"
       );
       console.log("요청에 성공하였습니다.\n응답: ", res);
+      alert("일기가 작성되었습니다!");
       navigate("/diary");
     } catch (err) {
       console.log("요청에 실패하였습니다.\n", err);
@@ -63,8 +75,10 @@ function DiaryForm() {
         name="content"
         onChange={(e) => {
           setContent(e.target.value);
+          setContentLength(e.target.value.length);
         }}
       />
+      <p>현재 {contentLength}자</p>
       <h4>전체 만족도</h4>
       <ScoreBoard title="전체 만족도" name="satisfy" setScore={setSatisfy} />
       <hr />

@@ -1,8 +1,16 @@
-import { BaseEntity, PrimaryColumn, Column, Entity } from 'typeorm';
+import {
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 
 @Entity('DIARY')
 export class Diary extends BaseEntity {
-  @PrimaryColumn({ type: 'integer' })
+  @PrimaryGeneratedColumn('increment')
   diaryId: number;
 
   @Column({ type: 'varchar', length: 42 })
@@ -17,12 +25,12 @@ export class Diary extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   summary: string;
 
-  @Column({ type: 'datetime' })
+  @CreateDateColumn({ type: 'datetime' })
   createdAt: Date;
 
-  @Column({ type: 'datetime' })
+  @UpdateDateColumn({ type: 'datetime' })
   updatedAt: Date;
 
-  @Column({ type: 'datetime', nullable: true })
-  deletedAt: Date;
+  @DeleteDateColumn({ nullable: true })
+  deletedAt: Date | null;
 }

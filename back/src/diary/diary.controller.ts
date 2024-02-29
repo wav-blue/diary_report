@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
 import { AuthGuard } from 'common/guards/authGuard';
@@ -8,6 +17,7 @@ import { DiaryReadService } from './service/diaryRead.service';
 import { CreateDiaryDto } from './repository/DTO/createDiary.dto';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Diary } from './repository/entity/diary.entity';
+import { DiaryDeleteService } from './service/diaryDelete.service';
 
 @Controller('diary')
 @ApiTags('일기 관련 API')
@@ -15,6 +25,7 @@ export class DiaryController {
   constructor(
     private diaryCreateService: DiaryCreateService,
     private diaryReadService: DiaryReadService,
+    private diaryDeleteService: DiaryDeleteService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(DiaryController.name);
@@ -52,13 +63,19 @@ export class DiaryController {
     return diary;
   }
 
-  @Delete('/:userId')
+  @Delete('/:diaryId')
+  @UseGuards(AuthGuard)
   @ApiOperation({
     summary: '일기 삭제 API',
     description: '유저의 해당 일기 삭제',
   })
   @ApiCreatedResponse({ description: '일기 데이터', type: Diary })
-  logoutUser(): string {
+  async logoutUser(
+    @Param('diaryId') diaryId: number,
+    @GetUser() userId: string,
+  ): Promise<string> {
+    this.logger.log(`일기삭제 요청!`);
+    await this.diaryDeleteService.deleteDiary(diaryId, userId);
     return '삭제 완료';
   }
   // 수정

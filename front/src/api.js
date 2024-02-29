@@ -29,4 +29,15 @@ async function post(endpoint, bodyData, isLogin, content_type) {
     },
   });
 }
-export { get, post };
+
+async function softDelete(endpoint) {
+  console.log(`%cDELETE 요청 ${serverUrl + endpoint}`, "color: #a25cd1;");
+
+  return axios.delete(serverUrl + endpoint, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+    },
+  });
+}
+export { get, post, softDelete };

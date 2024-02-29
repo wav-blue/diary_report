@@ -26,7 +26,6 @@ export class DiaryCreateService {
 
     await queryRunner.startTransaction();
 
-    let result: Promise<Diary>;
     try {
       // 요약 요청
       const body = {
@@ -42,8 +41,9 @@ export class DiaryCreateService {
       );
     }
 
+    let result: Diary;
     try {
-      result = this.diaryRepository.createDiary(
+      result = await this.diaryRepository.createDiary(
         createDiaryDto,
         userId,
         queryRunner,

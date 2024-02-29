@@ -17,12 +17,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AuthService } from './service/auth.service';
 import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
 import { AuthGuard } from 'common/guards/authGuard';
-import {
-  ApiAcceptedResponse,
-  ApiCreatedResponse,
-  ApiOperation,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from './entity/user.entity';
 
 @Controller('users')

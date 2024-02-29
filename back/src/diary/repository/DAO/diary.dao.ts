@@ -15,4 +15,11 @@ export abstract class IDiaryRepository {
   ): Promise<Diary[]>;
 
   abstract updateSummary(diaryId: number, summary: string);
+
+  abstract findDiary(diaryId: number, queryRunner: QueryRunner): Promise<Diary>;
+
+  abstract deleteDiary(
+    diaryId: number,
+    queryRunner: QueryRunner,
+  ): Promise<string>;
 }

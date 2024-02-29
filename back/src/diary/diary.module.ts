@@ -7,6 +7,7 @@ import { DiaryReadService } from './service/diaryRead.service';
 import { IDiaryRepository } from './repository/DAO/diary.dao';
 import { DiaryRepository } from './repository/DAO/diary.repository';
 import { AxiosRequestModule } from 'src/axiosRequest/axiosRequest.module';
+import { DiaryDeleteService } from './service/diaryDelete.service';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AxiosRequestModule } from 'src/axiosRequest/axiosRequest.module';
   providers: [
     DiaryCreateService,
     DiaryReadService,
+    DiaryDeleteService,
     { provide: IDiaryRepository, useClass: DiaryRepository },
   ],
 })

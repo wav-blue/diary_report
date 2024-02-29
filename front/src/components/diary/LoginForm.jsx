@@ -1,9 +1,12 @@
 import React, { useState, useContext } from "react";
 import * as Api from "../../Api";
 import { DispatchContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const dispatch = useContext(DispatchContext);
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -61,6 +64,7 @@ function LoginForm() {
         alert("로그인 요청이 제대로 완료되지 않았습니다!\n다시 시도해주세요.");
       } else {
         alert("로그인 성공");
+        navigate("/diary");
       }
     } catch (err) {
       console.log("로그인에 실패", err);
@@ -93,6 +97,14 @@ function LoginForm() {
         />
       </div>
       <button type="submit">로그인</button>
+      <button
+        onClick={() => {
+          setEmail("exam77test.com");
+          setPassword("testPassword!");
+        }}
+      >
+        테스트용 로그인
+      </button>
     </form>
   );
 }
