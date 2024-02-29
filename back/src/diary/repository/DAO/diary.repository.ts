@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
-import { QueryRunner } from 'typeorm';
+import { Repository, QueryRunner } from 'typeorm';
 import { IDiaryRepository } from './diary.dao';
-import { CreateDiaryDto } from '../DTO/createUser.dto';
+import { CreateDiaryDto } from '../DTO/createDiary.dto';
 import { Diary } from '../entity/diary.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class DiaryRepository implements IDiaryRepository {
@@ -37,5 +38,12 @@ export class DiaryRepository implements IDiaryRepository {
       .getRawMany();
 
     return diarys;
+  }
+
+  async updateSummary(diaryId: number, summary: string) {
+    // await this.diaryRepository.update(diaryId, {
+    //   summary,
+    // });
+    // return summary;
   }
 }

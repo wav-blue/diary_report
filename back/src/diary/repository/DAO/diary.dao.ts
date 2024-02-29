@@ -1,6 +1,6 @@
 import { QueryRunner } from 'typeorm';
-import { CreateDiaryDto } from '../DTO/createUser.dto';
 import { Diary } from '../entity/diary.entity';
+import { CreateDiaryDto } from '../DTO/createDiary.dto';
 
 export abstract class IDiaryRepository {
   abstract createDiary(
@@ -13,4 +13,6 @@ export abstract class IDiaryRepository {
     userId: string,
     queryRunner: QueryRunner,
   ): Promise<Diary[]>;
+
+  abstract updateSummary(diaryId: number, summary: string);
 }

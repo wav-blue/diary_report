@@ -4,3 +4,8 @@ server:
 db:
   type: 'mysql'
   port: 3306
+
+flask:
+  port: 5000
+  username: 'back_server'
+  password: 'back!Password123!'

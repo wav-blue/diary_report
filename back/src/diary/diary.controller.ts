@@ -5,7 +5,7 @@ import { AuthGuard } from 'common/guards/authGuard';
 import { GetUser } from 'common/decorator/get-user.decorator';
 import { DiaryCreateService } from './service/diaryCreate.service';
 import { DiaryReadService } from './service/diaryRead.service';
-import { CreateDiaryDto } from './repository/DTO/createUser.dto';
+import { CreateDiaryDto } from './repository/DTO/createDiary.dto';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Diary } from './repository/entity/diary.entity';
 
