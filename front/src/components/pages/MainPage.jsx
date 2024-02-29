@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext } from "../../App";
 import * as Api from "../../Api";
+import GreenButton from "../styled/GreenButton";
+import MainPageContainer from "../styled/MainPageContainer";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -11,30 +13,23 @@ function MainPage() {
   // useState 훅을 통해 users 상태를 생성함.
   const [diarys, setDiarys] = useState();
 
-  // user 상태를 생성
-
-  // useEffect(() => {
-  //   Api.get(`diary/current`).then((res) => {
-  //     setDiarys(res.data);
-  //   });
-  // }, [userState, navigate]);
-
   return (
-    <div id="mainContainer">
+    <MainPageContainer id="mainContainer">
       <h3>메인 페이지 </h3>
-      <button onClick={() => navigate("/test")}>테스트 페이지</button>
-      <button class="diary" onClick={() => navigate("/diary")}>
+      <GreenButton onClick={() => navigate("/test")}>테스트 페이지</GreenButton>
+      <img src={process.env.PUBLIC_URL + "/image/Logo.png"} alt="로고 이미지" />
+      <GreenButton class="diary" onClick={() => navigate("/diary")}>
         작성한 일기
         <br />
         확인하러 가기
-      </button>
-      <button class="login" onClick={() => navigate("/login")}>
+      </GreenButton>
+      <GreenButton class="login" onClick={() => navigate("/login")}>
         로그인
-      </button>
-      <button class="report" onClick={() => navigate("/diary/edit")}>
+      </GreenButton>
+      <GreenButton class="report" onClick={() => navigate("/diary/edit")}>
         작성하기
-      </button>
-    </div>
+      </GreenButton>
+    </MainPageContainer>
   );
 }
 

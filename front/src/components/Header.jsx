@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../App";
+import CustomHeader from "./styled/CustomHeader";
 
 function Header() {
   const navigate = useNavigate();
@@ -8,11 +9,9 @@ function Header() {
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
 
-  console.log("현재 userState: ", userState);
   // 전역상태에서 user가 null이 아니라면 로그인 성공 상태
   const isLogin = !!userState.userId;
 
-  console.log("현재 isLogin: ", isLogin, userState.userId);
   const login = () => {
     navigate("/login");
   };
@@ -29,11 +28,20 @@ function Header() {
   };
 
   return (
-    <div activeKey={location.pathname}>
-      <a onClick={() => navigate("/")}>메인</a>
-      {!isLogin && <a onClick={login}>로그인</a>}
-      {isLogin && <a onClick={logout}>로그아웃</a>}
-    </div>
+    <CustomHeader activeKey={location.pathname}>
+      <a id="logoImg" onClick={() => navigate("/")}>
+        <img
+          src={process.env.PUBLIC_URL + "/image/Logo.png"}
+          alt="로고"
+          width="70"
+          height="35"
+        />
+      </a>
+      <a id="stateText">
+        {!isLogin && <a onClick={login}>로그인</a>}
+        {isLogin && <a onClick={logout}>로그아웃</a>}
+      </a>
+    </CustomHeader>
   );
 }
 

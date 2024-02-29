@@ -13,6 +13,8 @@ import InputPage from "./components/pages/InputPage";
 import DiaryPage from "./components/pages/DiaryPage";
 import { loginReducer } from "./reducer";
 import LoginPage from "./components/LoginPage";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./styles/theme.js";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
@@ -70,19 +72,21 @@ function App() {
 
   return (
     <DispatchContext.Provider value={dispatch}>
-      <UserStateContext.Provider value={userState}>
-        <Router>
-          <Header />
-          <Routes>
-            <Route path="/" exact element={<MainPage />} />
-            <Route path="/test" exact element={<Test />} />
-            <Route path="/login" exact element={<LoginPage />} />
-            <Route path="/diary" exact element={<DiaryPage />} />
-            <Route path="/diary/edit" exact element={<InputPage />} />
-            <Route path="/*" element={<NotFoundPage />} />
-          </Routes>
-        </Router>
-      </UserStateContext.Provider>
+      <ThemeProvider theme={theme}>
+        <UserStateContext.Provider value={userState}>
+          <Router>
+            <Header />
+            <Routes>
+              <Route path="/" exact element={<MainPage />} />
+              <Route path="/test" exact element={<Test />} />
+              <Route path="/login" exact element={<LoginPage />} />
+              <Route path="/diary" exact element={<DiaryPage />} />
+              <Route path="/diary/edit" exact element={<InputPage />} />
+              <Route path="/*" element={<NotFoundPage />} />
+            </Routes>
+          </Router>
+        </UserStateContext.Provider>
+      </ThemeProvider>
     </DispatchContext.Provider>
   );
 }
