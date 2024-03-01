@@ -1,11 +1,10 @@
 import styled, { css } from "styled-components";
+import { StylePage } from "./StylePage";
 
-const IntroPageContainer = styled.div`
+const IntroPageContainer = styled(StylePage)`
   ${({ theme }) => {
     return css`
-      background-color: ${theme.colors.pureWhite};
       border: ${theme.colors.grey} 3.5px solid;
-      padding: 0.5rem;
       display: flex;
       flex-direction: column;
       align-items: center;

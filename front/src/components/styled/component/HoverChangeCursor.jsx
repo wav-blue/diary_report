@@ -1,14 +1,13 @@
 import styled, { css } from "styled-components";
 
-const HoverBigImage = styled.div`
+const HoverChangeCursor = styled.a`
   ${({ theme }) => {
     return css`
       &:hover {
-        border: white 1px;
-        transition: 0.5s;
+        cursor: pointer;
       }
     `;
   }}
 `;
 
-export { HoverBigImage };
+export { HoverChangeCursor };

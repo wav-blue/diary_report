@@ -14,11 +14,18 @@ const LongGreenButton = styled(LongButton)`
       background-color: ${theme.colors.green};
       &:hover {
         background-color: ${theme.colors.lightGreen};
-        transition: 0.5s;
-        cursor: pointer;
       }
     `;
   }}
 `;
-
-export { LongGreenButton };
+const LongRedButton = styled(LongButton)`
+  ${({ theme }) => {
+    return css`
+      background-color: ${theme.colors.red};
+      &:hover {
+        background-color: ${theme.colors.red};
+      }
+    `;
+  }}
+`;
+export { LongGreenButton, LongRedButton };
