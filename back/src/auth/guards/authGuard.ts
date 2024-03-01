@@ -4,25 +4,24 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
+import { AccessTokenService } from 'src/auth/service/accessToken.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(private accessTokenService: AccessTokenService) {}
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
 
     const { accessToken } = request.signedCookies;
+
     if (!accessToken) {
       throw new UnauthorizedException('Access Token이 존재하지 않음');
     }
     try {
-      const { userId } = this.jwtService.verify(accessToken, {
-        secret: process.env.JWT_ACCESS_TOKEN_KEY,
-      });
+      const userId = this.accessTokenService.validAccessToken(accessToken);
       request.userId = userId;
     } catch (err) {
       throw new UnauthorizedException('Access Token이 만료됨');

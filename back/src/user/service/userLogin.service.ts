@@ -6,21 +6,23 @@ import {
 } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
-import { IUserRepository } from '../DAO/user.dao';
-import { User } from '../entity/user.entity';
 import * as bcrypt from 'bcrypt';
+import { IUserRepository } from '../DAO/user.dao';
 import { LoginUserDto } from '../DTO/loginUser.dto';
-import { JwtService } from '@nestjs/jwt';
+import { User } from '../entity/user.entity';
+import { AccessTokenService } from 'src/auth/service/accessToken.service';
+import { RefreshTokenService } from 'src/auth/service/refreshToken.service';
 
 @Injectable()
-export class AuthService {
+export class UserLoginService {
   constructor(
+    private readonly accessTokenService: AccessTokenService,
+    private readonly refreshTokenService: RefreshTokenService,
     private readonly userRepository: IUserRepository,
     private readonly dataSource: DataSource,
-    private jwtService: JwtService,
     private logger: MyLogger,
   ) {
-    this.logger.setContext(AuthService.name);
+    this.logger.setContext(UserLoginService.name);
   }
 
   async loginUser(loginUserDto: LoginUserDto) {
@@ -61,16 +63,12 @@ export class AuthService {
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const accessTokenPayload = { userId: findUser.userId };
-    const accessToken = await this.jwtService.signAsync(accessTokenPayload, {
-      expiresIn: '30m',
-      secret: process.env.JWT_ACCESS_TOKEN_KEY,
-    });
-    const refreshTokenPayload = {};
-    const refreshToken = await this.jwtService.signAsync(refreshTokenPayload, {
-      expiresIn: '7d',
-      secret: process.env.JWT_REFRESH_TOKEN_KEY,
-    });
+    const { accessToken } = await this.accessTokenService.createAccessToken(
+      findUser.userId,
+      findUser.userName,
+    );
+    const { refreshToken } =
+      await this.refreshTokenService.createRefreshToken();
 
     // 반환할 loginuser 객체
     const loginUser = {

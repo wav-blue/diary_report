@@ -36,8 +36,11 @@ export class UserService {
     let result: Promise<User>;
 
     try {
-      const findUser = this.userRepository.findUserByEmail(email, queryRunner);
-
+      const findUser = await this.userRepository.findUserByEmail(
+        email,
+        queryRunner,
+      );
+      console.log('findUser 확인!!!!', findUser);
       if (findUser) {
         this.logger.error('이미 가입된 이메일');
         throw new ConflictException('이미 가입 이력이 있습니다.');

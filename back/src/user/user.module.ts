@@ -4,18 +4,16 @@ import { UserController } from './user.controller';
 import { UserService } from './service/user.service';
 import { IUserRepository } from './DAO/user.dao';
 import { UserRepository } from './DAO/userCreate.repository';
-import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './service/auth.service';
+import { AuthModule } from 'src/auth/auth.module';
+import { UserLoginService } from './service/userLogin.service';
+import { AccessTokenService } from 'src/auth/service/accessToken.service';
 
 @Module({
-  imports: [
-    LoggerModule,
-    JwtModule.register({ secret: 'hard!to-guess_secret' }),
-  ],
+  imports: [AuthModule, LoggerModule],
   controllers: [UserController],
   providers: [
     UserService,
-    AuthService,
+    UserLoginService,
     { provide: IUserRepository, useClass: UserRepository },
   ],
 })
