@@ -28,15 +28,10 @@ function LoginForm() {
         alert("이메일이나 비밀번호가 입력되지 않았습니다!");
       }
 
-      const res = await Api.post(
-        "users/login",
-        {
-          email,
-          password,
-        },
-        1,
-        "application/json"
-      );
+      const res = await Api.post("users/login", {
+        email,
+        password,
+      });
       console.log("응답: ", res);
 
       const user = res.data;

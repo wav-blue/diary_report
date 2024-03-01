@@ -50,16 +50,11 @@ function RegisterForm() {
         alert("이메일이나 비밀번호가 입력되지 않았습니다!");
       }
 
-      const res = await Api.post(
-        "users/register",
-        {
-          email,
-          password,
-          userName,
-        },
-        1,
-        "application/json"
-      );
+      const res = await Api.post("users/register", {
+        email,
+        password,
+        userName,
+      });
       console.log("응답: ", res);
 
       alert("회원가입이 완료되었습니다!");

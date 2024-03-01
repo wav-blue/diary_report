@@ -6,7 +6,6 @@ import "dayjs/locale/ko";
 
 //한국시간으로 변경하는 로직
 const changeUtcTimeToKst = (date) => {
-  console.log("date 확인 : ", date.children);
   // 플러그인 사용
   dayjs.extend(utc);
   dayjs.locale("ko");

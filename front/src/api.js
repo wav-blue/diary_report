@@ -16,15 +16,13 @@ async function get(endpoint) {
   });
 }
 
-async function post(endpoint, bodyData, isLogin, content_type) {
+async function post(endpoint, bodyData, dataType = "application/json") {
   console.log(`%cPOST 요청 ${serverUrl + endpoint}`, "color: #a25cd1;");
   console.log(`%cPOST 요청 데이터: ${bodyData}`, "color: #296aba;");
 
-  //"application/x-www-form-urlencoded"
-  //"application/json"
   return axios.post(serverUrl + endpoint, bodyData, {
     headers: {
-      "Content-Type": `${content_type}`,
+      "Content-Type": `${dataType}`,
       Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
   });

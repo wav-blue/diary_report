@@ -48,12 +48,7 @@ function DiaryEditForm() {
 
     try {
       // "user" 엔드포인트로 post요청
-      const res = await Api.post(
-        `diary/${userId}`,
-        req,
-        true,
-        "application/json"
-      );
+      const res = await Api.post(`diary/${userId}`, req);
       console.log("요청에 성공하였습니다.\n응답: ", res);
       alert("일기가 작성되었습니다!");
       navigate("/diary");

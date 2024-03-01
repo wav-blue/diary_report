@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
+import { StylePage } from "./StylePage";
 
-const MainPageContainer = styled.div`
+const MainPageContainer = styled(StylePage)`
   ${({ theme }) => {
     return css`
       border: ${theme.colors.grey} 3.5px solid;

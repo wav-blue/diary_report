@@ -52,10 +52,8 @@ function App() {
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
   const fetchCurrentUser = async () => {
     try {
-      console.log("Fetched!!");
       const accessToken = sessionStorage.getItem("accessToken");
       const refreshToken = sessionStorage.getItem("refreshToken");
-      console.log("check >> ", accessToken, refreshToken);
 
       // accessToken이 존재하지 않는 경우
       if (!accessToken && refreshToken) {
@@ -64,12 +62,7 @@ function App() {
           accessToken,
           refreshToken,
         };
-        await Api.post(
-          "accessToken",
-          { accessToken, refreshToken },
-          true,
-          "application/json"
-        );
+        await Api.post("accessToken", { accessToken, refreshToken });
       }
       const res = await Api.get("users/current");
       console.log("refreshToken res : ", res);
