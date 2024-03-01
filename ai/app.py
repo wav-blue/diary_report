@@ -24,9 +24,9 @@ def index():
 
 @app.route('/summary',methods=['POST'])
 def summary_text():
-    text = request.json.get('text')
-    print("가져온 text: ", text)
-    result = summarization(text)
+    content = request.json.get('content')
+    print("가져온 text: ", content)
+    result = summarization(content)
     return result
 
 if __name__=="__main__":
