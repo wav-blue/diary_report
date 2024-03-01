@@ -8,12 +8,12 @@ import { AxiosError } from 'axios';
 const flaskConfig = config.get('flask');
 
 @Injectable()
-export class AxiosRequestService {
+export class AxiosService {
   constructor(
     private readonly httpService: HttpService,
     private logger: MyLogger,
   ) {
-    this.logger.setContext(AxiosRequestService.name);
+    this.logger.setContext(AxiosService.name);
   }
 
   private bytesToBase64(bytes: Uint8Array): string {

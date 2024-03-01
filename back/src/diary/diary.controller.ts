@@ -1,16 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
-import { AuthGuard } from 'common/guards/authGuard';
 import { GetUser } from 'common/decorator/get-user.decorator';
 import { DiaryCreateService } from './service/diaryCreate.service';
 import { DiaryReadService } from './service/diaryRead.service';
@@ -18,6 +8,7 @@ import { CreateDiaryDto } from './repository/DTO/createDiary.dto';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Diary } from './repository/entity/diary.entity';
 import { DiaryDeleteService } from './service/diaryDelete.service';
+import { AuthGuard } from 'src/auth/guards/authGuard';
 
 @Controller('diary')
 @ApiTags('일기 관련 API')
@@ -55,7 +46,7 @@ export class DiaryController {
     @GetUser() userId: string,
     @Body() createDiaryDto: CreateDiaryDto,
   ) {
-    this.logger.log(`일기작성 요청!`);
+    console.log(`일기작성 요청!`);
     const diary = await this.diaryCreateService.createDiary(
       createDiaryDto,
       userId,
