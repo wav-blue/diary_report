@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import RegisterForm from "../form/Register/RegisterForm";
 
 function RegisterPage() {
-  const navigate = useNavigate();
   return (
     <div id="mainContainer">
       <h3>회원가입 페이지 </h3>
