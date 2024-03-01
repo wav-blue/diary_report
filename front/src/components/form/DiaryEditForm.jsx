@@ -4,9 +4,9 @@ import * as Api from "../../Api";
 import { UserStateContext, DispatchContext } from "../../App";
 import { ScoreBoard } from "../common/ScoreBoard";
 import { TextArea } from "../styled/TextArea";
+import { GreenBoldText } from "../styled/text/RainbowBoldText";
 
-function DiaryForm() {
-  const [username, setUsername] = useState("기본 닉네임");
+function DiaryEditForm() {
   const [satisfy, setSatisfy] = useState();
   const [content, setContent] = useState("");
   const [contentLength, setContentLength] = useState(0);
@@ -14,7 +14,13 @@ function DiaryForm() {
   const navigate = useNavigate();
 
   const userState = useContext(UserStateContext);
-  const dispatch = useContext(DispatchContext);
+  const { userName } = userState;
+
+  if (!userName) {
+    alert("로그인이 필요한 기능입니다!");
+    console.log("content 확인: ", content);
+    navigate("/login");
+  }
 
   const validateValue = () => {
     if (content.length <= 10) {
@@ -31,7 +37,7 @@ function DiaryForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { userId, userName } = userState;
+    const { userId } = userState;
 
     if (!validateValue()) {
       return;
@@ -47,7 +53,6 @@ function DiaryForm() {
       satisfy,
     };
 
-    console.log(`${userId}로 요청 시도`);
     try {
       // "user" 엔드포인트로 post요청
       const res = await Api.post(
@@ -63,11 +68,12 @@ function DiaryForm() {
       console.log("요청에 실패하였습니다.\n", err);
     }
   };
-
   return (
     <form>
       <hr />
-      <div>{username}님의 하루 어떠셨나요?</div>
+      <div>
+        <GreenBoldText>{userName}</GreenBoldText>님의 하루 어떠셨나요?
+      </div>
       <h4>Content</h4>
       <TextArea
         type="text"
@@ -90,4 +96,4 @@ function DiaryForm() {
   );
 }
 
-export default DiaryForm;
+export default DiaryEditForm;

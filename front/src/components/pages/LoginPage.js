@@ -1,4 +1,4 @@
-import LoginForm from "./diary/LoginForm";
+import LoginForm from "../form/LoginForm";
 
 function LoginPage() {
   return <LoginForm />;
