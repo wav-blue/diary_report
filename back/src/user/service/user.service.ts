@@ -40,7 +40,7 @@ export class UserService {
         email,
         queryRunner,
       );
-      console.log('findUser 확인!!!!', findUser);
+      this.logger.debug('findUser ', findUser);
       if (findUser) {
         this.logger.error('이미 가입된 이메일');
         throw new ConflictException('이미 가입 이력이 있습니다.');

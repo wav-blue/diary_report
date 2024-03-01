@@ -29,7 +29,7 @@ export class AccessTokenService {
     return { accessToken };
   }
 
-  async validAccessToken(accessToken: string) {
+  validAccessToken(accessToken: string) {
     let res: string;
     try {
       const { userId } = this.jwtService.verify(accessToken, {

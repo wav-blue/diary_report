@@ -14,7 +14,11 @@ export abstract class IDiaryRepository {
     queryRunner: QueryRunner,
   ): Promise<Diary[]>;
 
-  abstract updateSummary(diaryId: number, summary: string);
+  abstract updateSummary(
+    diaryId: number,
+    summary: string,
+    queryRunner: QueryRunner,
+  );
 
   abstract findDiary(diaryId: number, queryRunner: QueryRunner): Promise<Diary>;
 

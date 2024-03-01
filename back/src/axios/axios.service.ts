@@ -54,7 +54,6 @@ export class AxiosService {
           }),
         ),
     );
-    console.log('데이터 : ', flaskRequest);
     return flaskRequest;
   }
 }

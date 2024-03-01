@@ -40,11 +40,15 @@ export class DiaryRepository implements IDiaryRepository {
     return diarys;
   }
 
-  async updateSummary(diaryId: number, summary: string) {
-    // await this.diaryRepository.update(diaryId, {
+  async updateSummary(
+    diaryId: number,
+    summary: string,
+    queryRunner: QueryRunner,
+  ) {
+    // await queryRunner.manager.update(diaryId, {
     //   summary,
     // });
-    // return summary;
+    return summary;
   }
 
   async findDiary(diaryId: number, queryRunner: QueryRunner): Promise<Diary> {
@@ -54,8 +58,6 @@ export class DiaryRepository implements IDiaryRepository {
       .from(Diary, 'diary')
       .where(`diary.diaryId = :diaryId`, { diaryId })
       .getOne();
-
-    console.log('diaryJ>.', diary);
 
     return diary;
   }
@@ -67,7 +69,6 @@ export class DiaryRepository implements IDiaryRepository {
     const result = await queryRunner.manager.softDelete(Diary, {
       diaryId,
     });
-    console.log('result 확인용: ', result);
     return 'success';
   }
 }

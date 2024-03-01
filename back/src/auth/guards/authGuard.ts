@@ -14,9 +14,8 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-
-    const { accessToken } = request.signedCookies;
-
+    const { accessToken } =
+      request.signedCookies || request.headers.authorization.split(' ')[1];
     if (!accessToken) {
       throw new UnauthorizedException('Access Token이 존재하지 않음');
     }

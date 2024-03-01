@@ -21,7 +21,7 @@ export class RefreshTokenService {
     return { refreshToken };
   }
 
-  async validRereshToken(refreshToken: string) {
+  validRereshToken(refreshToken: string) {
     try {
       const verify = this.jwtService.verify(refreshToken, {
         secret: process.env.JWT_REFRESH_TOKEN_KEY,
@@ -29,7 +29,6 @@ export class RefreshTokenService {
       this.logger.debug('refresh token 검증 완료!');
       return verify;
     } catch (err) {
-      console.log('err : ', err);
       throw new UnauthorizedException('RefreshToken Expired');
     }
   }
