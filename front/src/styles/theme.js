@@ -1,13 +1,16 @@
 const margins = {
   small: ".5rem",
   base: "1rem",
+  slarge: "1.5rem",
   large: "2rem",
   xlarge: "3rem",
 };
 
 const paddings = {
+  xsmall: ".12rem",
   small: ".5rem",
   base: "1rem",
+  slarge: "1.5rem",
   large: "2rem",
   xlarge: "3rem",
 };
@@ -18,7 +21,7 @@ const fonts = {
     title: `'Merriweather', serif`,
   },
   size: {
-    small: "1.4rem",
+    small: "0.8rem",
     base: "1.0rem",
     sLarge: "1.2rem",
     large: "2rem",
@@ -28,6 +31,13 @@ const fonts = {
     light: 100,
     normal: 400,
     bold: 700,
+  },
+};
+
+const shapes = {
+  radius: {
+    small: "4px",
+    base: "8px",
   },
 };
 
@@ -48,6 +58,7 @@ const defalutTheme = {
   paddings,
   fonts,
   colors,
+  shapes,
 };
 
 export const theme = {
