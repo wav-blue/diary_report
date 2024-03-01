@@ -1,39 +1,69 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import * as Api from "./Api.js";
+import "../src/styles/styles.css";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
 
-import Header from "./components/Header";
-import MainPage from "./components/pages/MainPage.jsx";
-import NotFoundPage from "./components/errors/NotFoundPage";
-import Test from "./components/Test";
-import InputPage from "./components/pages/InputPage";
+import Header from "./components/common/Header";
+import MainPage from "./components/pages/MainPage";
 import DiaryPage from "./components/pages/DiaryPage";
+import IntroPage from "./components/pages/IntroPage";
+import LoginPage from "./components/pages/LoginPage";
+import DiaryEditPage from "./components/pages/DiaryEditPage";
 import { loginReducer } from "./reducer";
-import LoginPage from "./components/LoginPage";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme.js";
+import RegisterPage from "./components/pages/RegisterPage.js";
+import { ErrorBoundary } from "./errorBoundary/ErrorBoundary.jsx";
+import NotFoundPage from "./components/pages/errors/NotFoundPage.js";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
     userId: null,
   });
 
-  //--------------------------------------
-  // 토큰 여부 확인 후 유저 상태 변경
-  // 아래의 fetchCurrentUser 함수가 실행된 다음에 컴포넌트가 구현되도록 함.
-  // 아래 코드를 보면 isFetchCompleted 가 true여야 컴포넌트가 구현됨.
-  const [isFetchCompleted, setIsFetchCompleted] = useState(false);
+  const refreshAccessToken = async () => {
+    try {
+      const refreshToken = sessionStorage.getItem("refreshToken");
+      const body = {
+        refreshToken,
+      };
+      const res = await Api.post(
+        "/users/accessToken",
+        body,
+        0,
+        "application/json"
+      );
+      if (res.status === 200) {
+        // 재발급 성공
+        console.log("재발급 성공");
+      }
+    } catch (err) {
+      if (err?.response?.status === 401) {
+        // refresh token 만료
+        alert("다시 로그인해주세요");
+        //navigate('/login')
+      }
+    }
+  };
 
+  const [isFetchCompleted, setIsFetchCompleted] = useState(false);
   const fetchCurrentUser = async () => {
     try {
+      console.log("Fetched!!");
       const accessToken = sessionStorage.getItem("accessToken");
       const refreshToken = sessionStorage.getItem("refreshToken");
+      console.log("check >> ", accessToken, refreshToken);
 
-      if (refreshToken) {
-        console.log("refresh >. ", { accessToken, refreshToken });
+      // accessToken이 존재하지 않는 경우
+      if (!accessToken && refreshToken) {
+        console.log("accessToken 재발급 실행 > ");
+        const body = {
+          accessToken,
+          refreshToken,
+        };
         await Api.post(
           "accessToken",
           { accessToken, refreshToken },
@@ -41,20 +71,20 @@ function App() {
           "application/json"
         );
       }
-      const res = await Api.get("current");
+      const res = await Api.get("users/current");
       console.log("refreshToken res : ", res);
       // 유저 정보는 response의 data임.
       const user = res.data;
-      console.log("유저 정보: ", user);
+      console.log("user정보 > ", user);
       // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
       dispatch({
         type: "LOGIN",
         payload: { userId: user.userId, userName: user.userName },
       });
 
-      console.log("%c 쿠키에 토큰 있음.", "color: #d93d1a;");
+      console.log("%c Access Token 인증 성공.", "color: #d93d1a;");
     } catch {
-      console.log("%c 쿠키에 토큰 없음.", "color: #d93d1a;");
+      console.log("%c Access Token 인증 실패.", "color: #d93d1a;");
     }
     // fetchCurrentUser 과정이 끝났으므로, isFetchCompleted 상태를 true로 바꿔줌
     setIsFetchCompleted(true);
@@ -71,23 +101,26 @@ function App() {
   //--------------------------------------
 
   return (
-    <DispatchContext.Provider value={dispatch}>
-      <ThemeProvider theme={theme}>
-        <UserStateContext.Provider value={userState}>
-          <Router>
-            <Header />
-            <Routes>
-              <Route path="/" exact element={<MainPage />} />
-              <Route path="/test" exact element={<Test />} />
-              <Route path="/login" exact element={<LoginPage />} />
-              <Route path="/diary" exact element={<DiaryPage />} />
-              <Route path="/diary/edit" exact element={<InputPage />} />
-              <Route path="/*" element={<NotFoundPage />} />
-            </Routes>
-          </Router>
-        </UserStateContext.Provider>
-      </ThemeProvider>
-    </DispatchContext.Provider>
+    <ErrorBoundary>
+      <DispatchContext.Provider value={dispatch}>
+        <ThemeProvider theme={theme}>
+          <UserStateContext.Provider value={userState}>
+            <Router>
+              <Header />
+              <Routes>
+                <Route path="/" exact element={<MainPage />} />
+                <Route path="/intro" exact element={<IntroPage />} />
+                <Route path="/login" exact element={<LoginPage />} />
+                <Route path="/register" exact element={<RegisterPage />} />
+                <Route path="/diary" exact element={<DiaryPage />} />
+                <Route path="/diary/edit" exact element={<DiaryEditPage />} />
+                <Route path="/*" element={<NotFoundPage />} />
+              </Routes>
+            </Router>
+          </UserStateContext.Provider>
+        </ThemeProvider>
+      </DispatchContext.Provider>
+    </ErrorBoundary>
   );
 }
 

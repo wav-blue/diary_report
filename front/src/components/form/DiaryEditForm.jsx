@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../Api";
 import { UserStateContext, DispatchContext } from "../../App";
 import { ScoreBoard } from "../common/ScoreBoard";
-import { TextArea } from "../styled/TextArea";
-import { GreenBoldText } from "../styled/text/RainbowBoldText";
+import { GreenBoldText } from "../styled/text/BoldText";
+import { TextArea } from "../styled/input/TextArea";
 
 function DiaryEditForm() {
   const [satisfy, setSatisfy] = useState();
@@ -14,13 +14,6 @@ function DiaryEditForm() {
   const navigate = useNavigate();
 
   const userState = useContext(UserStateContext);
-  const { userName } = userState;
-
-  if (!userName) {
-    alert("로그인이 필요한 기능입니다!");
-    console.log("content 확인: ", content);
-    navigate("/login");
-  }
 
   const validateValue = () => {
     if (content.length <= 10) {
@@ -68,12 +61,25 @@ function DiaryEditForm() {
       console.log("요청에 실패하였습니다.\n", err);
     }
   };
+
+  const { userName } = userState;
+  useEffect(() => {
+    if (!userName) {
+      alert("로그인이 필요한 기능입니다!");
+      console.log("content 확인: ", content);
+      navigate("/login");
+      return;
+    }
+  }, [userName]);
+
   return (
     <form>
       <hr />
-      <div>
-        <GreenBoldText>{userName}</GreenBoldText>님의 하루 어떠셨나요?
-      </div>
+      {userName && (
+        <div>
+          <GreenBoldText>{userName}</GreenBoldText>님의 하루 어떠셨나요?
+        </div>
+      )}
       <h4>Content</h4>
       <TextArea
         type="text"
@@ -84,11 +90,10 @@ function DiaryEditForm() {
           setContentLength(e.target.value.length);
         }}
       />
-      <p>현재 {contentLength}자</p>
+      <p>현재 {contentLength}자 / 최대 200자</p>
       <h4>전체 만족도</h4>
       <ScoreBoard title="전체 만족도" name="satisfy" setScore={setSatisfy} />
       <hr />
-
       <button onClick={handleSubmit} variant="primary" type="submit">
         제출
       </button>
