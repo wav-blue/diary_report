@@ -11,20 +11,24 @@ function IntroPage() {
       <br />
       <p>두두는 오랜 시간 숲에서 홀로 살아왔습니다.</p>
       <br />
+      <img
+        src={"https://source.unsplash.com/random/500x250/?forest"}
+        alt="소개 이미지1"
+        width="200"
+      ></img>
+      <br />
       <p>용기를 내어 바깥 세상에 나온 두두는</p>
       <br />
       <p>
         많은 사람들의 이야기를 듣고 <br />
-        배우고
+        기록하기로 했어요.
       </p>
-      <br />
-      그것을 기록하기로 했어요.
       <br /> <br />
       <img
         src={process.env.PUBLIC_URL + "/image/IntroImg1.png"}
         alt="소개 이미지1"
         width="200"
-      ></img>{" "}
+      ></img>
       <br />
       두두에게 당신의 이야기를 들려주세요.
       <br />
