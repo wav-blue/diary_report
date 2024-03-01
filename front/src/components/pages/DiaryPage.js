@@ -3,8 +3,8 @@ import * as Api from "../../Api";
 import { UserStateContext } from "../../App";
 import DiaryCard from "../diary/DiaryCard";
 import { useNavigate } from "react-router-dom";
-import { GreenButton } from "../styled/button/BorderColorButton";
-import { BigGreenButton } from "../styled/button/BigBorderColorButton";
+import { BigGreenBorderButton } from "../styled/button/BigBorderColorButton";
+import DiaryDetailCard from "../diary/DiaryDetailCard";
 
 function DiaryPage() {
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ function DiaryPage() {
 
   // useState 훅을 통해 users 상태를 생성함.
   const [diarys, setDiarys] = useState();
+  const [modal, setModal] = useState(null);
 
   useEffect(() => {
     Api.get(`diary/my`)
@@ -30,15 +31,19 @@ function DiaryPage() {
 
   return (
     <>
-      <BigGreenButton onClick={(e) => navigate("/diary/edit")}>
+      {modal && <DiaryDetailCard modal={modal} setModal={setModal} />}
+      <BigGreenBorderButton onClick={(e) => navigate("/diary/edit")}>
         오늘의 일기 작성
-      </BigGreenButton>
+      </BigGreenBorderButton>
+
       {diarys.map((diary) => (
         <DiaryCard
           diaryId={diary.diary_id}
           date={diary.created_at}
           summary={diary.summary}
           satisfy={diary.satisfy}
+          content={diary.content}
+          setModal={setModal}
         />
       ))}
     </>

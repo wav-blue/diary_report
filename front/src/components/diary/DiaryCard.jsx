@@ -1,39 +1,60 @@
-import * as Api from "../../Api";
 import { DateKorean } from "../common/DateKorean";
+import DiaryContainer from "../styled/component/DiaryContainer";
+import React, { useState, useContext, useEffect } from "react";
+import deleteDiary from "./deleteDiary";
+import getAnalysis from "./getAnalysis";
+import { LongGreenButton } from "../styled/button/LongColorButton";
+import { SmallGreyButton } from "../styled/button/SmallColorButton";
+import { SmallDarkGreyText } from "../styled/text/SmallText";
 
 function DiaryCard(props) {
   return (
-    <div>
-      <DateKorean>{props.date}</DateKorean>
-      <div>
-        <p>{props.summary}</p>
-      </div>
-      <div>
-        <label>전체적인 만족도 </label>
-        <p>{"★".repeat(props.satisfy)}점</p>
-      </div>
-      <button
-        onClick={(e) => {
-          deleteDiary(props.diaryId);
-        }}
-      >
-        삭제
-      </button>
-    </div>
+    <>
+      <DiaryContainer>
+        <DateKorean>{props.date}</DateKorean>
+        <div>
+          <p>{setSummary(props.summary)}</p>
+        </div>
+        <div>
+          <label> 만족도 </label>
+          <a>{"★".repeat(props.satisfy)}점</a>
+        </div>
+        <LongGreenButton
+          onClick={(e) => {
+            props.setModal({
+              date: props.date,
+              content: props.content,
+            });
+            console.log("완료!");
+          }}
+        >
+          읽기
+        </LongGreenButton>
+        <LongGreenButton
+          onClick={() => {
+            deleteDiary(props.diaryId);
+          }}
+        >
+          삭제
+        </LongGreenButton>
+      </DiaryContainer>
+    </>
   );
-}
-async function deleteDiary(diaryId) {
-  console.log("삭제할 번호:: ", diaryId);
-  if (confirm("정말 삭제하시겠습니까?\n삭제된 내용은 복구할 수 없습니다.")) {
-    console.log(`삭제 요청 시도`);
-    try {
-      // "user" 엔드포인트로 post요청
-      const res = await Api.softDelete(`diary/${diaryId}`);
-      console.log("요청에 성공하였습니다.\n응답: ", res);
-      alert("삭제되었습니다.");
-    } catch (err) {
-      console.log("요청에 실패하였습니다.\n", err);
+
+  function setSummary(summary) {
+    if (summary === "fail") {
+      return (
+        <>
+          <p>{props.content.substr(0, 50)} ...</p>
+          <SmallDarkGreyText>분석에 실패했습니다 </SmallDarkGreyText>
+          <SmallGreyButton onClick={() => getAnalysis(props.diaryId)}>
+            다시 요청하기
+          </SmallGreyButton>
+        </>
+      );
     }
+    return summary;
   }
 }
+
 export default DiaryCard;
