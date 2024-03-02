@@ -18,6 +18,11 @@ import { theme } from "./styles/theme.js";
 import RegisterPage from "./components/pages/RegisterPage.js";
 import { ErrorBoundary } from "./errorBoundary/ErrorBoundary.jsx";
 import NotFoundPage from "./components/pages/errors/NotFoundPage.js";
+import MyPage from "./components/pages/user/MyPage.js";
+import PaymentsPage from "./components/pages/payments/PaymentsPage.js";
+import { SuccessPage } from "./components/pages/payments/SuccessPage.js";
+import { FailPage } from "./components/pages/payments/FailPage.js";
+import { CheckoutPage } from "./components/pages/payments/CheckoutPage.js";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
@@ -107,6 +112,19 @@ function App() {
                 <Route path="/register" exact element={<RegisterPage />} />
                 <Route path="/diary" exact element={<DiaryPage />} />
                 <Route path="/diary/edit" exact element={<DiaryEditPage />} />
+                <Route path="/my" exact element={<MyPage />} />
+                <Route path="/my/payments" exact element={<PaymentsPage />} />
+                <Route
+                  path="/payments/checkout"
+                  exact
+                  element={<CheckoutPage />}
+                />
+                <Route
+                  path="/payments/success"
+                  exact
+                  element={<SuccessPage />}
+                />
+                <Route path="/payments/fail" exact element={<FailPage />} />
                 <Route path="/*" element={<NotFoundPage />} />
               </Routes>
             </Router>
