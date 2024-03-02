@@ -21,7 +21,7 @@ export class Order extends BaseEntity {
   @Column({ type: 'varchar', length: 100 })
   customerName: string;
 
-  @Column({ type: 'number' })
+  @Column({ type: 'integer' })
   balanceAmount: number;
 
   @Column({ type: 'varchar', length: 50 })

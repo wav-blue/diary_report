@@ -15,8 +15,8 @@ import { CustomerReadService } from './service/customerRead.service';
   providers: [
     UserService,
     UserLoginService,
-    CustomerCreateService,
     CustomerReadService,
+    CustomerCreateService,
     { provide: IUserRepository, useClass: UserRepository },
   ],
   exports: [CustomerReadService, CustomerCreateService],
