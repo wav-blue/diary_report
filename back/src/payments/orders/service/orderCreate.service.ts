@@ -4,12 +4,12 @@ import { MyLogger } from 'src/logger/logger.service';
 import { createRandomId } from 'src/user/utils/loginUtils';
 import { Order } from '../repository/entity/order.entity';
 import { CreateOrderDto } from '../repository/DTO/CreateOrder.dto';
-import { OrderRepository } from '../repository/DAO/mysql-order.repository';
+import { IOrderRepository } from '../repository/DAO/order.repository';
 
 @Injectable()
 export class OrderCreateService {
   constructor(
-    private orderRepository: OrderRepository,
+    private orderRepository: IOrderRepository,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {

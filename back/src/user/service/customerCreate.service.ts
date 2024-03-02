@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { v4 as uuidv4 } from 'uuid';
-import { UserRepository } from 'src/user/repository/DAO/mysql-user.repository';
+import { IUserRepository } from '../repository/DAO/user.repository';
 
 @Injectable()
 export class CustomerCreateService {
   constructor(
-    private userRepository: UserRepository,
+    private readonly userRepository: IUserRepository,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {

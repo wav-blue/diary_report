@@ -7,6 +7,7 @@ import * as config from 'config';
 import { setupSwagger } from 'common/swagger/setupSwagger';
 
 async function bootstrap() {
+  console.log('?????????');
   const app = await NestFactory.create(AppModule, {
     bufferLogs: true,
   });
@@ -16,6 +17,7 @@ async function bootstrap() {
     origin: ['http://localhost:3000'],
     credentials: true,
   });
+  console.log('22222222?', serverConfig.port);
   app.use(cookieParser('other-cookie-secret!!'));
   //app.use(cookieParser("secret"));
   app.useGlobalPipes(
@@ -27,6 +29,7 @@ async function bootstrap() {
   );
   app.useLogger(new MyLogger());
   setupSwagger(app);
+  console.log('?????????', serverConfig.port);
 
   await app.listen(serverConfig.port);
 }
