@@ -1,14 +1,5 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Req,
-  Res,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
-import { Response } from 'express';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AccessTokenService } from 'src/auth/service/accessToken.service';
 import { RefreshTokenService } from './service/refreshToken.service';
@@ -40,8 +31,7 @@ export class AuthController {
   async createAccessToken(
     @Body('oldAccessToken') oldAccessToken: string,
     @Body('refreshToken') refreshToken: string,
-    @Res({ passthrough: true }) res: Response,
-  ): Promise<string> {
+  ): Promise<{ accessToken: string }> {
     // Refresh Token의 유효기간 검증
     await this.refreshTokenService.validRereshToken(refreshToken);
 
@@ -57,32 +47,8 @@ export class AuthController {
       userName,
     );
 
-    res.cookie('accessToken', accessToken, {
-      maxAge: 1 * 60 * 60 * 1000,
-      signed: true,
-    });
-    return '설정 완료';
-  }
-
-  @Get('/logout')
-  @ApiOperation({
-    summary: '로그아웃 API',
-    description: '토큰을 파기한다',
-  })
-  @ApiCreatedResponse({
-    description: '요청 완료 메시지',
-    schema: {
-      example: '로그아웃 완료',
-    },
-  })
-  logoutUser(@Res({ passthrough: true }) res: Response): any {
-    // 토큰 파기
-    res.cookie('accessToken', null, {
-      maxAge: 0,
-    });
-    res.cookie('refreshToken', null, {
-      maxAge: 0,
-    });
-    return '로그아웃 완료';
+    return {
+      accessToken,
+    };
   }
 }
