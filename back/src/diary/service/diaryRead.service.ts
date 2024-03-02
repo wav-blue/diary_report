@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
-import { IDiaryRepository } from '../repository/DAO/diary.dao';
 import { Diary } from '../repository/entity/diary.entity';
+import { IDiaryRepository } from '../repository/DAO/diary.repository';
 
 @Injectable()
 export class DiaryReadService {

@@ -4,35 +4,35 @@ import { MyLogger } from 'src/logger/logger.service';
 import { createRandomId } from 'src/user/utils/loginUtils';
 import { Order } from '../repository/entity/order.entity';
 import { CreateOrderDto } from '../repository/DTO/CreateOrder.dto';
-import { UserRepository } from 'src/user/repository/DAO/userCreate.repository';
-import { PaymentsCreateService } from './paymentsCreate.service';
+import { OrderRepository } from '../repository/DAO/mysql-order.repository';
 
 @Injectable()
-export class PaymentsReadService {
+export class OrderCreateService {
   constructor(
-    private paymentsCreateService: PaymentsCreateService,
-    private userRepository: UserRepository,
+    private orderRepository: OrderRepository,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
-    this.logger.setContext(PaymentsReadService.name);
+    this.logger.setContext(OrderCreateService.name);
   }
 
-  async getCustomerKey가(createOrderDto: CreateOrderDto, userId: string) {
+  async createOrder(createOrderDto: CreateOrderDto, userId: string) {
+    const orderId = createRandomId();
+
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
     await queryRunner.startTransaction();
 
-    let customerKey가: string;
+    let result: Promise<Order>;
 
     try {
-      customerKey가 = this.userRepository.getCustomerKey(userId, queryRunner);
-      if (!customerKey가) {
-        this.logger.log(`customerKey가 없어 새로 생성합니다!`);
-        customerKey가 =
-          await this.paymentsCreateService.createCustomerKey(userId);
-      }
+      result = this.orderRepository.createOrder(
+        createOrderDto,
+        userId,
+        orderId,
+        queryRunner,
+      );
 
       await queryRunner.commitTransaction();
     } catch (err) {
@@ -41,6 +41,6 @@ export class PaymentsReadService {
     } finally {
       await queryRunner.release();
     }
-    return customerKey가;
+    return result;
   }
 }

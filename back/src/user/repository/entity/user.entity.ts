@@ -14,6 +14,9 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 50 })
   userName: string;
 
+  @Column({ type: 'varchar', length: 42, default: null })
+  customerKey: string;
+
   @Column({ type: 'datetime' })
   createdAt: Date;
 

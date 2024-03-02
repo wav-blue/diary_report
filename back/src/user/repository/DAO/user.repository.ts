@@ -20,4 +20,15 @@ export abstract class IUserRepository {
     userId: string,
     queryRunner: QueryRunner,
   ): Promise<User>;
+
+  abstract findCustomerKey(
+    userId: string,
+    queryRunner: QueryRunner,
+  ): Promise<string>;
+
+  abstract updateCustomerKey(
+    userId: string,
+    customerKey: string,
+    queryRunner: QueryRunner,
+  ): Promise<string>;
 }

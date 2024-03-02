@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
-import { createRandomId } from 'src/user/utils/loginUtils';
-import { UserRepository } from 'src/user/repository/DAO/userCreate.repository';
 import { v4 as uuidv4 } from 'uuid';
+import { UserRepository } from 'src/user/repository/DAO/mysql-user.repository';
 
 @Injectable()
-export class PaymentsCreateService {
+export class CustomerCreateService {
   constructor(
     private userRepository: UserRepository,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
-    this.logger.setContext(PaymentsCreateService.name);
+    this.logger.setContext(CustomerCreateService.name);
   }
 
   async createCustomerKey(userId: string) {

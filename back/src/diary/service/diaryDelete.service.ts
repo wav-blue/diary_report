@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
-import { IDiaryRepository } from '../repository/DAO/diary.dao';
+import { IDiaryRepository } from '../repository/DAO/diary.repository';
 
 @Injectable()
 export class DiaryDeleteService {
