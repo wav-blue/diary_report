@@ -1,13 +1,13 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { UserService } from './service/user.service';
-import { LoginUserDto } from './DTO/loginUser.dto';
-import { CreateUserDto } from './DTO/createUser.dto';
+import { LoginUserDto } from './repository/DTO/loginUser.dto';
+import { CreateUserDto } from './repository/DTO/createUser.dto';
 import { GetUser } from 'common/decorator/get-user.decorator';
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { User } from './entity/user.entity';
+import { User } from './repository/entity/user.entity';
 import { UserLoginService } from './service/userLogin.service';
 import { AccessTokenService } from 'src/auth/service/accessToken.service';
 import { AuthGuard } from 'src/auth/guards/authGuard';
@@ -42,10 +42,7 @@ export class UserController {
     description: '로그인 여부를 확인하고 관련 jwt 토큰 값을 셋팅',
   })
   @ApiCreatedResponse({ description: '로그인된 유저의 데이터' })
-  async loginUser(
-    @Body() loginUserDto: LoginUserDto,
-    @Res({ passthrough: true }) res,
-  ) {
+  async loginUser(@Body() loginUserDto: LoginUserDto) {
     this.logger.log(`로그인 요청!`);
     const user = await this.userLoginService.loginUser(loginUserDto);
 
@@ -56,43 +53,8 @@ export class UserController {
       accessToken,
       refreshToken,
     );
-    res.cookie('accessToken', accessToken, {
-      maxAge: 1 * 60 * 60 * 1000,
-      signed: true,
-    });
 
     return user;
-  }
-
-  @Post('/accessToken')
-  @ApiOperation({
-    summary: 'Access Token 재발급 API',
-    description: '리프레시 토큰을 확인하고 액세스 토큰을 재발급한다',
-  })
-  @ApiCreatedResponse({
-    description: '새롭게 access Token을 쿠키에 설정',
-  })
-  async postAccessToken(
-    @Res({ passthrough: true }) res: Response,
-  ): Promise<string> {
-    // Refresh Token의 유효기간 검증
-
-    // Old Access Token에서 userId, userName 추출
-    const { userId, userName } = {
-      userId: 'a',
-      userName: 'b',
-    };
-    // Access Token 생성
-    const { accessToken } = await this.accessTokenService.createAccessToken(
-      userId,
-      userName,
-    );
-
-    res.cookie('accessToken', accessToken, {
-      maxAge: 1 * 60 * 60 * 1000,
-      signed: true,
-    });
-    return '설정 완료';
   }
 
   @Get('/logout')
@@ -111,9 +73,6 @@ export class UserController {
     res.cookie('accessToken', null, {
       maxAge: 0,
     });
-    res.cookie('refreshToken', null, {
-      maxAge: 0,
-    });
     return '로그아웃 완료';
   }
 
@@ -126,7 +85,6 @@ export class UserController {
   @ApiCreatedResponse({ description: '로그인 유저데이터', type: User })
   async currentUser(
     @GetUser() userId: string,
-    @Req() req: Request,
   ): Promise<{ userId: string; userName: string }> {
     const user = await this.userService.getCurrentUserById(userId);
     const payload = {

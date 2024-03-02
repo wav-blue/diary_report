@@ -2,10 +2,10 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { createRandomId } from '../utils/loginUtils';
-import { IUserRepository } from '../DAO/user.dao';
-import { User } from '../entity/user.entity';
+import { IUserRepository } from '../repository/DAO/user.dao';
+import { User } from '../repository/entity/user.entity';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from '../DTO/createUser.dto';
+import { CreateUserDto } from '../repository/DTO/createUser.dto';
 
 @Injectable()
 export class UserService {
