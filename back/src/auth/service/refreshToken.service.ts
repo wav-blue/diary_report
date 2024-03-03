@@ -1,6 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { JwtService } from '@nestjs/jwt';
+import { RefreshTokenExpiredException } from 'common/exception-filter/exception/refresh-token-expired.exception';
+import { MalformedTokenException } from 'common/exception-filter/exception/malformed-token.exception';
 
 @Injectable()
 export class RefreshTokenService {
@@ -14,7 +16,7 @@ export class RefreshTokenService {
   async createRefreshToken() {
     const refreshTokenPayload = {};
     const refreshToken = await this.jwtService.signAsync(refreshTokenPayload, {
-      expiresIn: '1h',
+      expiresIn: '5min',
       secret: process.env.JWT_REFRESH_TOKEN_KEY,
     });
 
@@ -29,7 +31,10 @@ export class RefreshTokenService {
       this.logger.debug('refresh token 검증 완료!');
       return verify;
     } catch (err) {
-      throw new UnauthorizedException('RefreshToken Expired');
+      if (err.message === 'jwt expired') {
+        throw new RefreshTokenExpiredException();
+      }
+      throw new MalformedTokenException();
     }
   }
 }

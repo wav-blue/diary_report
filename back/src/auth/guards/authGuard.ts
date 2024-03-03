@@ -14,7 +14,11 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    const accessToken = request.headers.authorization.split(' ')[1];
+
+    if (!request.headers?.authorization) {
+      throw new UnauthorizedException('인증 헤더가 존재하지 않습니다.');
+    }
+    const accessToken = request.headers?.authorization.split(' ')[1];
     if (!accessToken) {
       throw new UnauthorizedException('Access Token이 존재하지 않음');
     }
@@ -22,7 +26,7 @@ export class AuthGuard implements CanActivate {
       const userId = this.accessTokenService.validAccessToken(accessToken);
       request.userId = userId;
     } catch (err) {
-      throw new UnauthorizedException('Access Token이 만료됨');
+      throw err;
     }
 
     return true;

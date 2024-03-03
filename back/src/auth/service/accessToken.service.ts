@@ -1,10 +1,8 @@
-import {
-  BadRequestException,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { JwtService } from '@nestjs/jwt';
+import { AccessTokenExpiredException } from 'common/exception-filter/exception/access-token-expired.exception';
+import { MalformedTokenException } from 'common/exception-filter/exception/malformed-token.exception';
 
 @Injectable()
 export class AccessTokenService {
@@ -21,12 +19,12 @@ export class AccessTokenService {
     }
 
     const accessTokenPayload = { userId, userName };
-    const accessToken = await this.jwtService.signAsync(accessTokenPayload, {
-      expiresIn: '15m',
+    const newAccessToken = await this.jwtService.signAsync(accessTokenPayload, {
+      expiresIn: '15s',
       secret: process.env.JWT_ACCESS_TOKEN_KEY,
     });
 
-    return { accessToken };
+    return { newAccessToken };
   }
 
   validAccessToken(accessToken: string) {
@@ -37,7 +35,10 @@ export class AccessTokenService {
       });
       res = userId;
     } catch (err) {
-      throw new UnauthorizedException('AccessToken Expired');
+      if (err.message === 'jwt expired') {
+        throw new AccessTokenExpiredException();
+      }
+      throw new MalformedTokenException();
     }
     return res;
   }
@@ -45,6 +46,11 @@ export class AccessTokenService {
   async extractOldToken(
     oldAccessToken: string,
   ): Promise<{ userId: string; userName: string }> {
+    // const { userId, userName } = this.jwtService.decode(oldAccessToken);
+    console.log('oldAccessToken 확인: ', oldAccessToken);
+    const result = this.jwtService.decode(oldAccessToken);
+    console.log('result 확인: ', result);
+
     const { userId, userName } = this.jwtService.decode(oldAccessToken);
     return { userId, userName };
   }

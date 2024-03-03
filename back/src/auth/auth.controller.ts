@@ -29,26 +29,30 @@ export class AuthController {
     description: '새롭게 access Token을 쿠키에 설정',
   })
   async createAccessToken(
-    @Body('oldAccessToken') oldAccessToken: string,
+    @Body('accessToken') accessToken: string,
     @Body('refreshToken') refreshToken: string,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ userId: string; userName: string; newAccessToken: string }> {
+    this.logger.log('Access Token 재발급 API 실행');
+    this.logger.log('Refresh Token의 유효기간 검증');
     // Refresh Token의 유효기간 검증
     await this.refreshTokenService.validRereshToken(refreshToken);
-
+    this.logger.log('Old Access Token에서 userId, userName 추출');
     // Old Access Token에서 userId, userName 추출
     const { userId, userName } =
-      await this.accessTokenService.extractOldToken(oldAccessToken);
+      await this.accessTokenService.extractOldToken(accessToken);
 
     this.logger.debug(`추출된 유저 정보 : ${userId}, ${userName}`);
 
     // Access Token 생성
-    const { accessToken } = await this.accessTokenService.createAccessToken(
+    const { newAccessToken } = await this.accessTokenService.createAccessToken(
       userId,
       userName,
     );
 
     return {
-      accessToken,
+      userId,
+      userName,
+      newAccessToken,
     };
   }
 }
