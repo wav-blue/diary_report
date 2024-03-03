@@ -8,7 +8,6 @@ export abstract class IOrderRepository {
   abstract createOrder(
     createOrderDto: CreateOrderDto,
     userId: string,
-    orderId: string,
     queryRunner: QueryRunner,
   ): Promise<Order>;
 

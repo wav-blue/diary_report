@@ -15,13 +15,11 @@ export class OrderRepository implements IOrderRepository {
 
   async createOrder(
     createOrderDto: CreateOrderDto,
-    orderId: string,
     userId: string,
     queryRunner: QueryRunner,
   ): Promise<Order> {
     const newOrder = queryRunner.manager.create(Order, {
       userId,
-      orderId,
       ...createOrderDto,
     });
 

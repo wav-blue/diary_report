@@ -6,6 +6,9 @@ export class VirtualAccountOrder extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 42 })
   orderId: string;
 
+  @Column({ type: 'varchar', length: 100 })
+  customerName: string;
+
   @Column({ type: 'varchar', length: 50 })
   accountType: string;
 

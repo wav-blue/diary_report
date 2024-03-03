@@ -2,6 +2,9 @@ import { IsNotEmpty } from 'class-validator';
 
 export class CreateOrderDto {
   @IsNotEmpty()
+  orderId: string;
+
+  @IsNotEmpty()
   mId: string;
 
   @IsNotEmpty()
@@ -9,9 +12,6 @@ export class CreateOrderDto {
 
   @IsNotEmpty()
   status: string;
-
-  @IsNotEmpty()
-  customerName: string;
 
   @IsNotEmpty()
   balanceAmount: number;

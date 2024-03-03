@@ -29,7 +29,7 @@ export class CustomerReadService {
         queryRunner,
       );
       if (!customerKey) {
-        this.logger.log(`customerKey가 없어 새로 생성합니다!`);
+        this.logger.debug(`customerKey가 없어 새로 생성합니다!`);
         customerKey =
           await this.customerCreateService.createCustomerKey(userId);
       }

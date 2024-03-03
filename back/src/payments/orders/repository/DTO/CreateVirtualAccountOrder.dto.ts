@@ -11,6 +11,9 @@ export class CreateVirtualAccountOrderDto {
   bankCode: string;
 
   @IsNotEmpty()
+  customerName: string;
+
+  @IsNotEmpty()
   refundStatus: string;
 
   @IsNotEmpty()

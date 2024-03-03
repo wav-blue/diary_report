@@ -3,7 +3,7 @@ import { BaseEntity, PrimaryColumn, Column, Entity } from 'typeorm';
 // 주문 내역
 @Entity('ORDERS')
 export class Order extends BaseEntity {
-  @PrimaryColumn({ type: 'varchar', length: 42 })
+  @PrimaryColumn({ type: 'varchar', length: 100 })
   orderId: string;
 
   @Column({ type: 'varchar', length: 42 })
@@ -17,9 +17,6 @@ export class Order extends BaseEntity {
 
   @Column({ type: 'datetime' })
   requestedAt: Date;
-
-  @Column({ type: 'varchar', length: 100 })
-  customerName: string;
 
   @Column({ type: 'integer' })
   balanceAmount: number;

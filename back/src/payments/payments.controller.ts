@@ -14,24 +14,4 @@ export class PaymentsController {
   ) {
     this.logger.setContext(PaymentsController.name);
   }
-
-  @UseGuards(AuthGuard)
-  @Get('/customer')
-  @ApiOperation({
-    summary: '결제정보 API',
-    description: '결제를 위한 정보(clientKey, customerKey)를 응답',
-  })
-  async getCustomerKey(@GetUser() userId: string): Promise<{
-    widgetClientKey: string;
-    customerKey: string;
-  }> {
-    const widgetClientKey = process.env.PAYMENTS_CLIENT_KEY;
-    const customerKey = await this.customerReadService.getCustomerKey(userId);
-
-    const body = {
-      widgetClientKey,
-      customerKey,
-    };
-    return body;
-  }
 }

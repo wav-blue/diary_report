@@ -17,8 +17,6 @@ export class OrderCreateService {
   }
 
   async createOrder(createOrderDto: CreateOrderDto, userId: string) {
-    const orderId = createRandomId();
-
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
@@ -30,7 +28,6 @@ export class OrderCreateService {
       result = this.orderRepository.createOrder(
         createOrderDto,
         userId,
-        orderId,
         queryRunner,
       );
 
