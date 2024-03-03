@@ -32,11 +32,9 @@ export class AuthController {
     @Body('accessToken') accessToken: string,
     @Body('refreshToken') refreshToken: string,
   ): Promise<{ userId: string; userName: string; newAccessToken: string }> {
-    this.logger.log('Access Token 재발급 API 실행');
-    this.logger.log('Refresh Token의 유효기간 검증');
     // Refresh Token의 유효기간 검증
     await this.refreshTokenService.validRereshToken(refreshToken);
-    this.logger.log('Old Access Token에서 userId, userName 추출');
+
     // Old Access Token에서 userId, userName 추출
     const { userId, userName } =
       await this.accessTokenService.extractOldToken(accessToken);

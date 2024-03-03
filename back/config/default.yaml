@@ -5,6 +5,10 @@ db:
   type: 'mysql'
   port: 3306
 
+jwt:
+  accessExpiresIn: '30min'
+  refreshExpiresIn: '6h'
+
 flask:
   port: 5000
   username: 'back_server'

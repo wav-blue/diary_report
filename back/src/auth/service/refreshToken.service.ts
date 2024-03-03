@@ -3,6 +3,9 @@ import { MyLogger } from 'src/logger/logger.service';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenExpiredException } from 'common/exception-filter/exception/refresh-token-expired.exception';
 import { MalformedTokenException } from 'common/exception-filter/exception/malformed-token.exception';
+import * as config from 'config';
+
+const jwtConfig = config.get('jwt');
 
 @Injectable()
 export class RefreshTokenService {
@@ -16,7 +19,7 @@ export class RefreshTokenService {
   async createRefreshToken() {
     const refreshTokenPayload = {};
     const refreshToken = await this.jwtService.signAsync(refreshTokenPayload, {
-      expiresIn: '5min',
+      expiresIn: jwtConfig.refreshExpiresIn,
       secret: process.env.JWT_REFRESH_TOKEN_KEY,
     });
 

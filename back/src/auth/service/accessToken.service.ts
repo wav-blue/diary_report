@@ -3,6 +3,9 @@ import { MyLogger } from 'src/logger/logger.service';
 import { JwtService } from '@nestjs/jwt';
 import { AccessTokenExpiredException } from 'common/exception-filter/exception/access-token-expired.exception';
 import { MalformedTokenException } from 'common/exception-filter/exception/malformed-token.exception';
+import * as config from 'config';
+
+const jwtConfig = config.get('jwt');
 
 @Injectable()
 export class AccessTokenService {
@@ -20,7 +23,7 @@ export class AccessTokenService {
 
     const accessTokenPayload = { userId, userName };
     const newAccessToken = await this.jwtService.signAsync(accessTokenPayload, {
-      expiresIn: '15s',
+      expiresIn: jwtConfig.accessExpiresIn,
       secret: process.env.JWT_ACCESS_TOKEN_KEY,
     });
 
@@ -47,9 +50,7 @@ export class AccessTokenService {
     oldAccessToken: string,
   ): Promise<{ userId: string; userName: string }> {
     // const { userId, userName } = this.jwtService.decode(oldAccessToken);
-    console.log('oldAccessToken 확인: ', oldAccessToken);
-    const result = this.jwtService.decode(oldAccessToken);
-    console.log('result 확인: ', result);
+    this.jwtService.decode(oldAccessToken);
 
     const { userId, userName } = this.jwtService.decode(oldAccessToken);
     return { userId, userName };
