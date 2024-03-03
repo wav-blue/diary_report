@@ -22,24 +22,25 @@ function PaymentsPage() {
   const goodsData = GoodsData;
 
   async function completeForm() {
-    const customerKey = await getCustomerKey();
-    console.log("customerKey > ", customerKey);
-    console.log("customer > ", customer);
-    if (!customerKey) {
-      alert("서버에서 결제 정보를 얻을 수 없습니다!");
-    }
     if (!selected.type) {
       alert("상품이 선택되지 않았습니다!");
-    }
-    if (!customer.customerEmail) {
+      return;
+    } else if (!customer.customerEmail) {
       alert("결제 정보가 입력되지 않았습니다!");
+      return;
+    }
+
+    const tosspaymentsApiKey = await getCustomerKey();
+
+    if (!tosspaymentsApiKey) {
       return;
     }
 
     navigate("/payments/checkout", {
       state: {
-        widgetClientKey: `${customerKey.widgetClientKey}`,
-        customerKey: `${customerKey.customerKey}`,
+        widgetClientKey: `${tosspaymentsApiKey.widgetClientKey}`,
+        customerKey: `${tosspaymentsApiKey.customerKey}`,
+        secretKey: `${tosspaymentsApiKey.secretKey}`,
         selectedGoods: `${selected.type}`,
         amountOfPayment: `${selected.price}`,
         customerName: customer.customerName,
@@ -49,15 +50,20 @@ function PaymentsPage() {
     });
   }
   async function getCustomerKey() {
-    const customerKey = await Api.get(`payments/customer`)
+    const tosspaymentsApiKey = await Api.get(
+      `users/customer?type=${selected.type}`
+    )
       .then((res) => {
-        console.log("res.data 변수 확인 : ", res.data);
         return res.data;
       })
       .catch((err) => {
-        alert(`서버 오류! ${err?.message}`);
+        if (err.response.status === 409) {
+          alert("이미 구매 이력이 있는 상품입니다!");
+          return;
+        }
+        alert("서버에 오류가 있습니다. 나중에 다시 시도해주세요!");
       });
-    return customerKey;
+    return tosspaymentsApiKey;
   }
 
   return (

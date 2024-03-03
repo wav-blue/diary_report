@@ -1,8 +1,25 @@
 import { useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import * as Api from "../../../Api";
+import { GreenButton } from "../../styled/button/ColorButton";
 
 export function FailPage() {
   const [searchParams] = useSearchParams();
+
+  const failPayments = async () => {
+    try {
+      const req = {
+        paymentErrCode: searchParams.get("code"),
+        paymentErrMessage: searchParams.get("message"),
+      };
+      const res = await Api.post(`payments/report`, req);
+      console.log("요청에 성공하였습니다.\n응답: ", res);
+      alert("신고가 접수되었습니다");
+      navigate("/diary");
+    } catch (err) {
+      console.log("요청에 실패하였습니다.\n", err);
+    }
+  };
 
   return (
     <div className="result wrapper">
@@ -18,26 +35,14 @@ export function FailPage() {
         <p>{`message = ${searchParams.get("message")}`}</p>
 
         <div className="result wrapper">
-          <Link to="https://docs.tosspayments.com/guides/payment-widget/integration">
-            <button
-              className="button"
-              style={{ marginTop: "30px", marginRight: "10px" }}
-            >
-              연동 문서
-            </button>
-          </Link>
-          <Link to="https://discord.gg/A4fRFXQhRu">
-            <button
-              className="button"
-              style={{
-                marginTop: "30px",
-                backgroundColor: "#e8f3ff",
-                color: "#1b64da",
-              }}
-            >
-              실시간 문의
-            </button>
-          </Link>
+          <GreenButton
+            onClick={() => {
+              failPayments();
+            }}
+            className="button"
+          >
+            문의 남기기
+          </GreenButton>
         </div>
       </div>
     </div>
