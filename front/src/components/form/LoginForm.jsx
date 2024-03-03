@@ -22,7 +22,6 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("요청 시도");
     try {
       if (!email || !password) {
         alert("이메일이나 비밀번호가 입력되지 않았습니다!");
@@ -32,10 +31,8 @@ function LoginForm() {
         email,
         password,
       });
-      console.log("응답: ", res);
 
       const user = res.data;
-      console.log("응답 user: ", user);
 
       // 세션에 저장: accessToken, refreshToken
       const accessToken = user.accessToken;
@@ -58,7 +55,6 @@ function LoginForm() {
       alert("로그인 성공");
       navigate("/diary");
     } catch (err) {
-      console.log("로그인에 실패", err);
       if (err.response?.data.message == "가입 이력이 없습니다.") {
         alert("가입 이력이 없습니다.");
       } else {

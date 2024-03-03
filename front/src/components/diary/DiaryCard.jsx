@@ -25,7 +25,6 @@ function DiaryCard(props) {
               date: props.date,
               content: props.content,
             });
-            console.log("완료!");
           }}
         >
           읽기

@@ -26,13 +26,16 @@ function MainPage() {
         />
       </HoverChangeCursor>
 
-      <GreenBorderButton class="diary" onClick={() => navigate("/diary")}>
+      <GreenBorderButton className="diary" onClick={() => navigate("/diary")}>
         일기 보기
       </GreenBorderButton>
-      <GreenBorderButton class="login" onClick={() => navigate("/login")}>
+      <GreenBorderButton className="login" onClick={() => navigate("/login")}>
         로그인
       </GreenBorderButton>
-      <GreenBorderButton class="report" onClick={() => navigate("/diary/edit")}>
+      <GreenBorderButton
+        className="report"
+        onClick={() => navigate("/diary/edit")}
+      >
         작성하기
       </GreenBorderButton>
       <GreenBorderButton onClick={() => navigate("/my")}>

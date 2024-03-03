@@ -33,7 +33,6 @@ function RegisterForm() {
 
   const checkComplete = (e) => {
     e.preventDefault();
-    console.log("다음 단계로 넘어갈지 검사");
     if (!email || !password) {
       setWarn("이메일이나 비밀번호가 입력되지 않았습니다!");
       return;
@@ -44,7 +43,6 @@ function RegisterForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("요청 시도");
     try {
       if (!email || !password) {
         alert("이메일이나 비밀번호가 입력되지 않았습니다!");
@@ -55,22 +53,18 @@ function RegisterForm() {
         password,
         userName,
       });
-      console.log("응답: ", res);
 
       alert("회원가입이 완료되었습니다!");
 
-      // 유저 정보는 response의 data임.
       const user = res.data;
-      console.log("user>>>>>");
-      console.log(user);
-      // JWT 토큰은 유저 정보의 token임.
+
       const accessToken = user.accessToken;
       const refreshToken = user.refreshToken ?? "";
 
       sessionStorage.setItem("accessToken", accessToken);
       sessionStorage.setItem("refreshToken", refreshToken);
 
-      // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
+      // 로그인 성공 상태로
       dispatch({
         type: "LOGIN",
         payload: { userId: user.userId, userName: user.userName },
@@ -82,7 +76,6 @@ function RegisterForm() {
         navigate("/diary");
       }
     } catch (err) {
-      console.log("로그인에 실패", err);
       if (err.response.data.message == "가입 이력이 없습니다.") {
         alert("가입 이력이 없습니다.");
       } else {

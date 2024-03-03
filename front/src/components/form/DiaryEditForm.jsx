@@ -61,7 +61,6 @@ function DiaryEditForm() {
   useEffect(() => {
     if (!userName) {
       alert("로그인이 필요한 기능입니다!");
-      console.log("content 확인: ", content);
       navigate("/login");
       return;
     }

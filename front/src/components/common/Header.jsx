@@ -21,7 +21,7 @@ function Header() {
   // 로그아웃 클릭 시 실행되는 함수
   async function logout() {
     const res = await Api.get("users/logout");
-    console.log("res 확인: ", res);
+
     if (res?.data !== "로그아웃 완료") {
       alert("로그아웃이 정상적으로 완료되지 않았습니다.\n다시 시도해주세요");
       return;

@@ -33,10 +33,10 @@ function IntroPage() {
       두두에게 당신의 이야기를 들려주세요.
       <br />
       <br />
-      <GreenButton class="main" onClick={() => navigate("/")}>
+      <GreenButton className="main" onClick={() => navigate("/")}>
         메인으로
       </GreenButton>
-      <RedButton class="main" onClick={() => navigate("/register")}>
+      <RedButton className="main" onClick={() => navigate("/register")}>
         회원가입으로
       </RedButton>
     </IntroPageContainer>

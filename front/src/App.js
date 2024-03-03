@@ -61,15 +61,15 @@ function App() {
 
       console.log("%c Access Token 인증 성공.", "color: #d93d1a;");
     } catch (err) {
-      // status가 419일 경우 Access Token 재발급 실행
-      console.log("%c Access Token 인증 실패.", "color: #d93d1a;");
+      // 419 : Token Expired
       if (err.response?.status === 419) {
+        console.log("%c Access Token 재발급 실행.", "color: #d93d1a;");
         refreshAccessToken();
       } else if (err?.response?.status === 401) {
         alert("유효하지 않은 토큰입니다.");
+        // 토큰 삭제
+        sessionStorageExpireToken();
       }
-      // 토큰 삭제
-      sessionStorageExpireToken();
     }
     // fetchCurrentUser 과정 종료
     setIsFetchCompleted(true);
