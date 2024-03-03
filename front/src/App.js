@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useReducer, createContext } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from "react-router-dom";
 import * as Api from "./Api.js";
 import "../src/styles/styles.css";
 
@@ -23,78 +28,95 @@ import PaymentsPage from "./components/pages/payments/PaymentsPage.js";
 import { SuccessPage } from "./components/pages/payments/SuccessPage.js";
 import { FailPage } from "./components/pages/payments/FailPage.js";
 import { CheckoutPage } from "./components/pages/payments/CheckoutPage.js";
+import sessionStorageAccessToken from "./utils/login/sessionStorageAccessToken.js";
+import sessionStorageRefreshToken from "./utils/login/sessionStorageRefreshToken.js";
+import sessionStorageExpireToken from "./utils/login/sessionStorageExpireToken.js";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
     userId: null,
   });
 
-  const refreshAccessToken = async () => {
-    try {
-      const refreshToken = sessionStorage.getItem("refreshToken");
-      const body = {
-        refreshToken,
-      };
-      const res = await Api.post(
-        "/users/accessToken",
-        body,
-        0,
-        "application/json"
-      );
-      if (res.status === 200) {
-        // 재발급 성공
-        console.log("재발급 성공");
-      }
-    } catch (err) {
-      if (err?.response?.status === 401) {
-        // refresh token 만료
-        alert("다시 로그인해주세요");
-        //navigate('/login')
-      }
-    }
-  };
-
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
-  const fetchCurrentUser = async () => {
-    try {
-      const accessToken = sessionStorage.getItem("accessToken");
-      const refreshToken = sessionStorage.getItem("refreshToken");
 
-      // accessToken이 존재하지 않는 경우
-      if (!accessToken && refreshToken) {
-        console.log("accessToken 재발급 실행 > ");
-        const body = {
-          accessToken,
-          refreshToken,
-        };
-        await Api.post("accessToken", { accessToken, refreshToken });
-      }
+  const fetchCurrentUser = async () => {
+    const accessToken = sessionStorageAccessToken();
+
+    // 토큰이 존재하지 않으므로 아무것도 하지 않음
+    if (!accessToken) {
+      setIsFetchCompleted(true);
+      return;
+    }
+
+    try {
       const res = await Api.get("users/current");
-      console.log("refreshToken res : ", res);
-      // 유저 정보는 response의 data임.
+      // 유저 정보
       const user = res.data;
-      console.log("user정보 > ", user);
-      // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
+
+      // dispatch 함수 - 로그인 성공 상태
       dispatch({
         type: "LOGIN",
         payload: { userId: user.userId, userName: user.userName },
       });
 
       console.log("%c Access Token 인증 성공.", "color: #d93d1a;");
-    } catch {
+    } catch (err) {
+      // status가 419일 경우 Access Token 재발급 실행
       console.log("%c Access Token 인증 실패.", "color: #d93d1a;");
+      if (err.response?.status === 419) {
+        refreshAccessToken();
+      } else if (err?.response?.status === 401) {
+        alert("유효하지 않은 토큰입니다.");
+      }
+      // 토큰 삭제
+      sessionStorageExpireToken();
     }
-    // fetchCurrentUser 과정이 끝났으므로, isFetchCompleted 상태를 true로 바꿔줌
+    // fetchCurrentUser 과정 종료
     setIsFetchCompleted(true);
   };
 
-  // useEffect함수를 통해 fetchCurrentUser 함수를 실행함.
+  const refreshAccessToken = async () => {
+    const accessToken = sessionStorageAccessToken();
+    const refreshToken = sessionStorageRefreshToken();
+
+    const body = {
+      accessToken,
+      refreshToken,
+    };
+    try {
+      const res = await Api.post("auth/accessToken", body);
+
+      // 유저 정보
+      const { newAccessToken, userId, userName } = res.data;
+
+      sessionStorage.setItem("accessToken", newAccessToken);
+
+      // dispatch 함수 - 로그인 성공 상태
+      dispatch({
+        type: "LOGIN",
+        payload: { userId, userName },
+      });
+    } catch (err) {
+      sessionStorageExpireToken();
+
+      if (err?.response?.status === 419) {
+        // refresh token 만료
+        alert("다시 로그인해주세요");
+      } else if (err?.response?.status === 401) {
+        alert("유효하지 않은 토큰입니다.");
+      }
+      // 토큰 파기
+      sessionStorageExpireToken();
+    }
+  };
+
+  // fetchCurrentUser 함수 실행
   useEffect(() => {
     fetchCurrentUser();
   }, []);
 
   if (!isFetchCompleted) {
-    return "loading...";
+    return <div>유저 정보를 불러오는 중입니다...</div>;
   }
   //--------------------------------------
 

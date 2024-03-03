@@ -63,7 +63,7 @@ export class UserLoginService {
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const { accessToken } = await this.accessTokenService.createAccessToken(
+    const { newAccessToken } = await this.accessTokenService.createAccessToken(
       findUser.userId,
       findUser.userName,
     );
@@ -72,7 +72,7 @@ export class UserLoginService {
 
     // 반환할 loginuser 객체
     const loginUser = {
-      accessToken,
+      accessToken: newAccessToken,
       refreshToken,
       userId: findUser.userId,
       userName: findUser.userName,
