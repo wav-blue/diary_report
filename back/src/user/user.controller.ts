@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { UserService } from './service/user.service';
 import { LoginUserDto } from './repository/DTO/loginUser.dto';
@@ -9,16 +9,18 @@ import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from './repository/entity/user.entity';
 import { UserLoginService } from './service/userLogin.service';
-import { AccessTokenService } from 'src/auth/service/accessToken.service';
 import { AuthGuard } from 'src/auth/guards/authGuard';
+import { CustomerReadService } from './service/customerRead.service';
+import { CheckTitleService } from './service/checkTitle.service';
 
 @Controller('users')
 @ApiTags('유저 API')
 export class UserController {
   constructor(
-    private readonly accessTokenService: AccessTokenService,
     private readonly userService: UserService,
     private readonly userLoginService: UserLoginService,
+    private readonly customerReadService: CustomerReadService,
+    private readonly checkTitleService: CheckTitleService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(UserController.name);
@@ -92,5 +94,35 @@ export class UserController {
       userName: user.userName,
     };
     return payload;
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('/customer')
+  @ApiOperation({
+    summary: '결제정보 API',
+    description:
+      '결제를 위한 정보(clientKey, customerKey)를 응답. 구매하려는 상품이 이미 구매한 상품일 경우 에러',
+  })
+  async getPaymentsApiKey(
+    @GetUser() userId: string,
+    @Query('type') type: string,
+  ): Promise<{
+    widgetClientKey: string;
+    customerKey: string;
+  }> {
+    // 이미 구매한 상품인지 확인
+    const titleCode = type;
+    await this.checkTitleService.checkTitle(userId, titleCode);
+
+    const widgetClientKey = process.env.PAYMENTS_CLIENT_KEY;
+    const customerKey = await this.customerReadService.getCustomerKey(userId);
+    const secretKey = process.env.PAYMENTS_SECRET_KEY;
+
+    const body = {
+      widgetClientKey,
+      customerKey,
+      secretKey,
+    };
+    return body;
   }
 }

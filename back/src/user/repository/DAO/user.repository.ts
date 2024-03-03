@@ -1,4 +1,6 @@
+import { CreateTitleDto } from '../DTO/createTitle.dto';
 import { CreateUserDto } from '../DTO/createUser.dto';
+import { Title } from '../entity/title.entity';
 import { User } from '../entity/user.entity';
 import { QueryRunner } from 'typeorm';
 
@@ -31,4 +33,16 @@ export abstract class IUserRepository {
     customerKey: string,
     queryRunner: QueryRunner,
   ): Promise<string>;
+
+  abstract createTitle(
+    titleCode: string,
+    userId: string,
+    queryRunner: QueryRunner,
+  ): Promise<string>;
+
+  abstract checkTitle(
+    userId: string,
+    type: string,
+    queryRunner: QueryRunner,
+  ): Promise<Title>;
 }

@@ -4,6 +4,7 @@ import { QueryRunner } from 'typeorm';
 import { User } from '../entity/user.entity';
 import { CreateUserDto } from '../DTO/createUser.dto';
 import { IUserRepository } from './user.repository';
+import { Title } from '../entity/title.entity';
 
 @Injectable()
 export class UserRepository implements IUserRepository {
@@ -61,7 +62,6 @@ export class UserRepository implements IUserRepository {
       .where('user.userId = :userId', { userId })
       .getOne();
     const { customerKey } = found;
-    console.log('repository customerKey 확인 : ', customerKey);
     return customerKey;
   }
 
@@ -79,5 +79,36 @@ export class UserRepository implements IUserRepository {
       .execute();
 
     return 'complete';
+  }
+
+  async createTitle(
+    titleCode: string,
+    userId: string,
+    queryRunner: QueryRunner,
+  ): Promise<string> {
+    const newTitle = queryRunner.manager.create(Title, {
+      userId,
+      titleCode,
+    });
+
+    await queryRunner.manager.save(newTitle);
+    return 'success';
+  }
+
+  async checkTitle(
+    userId: string,
+    titleCode: string,
+    queryRunner: QueryRunner,
+  ): Promise<Title> {
+    const found = await queryRunner.manager
+      .createQueryBuilder()
+      .select('title')
+      .from(Title, 'title')
+      .where('title.userId = :userId and title.titleCode = :titleCode', {
+        userId,
+        titleCode,
+      })
+      .getOne();
+    return found;
   }
 }
