@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
-import { UserService } from './service/user.service';
 import { LoginUserDto } from './repository/DTO/loginUser.dto';
 import { CreateUserDto } from './repository/DTO/createUser.dto';
 import { GetUser } from 'common/decorator/get-user.decorator';
@@ -11,12 +10,15 @@ import { UserLoginService } from './service/userLogin.service';
 import { AuthGuard } from 'src/auth/guards/authGuard';
 import { CustomerReadService } from './service/customerRead.service';
 import { CheckTitleService } from 'src/title/service/checkTitle.service';
+import { UserGetCurrentService } from './service/userGetCurrent.service';
+import { UserCreateService } from './service/userCreate.service';
 
 @Controller('users')
 @ApiTags('유저 API')
 export class UserController {
   constructor(
-    private readonly userService: UserService,
+    private readonly userGetCurrentService: UserGetCurrentService,
+    private readonly userCreateService: UserCreateService,
     private readonly userLoginService: UserLoginService,
     private readonly customerReadService: CustomerReadService,
     private readonly checkTitleService: CheckTitleService,
@@ -33,7 +35,7 @@ export class UserController {
   @ApiCreatedResponse({ description: '유저데이터', type: User })
   createUser(@Body() createUserDto: CreateUserDto): any {
     this.logger.log(`회원가입 요청!`);
-    const user = this.userService.createUser(createUserDto);
+    const user = this.userCreateService.createUser(createUserDto);
     return user;
   }
 
@@ -46,14 +48,6 @@ export class UserController {
   async loginUser(@Body() loginUserDto: LoginUserDto) {
     this.logger.log(`로그인 요청!`);
     const user = await this.userLoginService.loginUser(loginUserDto);
-
-    // Token 2개를 쿠키에 설정하는 과정 필요
-    const { accessToken, refreshToken } = user;
-    this.logger.debug(
-      'controller에서 token string 확인 : ',
-      accessToken,
-      refreshToken,
-    );
 
     return user;
   }
@@ -68,7 +62,7 @@ export class UserController {
   async currentUser(
     @GetUser() userId: string,
   ): Promise<{ userId: string; userName: string }> {
-    const user = await this.userService.getCurrentUserById(userId);
+    const user = await this.userGetCurrentService.getCurrentUserById(userId);
     const payload = {
       userId,
       userName: user.userName,

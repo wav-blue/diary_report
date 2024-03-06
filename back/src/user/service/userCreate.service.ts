@@ -6,15 +6,17 @@ import { User } from '../repository/entity/user.entity';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../repository/DTO/createUser.dto';
 import { IUserRepository } from '../repository/DAO/user.repository';
+import { UserSettingTokenService } from './userSettingToken.service';
 
 @Injectable()
-export class UserService {
+export class UserCreateService {
   constructor(
+    private readonly userSettingTokenService: UserSettingTokenService,
     private readonly userRepository: IUserRepository,
     private readonly dataSource: DataSource,
     private logger: MyLogger,
   ) {
-    this.logger.setContext(UserService.name);
+    this.logger.setContext(UserCreateService.name);
   }
 
   private static async bcryptPassword(password: string): Promise<string> {
@@ -23,7 +25,7 @@ export class UserService {
 
   async createUser(createUserDto: CreateUserDto) {
     createUserDto.userId = createRandomId();
-    createUserDto.password = await UserService.bcryptPassword(
+    createUserDto.password = await UserCreateService.bcryptPassword(
       createUserDto.password,
     );
 
@@ -33,7 +35,7 @@ export class UserService {
     await queryRunner.startTransaction();
 
     const { email } = createUserDto;
-    let result: Promise<User>;
+    let createUser: User;
 
     try {
       const findUser = await this.userRepository.findUserByEmail(
@@ -46,29 +48,11 @@ export class UserService {
         throw new ConflictException('이미 가입 이력이 있습니다.');
       }
 
-      result = this.userRepository.createUser(createUserDto, queryRunner);
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-      throw err;
-    } finally {
-      await queryRunner.release();
-    }
-    return result;
-  }
-
-  async getUser(userId: string) {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
-
-    await queryRunner.startTransaction();
-
-    let foundUser: User;
-    try {
-      foundUser = await this.userRepository.findUserByUserId(
-        userId,
+      createUser = await this.userRepository.createUser(
+        createUserDto,
         queryRunner,
       );
+
       await queryRunner.commitTransaction();
     } catch (err) {
       await queryRunner.rollbackTransaction();
@@ -77,35 +61,12 @@ export class UserService {
       await queryRunner.release();
     }
 
-    return foundUser;
-  }
-  async getCurrentUserById(
-    userId: string,
-  ): Promise<{ userId: string; userName: string }> {
-    const queryRunner = this.dataSource.createQueryRunner();
-    await queryRunner.connect();
+    // 로그인 성공 -> JWT 웹 토큰 생성
+    const loginData = this.userSettingTokenService.setUserToken(
+      createUser.userId,
+      createUser.userName,
+    );
 
-    await queryRunner.startTransaction();
-
-    let foundUser: User;
-    try {
-      foundUser = await this.userRepository.findUserByUserId(
-        userId,
-        queryRunner,
-      );
-      await queryRunner.commitTransaction();
-    } catch (err) {
-      await queryRunner.rollbackTransaction();
-      throw err;
-    } finally {
-      await queryRunner.release();
-    }
-
-    const user = {
-      userId,
-      userName: foundUser.userName,
-    };
-
-    return user;
+    return loginData;
   }
 }

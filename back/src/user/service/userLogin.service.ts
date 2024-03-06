@@ -9,15 +9,13 @@ import { MyLogger } from 'src/logger/logger.service';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from '../repository/DTO/loginUser.dto';
 import { User } from '../repository/entity/user.entity';
-import { AccessTokenService } from 'src/auth/service/accessToken.service';
-import { RefreshTokenService } from 'src/auth/service/refreshToken.service';
 import { IUserRepository } from '../repository/DAO/user.repository';
+import { UserSettingTokenService } from './userSettingToken.service';
 
 @Injectable()
 export class UserLoginService {
   constructor(
-    private readonly accessTokenService: AccessTokenService,
-    private readonly refreshTokenService: RefreshTokenService,
+    private readonly userSettingTokenService: UserSettingTokenService,
     private readonly userRepository: IUserRepository,
     private readonly dataSource: DataSource,
     private logger: MyLogger,
@@ -63,21 +61,11 @@ export class UserLoginService {
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const { newAccessToken } = await this.accessTokenService.createAccessToken(
+    const loginData = this.userSettingTokenService.setUserToken(
       findUser.userId,
       findUser.userName,
     );
-    const { refreshToken } =
-      await this.refreshTokenService.createRefreshToken();
 
-    // 반환할 loginuser 객체
-    const loginUser = {
-      accessToken: newAccessToken,
-      refreshToken,
-      userId: findUser.userId,
-      userName: findUser.userName,
-    };
-
-    return loginUser;
+    return loginData;
   }
 }
