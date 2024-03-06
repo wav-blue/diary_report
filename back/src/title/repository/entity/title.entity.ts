@@ -1,15 +1,7 @@
-import {
-  BaseEntity,
-  PrimaryGeneratedColumn,
-  Column,
-  Entity,
-  OneToMany,
-} from 'typeorm';
-import { TitleItem } from './titleItem.entity';
+import { BaseEntity, PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 
 @Entity('TITLE')
 export class Title extends BaseEntity {
-  @OneToMany(() => TitleItem, (titleItem: TitleItem) => titleItem.titleId)
   @PrimaryGeneratedColumn('increment')
   titleId: string;
 

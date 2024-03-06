@@ -32,20 +32,24 @@ export class AuthController {
     @Body('accessToken') accessToken: string,
     @Body('refreshToken') refreshToken: string,
   ): Promise<{ userId: string; userName: string; newAccessToken: string }> {
+    console.log('>> ', accessToken, refreshToken);
+    // const { accessToken, refreshToken } = refreshAccessTokenDto;
+    const oldAccessToken = accessToken;
+
     // Refresh Token의 유효기간 검증
-    await this.refreshTokenService.validRereshToken(refreshToken);
+    this.refreshTokenService.validRereshToken(refreshToken);
 
     // Old Access Token에서 userId, userName 추출
     const { userId, userName } =
-      await this.accessTokenService.extractOldToken(accessToken);
+      await this.accessTokenService.extractOldToken(oldAccessToken);
 
     this.logger.debug(`추출된 유저 정보 : ${userId}, ${userName}`);
 
     // Access Token 생성
-    const { newAccessToken } = await this.accessTokenService.createAccessToken(
+    const newAccessToken = await this.accessTokenService.createAccessToken(
       userId,
       userName,
-    );
+    )['accessToken'];
 
     return {
       userId,

@@ -22,12 +22,12 @@ export class AccessTokenService {
     }
 
     const accessTokenPayload = { userId, userName };
-    const newAccessToken = await this.jwtService.signAsync(accessTokenPayload, {
+    const accessToken = await this.jwtService.signAsync(accessTokenPayload, {
       expiresIn: jwtConfig.accessExpiresIn,
       secret: process.env.JWT_ACCESS_TOKEN_KEY,
     });
 
-    return { newAccessToken };
+    return { accessToken };
   }
 
   validAccessToken(accessToken: string) {
