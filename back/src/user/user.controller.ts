@@ -1,17 +1,16 @@
-import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { UserService } from './service/user.service';
 import { LoginUserDto } from './repository/DTO/loginUser.dto';
 import { CreateUserDto } from './repository/DTO/createUser.dto';
 import { GetUser } from 'common/decorator/get-user.decorator';
-import { Response } from 'express';
 import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from './repository/entity/user.entity';
 import { UserLoginService } from './service/userLogin.service';
 import { AuthGuard } from 'src/auth/guards/authGuard';
 import { CustomerReadService } from './service/customerRead.service';
-import { CheckTitleService } from './service/checkTitle.service';
+import { CheckTitleService } from 'src/title/service/checkTitle.service';
 
 @Controller('users')
 @ApiTags('유저 API')
@@ -57,25 +56,6 @@ export class UserController {
     );
 
     return user;
-  }
-
-  @Get('/logout')
-  @ApiOperation({
-    summary: '로그아웃 API',
-    description: '토큰을 파기한다',
-  })
-  @ApiCreatedResponse({
-    description: '요청 완료 메시지',
-    schema: {
-      example: '로그아웃 완료',
-    },
-  })
-  logoutUser(@Res({ passthrough: true }) res: Response): any {
-    // 토큰 파기
-    res.cookie('accessToken', null, {
-      maxAge: 0,
-    });
-    return '로그아웃 완료';
   }
 
   @Get('/current')

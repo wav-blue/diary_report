@@ -1,12 +1,12 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
-import { IUserRepository } from '../repository/DAO/user.repository';
+import { ITitleRepository } from '../repository/DTO/title.repository';
 
 @Injectable()
 export class CheckTitleService {
   constructor(
-    private readonly userRepository: IUserRepository,
+    private readonly titleRepository: ITitleRepository,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
@@ -20,7 +20,7 @@ export class CheckTitleService {
     await queryRunner.startTransaction();
 
     try {
-      const result = await this.userRepository.checkTitle(
+      const result = await this.titleRepository.checkTitle(
         userId,
         titleCode,
         queryRunner,

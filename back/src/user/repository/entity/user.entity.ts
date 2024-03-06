@@ -1,7 +1,9 @@
-import { BaseEntity, PrimaryColumn, Column, Entity } from 'typeorm';
+import { BaseEntity, PrimaryColumn, Column, Entity, OneToOne } from 'typeorm';
+import { Customer } from './customer.entity';
 
 @Entity('USER')
 export class User extends BaseEntity {
+  @OneToOne(() => Customer, (customer: Customer) => customer.userId)
   @PrimaryColumn({ type: 'varchar', length: 42 })
   userId: string;
 

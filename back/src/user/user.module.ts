@@ -8,21 +8,18 @@ import { IUserRepository } from './repository/DAO/user.repository';
 import { UserRepository } from './repository/DAO/mysql-user.repository';
 import { CustomerCreateService } from './service/customerCreate.service';
 import { CustomerReadService } from './service/customerRead.service';
-import { CreateTitleService } from './service/createTitle.service';
-import { CheckTitleService } from './service/checkTitle.service';
+import { TitleModule } from 'src/title/title.module';
 
 @Module({
-  imports: [AuthModule, LoggerModule],
+  imports: [AuthModule, TitleModule, LoggerModule],
   controllers: [UserController],
   providers: [
     UserService,
     UserLoginService,
     CustomerReadService,
     CustomerCreateService,
-    CreateTitleService,
-    CheckTitleService,
     { provide: IUserRepository, useClass: UserRepository },
   ],
-  exports: [CustomerReadService, CustomerCreateService, CreateTitleService],
+  exports: [CustomerReadService, CustomerCreateService],
 })
 export class UserModule {}

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
-import { IUserRepository } from '../repository/DAO/user.repository';
+import { ITitleRepository } from '../repository/DTO/title.repository';
 
 @Injectable()
 export class CreateTitleService {
   constructor(
-    private readonly userRepository: IUserRepository,
+    private readonly titleRepository: ITitleRepository,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
@@ -20,7 +20,7 @@ export class CreateTitleService {
     await queryRunner.startTransaction();
 
     try {
-      this.userRepository.createTitle(titleCode, userId, queryRunner);
+      this.titleRepository.createTitle(titleCode, userId, queryRunner);
 
       await queryRunner.commitTransaction();
     } catch (err) {
