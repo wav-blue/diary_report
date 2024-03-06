@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import RegisterForm from "../form/Register/RegisterForm";
+import RegisterForm from "../../form/Register/RegisterForm";
 
 function RegisterPage() {
   return (

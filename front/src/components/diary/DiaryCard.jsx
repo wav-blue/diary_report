@@ -1,11 +1,11 @@
 import { DateKorean } from "../common/DateKorean";
-import DiaryContainer from "../styled/component/DiaryContainer";
+import DiaryContainer from "../styled-components/component/DiaryContainer";
 import React, { useState, useContext, useEffect } from "react";
-import deleteDiary from "./deleteDiary";
-import getAnalysis from "./getAnalysis";
-import { LongGreenButton } from "../styled/button/LongColorButton";
-import { SmallGreyButton } from "../styled/button/SmallColorButton";
-import { SmallDarkGreyText } from "../styled/text/SmallText";
+import deleteDiary from "./utils/deleteDiary";
+import getAnalysis from "./utils/getAnalysis";
+import { LongGreenButton } from "../styled-components/button/LongColorButton";
+import { SmallGreyButton } from "../styled-components/button/SmallColorButton";
+import { SmallDarkGreyText } from "../styled-components/text/SmallText";
 
 function DiaryCard(props) {
   return (

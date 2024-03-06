@@ -2,10 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext } from "../../App";
 import * as Api from "../../Api";
-import MainPageContainer from "../styled/pageContainer/MainPageContainer";
-import { GreenBorderButton } from "../styled/button/BorderColorButton";
-import { SmallRedText } from "../styled/text/SmallText";
-import { HoverChangeCursor } from "../styled/component/HoverChangeCursor";
+import MainPageContainer from "../styled-components/pageContainer/MainPageContainer";
+import { GreenBorderButton } from "../styled-components/button/BorderColorButton";
+import { SmallRedText } from "../styled-components/text/SmallText";
+import { HoverChangeCursor } from "../styled-components/component/HoverChangeCursor";
+import RowFlexContainer from "../styled-components/component/RowFlexContainer";
+import {
+  DarkGreenBoldText,
+  GreenBoldText,
+} from "../styled-components/text/BoldText";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -17,14 +22,21 @@ function MainPage() {
 
   return (
     <MainPageContainer id="mainContainer">
-      <h3>${userName}님, 어서 오세요!</h3>
-      <SmallRedText> ↓ 로고를 클릭해 두두에 대해 알아보세요!</SmallRedText>
-      <HoverChangeCursor onClick={() => navigate("/intro")}>
-        <img
-          src={process.env.PUBLIC_URL + "/image/Logo.png"}
-          alt="로고 이미지"
-        />
-      </HoverChangeCursor>
+      {userName && (
+        <DarkGreenBoldText>{userName}님, 어서 오세요!</DarkGreenBoldText>
+      )}
+      {!userName && (
+        <RowFlexContainer>
+          <DarkGreenBoldText>처음 오셨나요?</DarkGreenBoldText>
+          <SmallRedText> ↓ 로고를 클릭해 두두에 대해 알아보세요!</SmallRedText>
+          <HoverChangeCursor onClick={() => navigate("/intro")}>
+            <img
+              src={process.env.PUBLIC_URL + "/image/Logo.png"}
+              alt="로고 이미지"
+            />
+          </HoverChangeCursor>
+        </RowFlexContainer>
+      )}
 
       <GreenBorderButton className="diary" onClick={() => navigate("/diary")}>
         일기 보기

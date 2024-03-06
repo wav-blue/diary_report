@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { GreenButton } from "../../styled/button/ColorButton";
+import { GreenButton } from "../../styled-components/button/ColorButton";
 import * as Api from "../../../Api";
 import { UserStateContext } from "../../../App";
 

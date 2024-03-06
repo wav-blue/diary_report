@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import * as Api from "../../Api.js";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../../App";
-import CustomHeader from "../styled/CustomHeader";
-import { HoverChangeCursor } from "../styled/component/HoverChangeCursor.jsx";
+import CustomHeader from "../styled-components/CustomHeader";
+import { HoverChangeCursor } from "../styled-components/component/HoverChangeCursor.jsx";
 
 function Header() {
   const navigate = useNavigate();

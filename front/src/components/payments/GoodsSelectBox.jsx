@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import GoodsSelectCard from "./GoodsSelectCard";
-import { GreenBorderButton } from "../styled/button/BorderColorButton";
+import { GreenBorderButton } from "../styled-components/button/BorderColorButton";
 import * as Api from "../../Api";
 
 function GoodsSelectBox(props) {

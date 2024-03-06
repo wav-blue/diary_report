@@ -5,7 +5,7 @@ const BoldText = styled(StyleText)`
   ${({ theme }) => {
     return css`
       font-size: ${theme.fonts.size.sLarge};
-      font-weight: ${theme.fonts.weight.normal};
+      font-weight: ${theme.fonts.weight.bold};
     `;
   }}
 `;
@@ -13,6 +13,13 @@ const GreenBoldText = styled(BoldText)`
   ${({ theme }) => {
     return css`
       color: ${theme.colors.green};
+    `;
+  }}
+`;
+const DarkGreenBoldText = styled(BoldText)`
+  ${({ theme }) => {
+    return css`
+      color: ${theme.colors.darkGreen};
     `;
   }}
 `;
@@ -24,4 +31,4 @@ const RedBoldText = styled(BoldText)`
   }}
 `;
 
-export { BoldText, GreenBoldText, RedBoldText };
+export { BoldText, GreenBoldText, RedBoldText, DarkGreenBoldText };

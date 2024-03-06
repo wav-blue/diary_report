@@ -4,7 +4,7 @@ import GoodsSelectBox from "../../payments/GoodsSelectBox";
 import { GoodsData } from "../../../data/Goods";
 import * as Api from "../../../Api";
 import CustomerForm from "../../payments/CustomerForm";
-import { GreenBorderButton } from "../../styled/button/BorderColorButton";
+import { GreenBorderButton } from "../../styled-components/button/BorderColorButton";
 
 function PaymentsPage() {
   const navigate = useNavigate();

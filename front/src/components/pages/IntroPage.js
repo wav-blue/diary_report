@@ -1,7 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import IntroPageContainer from "../styled/pageContainer/IntroPageContainer";
-import { GreenButton, RedButton } from "../styled/button/ColorButton";
+import IntroPageContainer from "../styled-components/pageContainer/IntroPageContainer";
+import {
+  GreenButton,
+  RedButton,
+} from "../styled-components/button/ColorButton";
 function IntroPage() {
   const navigate = useNavigate();
 

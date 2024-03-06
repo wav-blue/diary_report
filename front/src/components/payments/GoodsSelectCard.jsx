@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { SmallGreyButton } from "../styled/button/SmallColorButton";
+import { SmallGreyButton } from "../styled-components/button/SmallColorButton";
 
 function GoodsSelectCard(props) {
   return (
