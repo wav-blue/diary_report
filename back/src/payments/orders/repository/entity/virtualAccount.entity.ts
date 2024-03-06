@@ -33,18 +33,18 @@ export class VirtualAccountOrder extends BaseEntity {
   @Column({ type: 'varchar', length: 50 })
   refundReceiveAccountHolderName: string;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp without time zone' })
   dueDate: Date;
 
   @Column()
   expired: boolean;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp without time zone' })
   createdAt: Date;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp without time zone' })
   updatedAt: Date;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp without time zone', nullable: true })
   deletedAt: Date;
 }

@@ -1,8 +1,10 @@
+import { User } from 'src/user/repository/entity/user.entity';
 import {
   BaseEntity,
   PrimaryGeneratedColumn,
   Column,
   Entity,
+  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
@@ -13,6 +15,7 @@ export class Diary extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   diaryId: number;
 
+  @ManyToOne(() => User, (user: User) => user.userId)
   @Column({ type: 'varchar', length: 42 })
   userId: string;
 
@@ -25,10 +28,10 @@ export class Diary extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   summary: string;
 
-  @CreateDateColumn({ type: 'datetime' })
+  @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'datetime' })
+  @UpdateDateColumn({ type: 'timestamp without time zone' })
   updatedAt: Date;
 
   @DeleteDateColumn({ nullable: true })

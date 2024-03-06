@@ -1,7 +1,15 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import {
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  OneToMany,
+} from 'typeorm';
+import { TitleItem } from './titleItem.entity';
 
 @Entity('TITLE')
 export class Title extends BaseEntity {
+  @OneToMany(() => TitleItem, (titleItem: TitleItem) => titleItem.titleId)
   @PrimaryGeneratedColumn('increment')
   titleId: string;
 
@@ -17,12 +25,12 @@ export class Title extends BaseEntity {
   @Column({ type: 'varchar', length: 200 })
   titleDescription: string;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp without time zone' })
   createdAt: Date;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp without time zone' })
   updatedAt: Date;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp without time zone', nullable: true })
   deletedAt: Date;
 }

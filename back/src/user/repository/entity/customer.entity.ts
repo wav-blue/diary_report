@@ -10,12 +10,12 @@ export class Customer extends BaseEntity {
   @Column({ type: 'varchar', length: 42 })
   customerId: string;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp without time zone' })
   createdAt: Date;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'timestamp without time zone' })
   updatedAt: Date;
 
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp without time zone', nullable: true })
   deletedAt: Date;
 }

@@ -7,7 +7,7 @@ const dbConfig = config.get('db');
 const postgresConfig = config.get('postgres');
 
 export const typeORMPostgresConfig: TypeOrmModuleOptions = {
-  type: postgresConfig.type,
+  type: 'postgres',
   host: process.env.POSTGRES_HOSTNAME,
   port: postgresConfig.port,
   username: process.env.POSTGRES_USERNAME,
