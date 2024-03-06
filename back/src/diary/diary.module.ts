@@ -6,8 +6,8 @@ import { DiaryReadService } from './service/diaryRead.service';
 import { AxiosModule } from 'src/axios/axios.module';
 import { DiaryDeleteService } from './service/diaryDelete.service';
 import { AuthModule } from 'src/auth/auth.module';
-import { DiaryRepository } from './repository/DAO/mysql-diary.repository';
 import { IDiaryRepository } from './repository/DAO/diary.repository';
+import { DiaryRepository } from './repository/DAO/postgres-diary.repository';
 
 @Module({
   imports: [LoggerModule, AxiosModule, AuthModule],

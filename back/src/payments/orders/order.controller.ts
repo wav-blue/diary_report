@@ -1,11 +1,11 @@
-import { Body, Controller, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { MyLogger } from 'src/logger/logger.service';
 import { CreateOrderDto } from './repository/DTO/CreateOrder.dto';
 import { Order } from './repository/entity/order.entity';
 import { OrderCreateService } from './service/OrderCreate.service';
-import { CreateTitleService } from 'src/user/service/createTitle.service';
+import { CreateTitleService } from 'src/title/service/createTitle.service';
 
 @Controller('orders')
 @ApiTags('주문 내역 API')

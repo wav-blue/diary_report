@@ -5,10 +5,10 @@ import { UserService } from './service/user.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { UserLoginService } from './service/userLogin.service';
 import { IUserRepository } from './repository/DAO/user.repository';
-import { UserRepository } from './repository/DAO/mysql-user.repository';
 import { CustomerCreateService } from './service/customerCreate.service';
 import { CustomerReadService } from './service/customerRead.service';
 import { TitleModule } from 'src/title/title.module';
+import { UserRepository } from './repository/DAO/postgres-user.repository';
 
 @Module({
   imports: [AuthModule, TitleModule, LoggerModule],

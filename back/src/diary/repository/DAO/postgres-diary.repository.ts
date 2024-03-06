@@ -65,7 +65,7 @@ export class DiaryRepository implements IDiaryRepository {
     diaryId: number,
     queryRunner: QueryRunner,
   ): Promise<string> {
-    const result = await queryRunner.manager.softDelete(Diary, {
+    await queryRunner.manager.softDelete(Diary, {
       diaryId,
     });
     return 'success';
