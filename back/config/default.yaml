@@ -1,9 +1,13 @@
 server:
   port: 5001
 
-db:
+mysql:
   type: 'mysql'
   port: 3306
+
+postgres:
+  type: 'postgres'
+  port: 5432
 
 jwt:
   accessExpiresIn: '30min'
