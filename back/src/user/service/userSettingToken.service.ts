@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { AccessTokenService } from 'src/auth/service/accessToken.service';
 import { RefreshTokenService } from 'src/auth/service/refreshToken.service';
+import { ReadLoginUserDto } from '../repository/DTO/readLoginUser.dto';
 
 @Injectable()
 export class UserSettingTokenService {
@@ -16,12 +17,7 @@ export class UserSettingTokenService {
   async setUserToken(
     userId: string,
     userName: string,
-  ): Promise<{
-    userId: string;
-    userName: string;
-    accessToken: string;
-    refreshToken: string;
-  }> {
+  ): Promise<ReadLoginUserDto> {
     // 로그인 성공 -> JWT 웹 토큰 생성
     const { accessToken } = await this.accessTokenService.createAccessToken(
       userId,

@@ -2,7 +2,6 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
@@ -11,6 +10,8 @@ import { LoginUserDto } from '../repository/DTO/loginUser.dto';
 import { User } from '../repository/entity/user.entity';
 import { IUserRepository } from '../repository/DAO/user.repository';
 import { UserSettingTokenService } from './userSettingToken.service';
+import { InvalidLoginDataException } from 'common/exception-filter/exception/user/invalid-login-data.exception';
+import { ReadLoginUserDto } from '../repository/DTO/readLoginUser.dto';
 
 @Injectable()
 export class UserLoginService {
@@ -23,7 +24,7 @@ export class UserLoginService {
     this.logger.setContext(UserLoginService.name);
   }
 
-  async loginUser(loginUserDto: LoginUserDto) {
+  async loginUser(loginUserDto: LoginUserDto): Promise<ReadLoginUserDto> {
     const { email, password } = loginUserDto;
 
     if (!email || !password) {
@@ -57,7 +58,7 @@ export class UserLoginService {
       correctPasswordHash,
     );
     if (!isPasswordCorrect) {
-      throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');
+      throw new InvalidLoginDataException();
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성

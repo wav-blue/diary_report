@@ -3,6 +3,7 @@ import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { User } from '../repository/entity/user.entity';
 import { IUserRepository } from '../repository/DAO/user.repository';
+import { ReadCurrentUserDto } from '../repository/DTO/readCurrentUser.dto';
 
 @Injectable()
 export class UserGetCurrentService {
@@ -14,9 +15,7 @@ export class UserGetCurrentService {
     this.logger.setContext(UserGetCurrentService.name);
   }
 
-  async getCurrentUserById(
-    userId: string,
-  ): Promise<{ userId: string; userName: string }> {
+  async getCurrentUserById(userId: string): Promise<ReadCurrentUserDto> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
@@ -35,12 +34,11 @@ export class UserGetCurrentService {
     } finally {
       await queryRunner.release();
     }
+    const readCurrentUserDto = new ReadCurrentUserDto(
+      foundUser.userId,
+      foundUser.userName,
+    );
 
-    const user = {
-      userId,
-      userName: foundUser.userName,
-    };
-
-    return user;
+    return readCurrentUserDto;
   }
 }

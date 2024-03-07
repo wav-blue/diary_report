@@ -12,6 +12,8 @@ import { CustomerReadService } from './service/customerRead.service';
 import { CheckTitleService } from 'src/title/service/checkTitle.service';
 import { UserGetCurrentService } from './service/userGetCurrent.service';
 import { UserCreateService } from './service/userCreate.service';
+import { ReadLoginUserDto } from './repository/DTO/readLoginUser.dto';
+import { ReadCurrentUserDto } from './repository/DTO/readCurrentUser.dto';
 
 @Controller('users')
 @ApiTags('유저 API')
@@ -33,7 +35,7 @@ export class UserController {
     description: '유저 데이터를 생성한다',
   })
   @ApiCreatedResponse({ description: '유저데이터', type: User })
-  createUser(@Body() createUserDto: CreateUserDto): any {
+  createUser(@Body() createUserDto: CreateUserDto): Promise<ReadLoginUserDto> {
     this.logger.log(`회원가입 요청!`);
     const user = this.userCreateService.createUser(createUserDto);
     return user;
@@ -45,7 +47,9 @@ export class UserController {
     description: '로그인 여부를 확인하고 관련 jwt 토큰 값을 셋팅',
   })
   @ApiCreatedResponse({ description: '로그인된 유저의 데이터' })
-  async loginUser(@Body() loginUserDto: LoginUserDto) {
+  async loginUser(
+    @Body() loginUserDto: LoginUserDto,
+  ): Promise<ReadLoginUserDto> {
     this.logger.log(`로그인 요청!`);
     const user = await this.userLoginService.loginUser(loginUserDto);
 
@@ -59,9 +63,7 @@ export class UserController {
     description: 'access Token 값에 해당되는 유저 데이터를 반환한다',
   })
   @ApiCreatedResponse({ description: '로그인 유저데이터', type: User })
-  async currentUser(
-    @GetUser() userId: string,
-  ): Promise<{ userId: string; userName: string }> {
+  async currentUser(@GetUser() userId: string): Promise<ReadCurrentUserDto> {
     const user = await this.userGetCurrentService.getCurrentUserById(userId);
     const payload = {
       userId,

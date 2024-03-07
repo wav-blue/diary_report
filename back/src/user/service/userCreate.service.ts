@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../repository/DTO/createUser.dto';
 import { IUserRepository } from '../repository/DAO/user.repository';
 import { UserSettingTokenService } from './userSettingToken.service';
+import { ReadLoginUserDto } from '../repository/DTO/readLoginUser.dto';
 
 @Injectable()
 export class UserCreateService {
@@ -23,7 +24,7 @@ export class UserCreateService {
     return await bcrypt.hash(password, 10);
   }
 
-  async createUser(createUserDto: CreateUserDto) {
+  async createUser(createUserDto: CreateUserDto): Promise<ReadLoginUserDto> {
     createUserDto.userId = createRandomId();
     createUserDto.password = await UserCreateService.bcryptPassword(
       createUserDto.password,
