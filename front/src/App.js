@@ -45,6 +45,11 @@ function App() {
 
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
 
+  // fetchCurrentUser 함수 실행
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
+
   const fetchCurrentUser = async () => {
     const accessToken = sessionStorageAccessToken();
 
@@ -67,6 +72,7 @@ function App() {
 
       console.log("%c Access Token 인증 성공.", "color: #d93d1a;");
     } catch (err) {
+      console.log(err.response);
       // 419 : Token Expired
       if (err.response?.status === 419) {
         console.log("%c Access Token 재발급 실행.", "color: #d93d1a;");
@@ -93,9 +99,9 @@ function App() {
       const res = await Api.post("auth/accessToken", body);
 
       // 유저 정보
-      const { newAccessToken, userId, userName } = res.data;
+      const { accessToken, userId, userName } = res.data;
 
-      sessionStorage.setItem("accessToken", newAccessToken);
+      sessionStorage.setItem("accessToken", accessToken);
 
       // dispatch 함수 - 로그인 성공 상태
       dispatch({
@@ -107,7 +113,7 @@ function App() {
 
       if (err?.response?.status === 419) {
         // refresh token 만료
-        alert("다시 로그인해주세요");
+        alert("인증 정보가 만료되었습니다.\n다시 로그인해주세요.");
       } else if (err?.response?.status === 401) {
         alert("유효하지 않은 토큰입니다.");
       }
@@ -115,11 +121,6 @@ function App() {
       sessionStorageExpireToken();
     }
   };
-
-  // fetchCurrentUser 함수 실행
-  useEffect(() => {
-    fetchCurrentUser();
-  }, []);
 
   if (!isFetchCompleted) {
     return <div>유저 정보를 불러오는 중입니다...</div>;
