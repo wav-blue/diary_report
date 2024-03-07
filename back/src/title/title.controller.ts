@@ -3,14 +3,14 @@ import { MyLogger } from 'src/logger/logger.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/authGuard';
 import { GetUser } from 'common/decorator/get-user.decorator';
-import { TitleGetService } from './service/titleRead.service';
 import { ReadTitleDto } from './repository/DTO/ReadTitle.dto';
+import { TitleReadService } from './service/titleRead.service';
 
 @Controller('title')
 @ApiTags('칭호 API')
 export class TitleController {
   constructor(
-    private readonly titleGetService: TitleGetService,
+    private readonly titleReadService: TitleReadService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(TitleController.name);
@@ -24,7 +24,7 @@ export class TitleController {
   })
   async getUserTitle(@GetUser() userId: string): Promise<ReadTitleDto[]> {
     // 주문 내역 조회
-    const titles = await this.titleGetService.getUserTitle(userId);
+    const titles = await this.titleReadService.getUserTitle(userId);
     return titles;
   }
 }

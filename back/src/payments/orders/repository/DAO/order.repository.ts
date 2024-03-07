@@ -16,6 +16,12 @@ export abstract class IOrderRepository {
     queryRunner: QueryRunner,
   ): Promise<Order[]>;
 
+  abstract findUserIdAndOrderName(
+    userId: string,
+    orderName: string,
+    queryRunner: QueryRunner,
+  ): Promise<Order>;
+
   abstract createVirtualAccountOrder(
     createVirtualAccountOrderDto: CreateVirtualAccountOrderDto,
     orderId: string,

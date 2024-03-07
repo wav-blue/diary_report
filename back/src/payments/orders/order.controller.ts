@@ -1,4 +1,4 @@
-import { Controller, Param } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { MyLogger } from 'src/logger/logger.service';

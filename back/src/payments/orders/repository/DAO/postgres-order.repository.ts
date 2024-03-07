@@ -26,6 +26,23 @@ export class OrderRepository implements IOrderRepository {
     return found;
   }
 
+  async findUserIdAndOrderName(
+    userId: string,
+    orderName: string,
+    queryRunner: QueryRunner,
+  ): Promise<Order> {
+    const found = queryRunner.manager
+      .createQueryBuilder()
+      .select('order')
+      .from(Order, 'order')
+      .where('order.userId = :userId and order.orderName = :orderName', {
+        userId,
+        orderName,
+      })
+      .getOne();
+    return found;
+  }
+
   async createOrder(
     createOrderDto: CreateOrderDto,
     userId: string,

@@ -10,14 +10,23 @@ import { TitleModule } from 'src/title/title.module';
 import { OrderRepository } from './orders/repository/DAO/postgres-order.repository';
 import { ICustomerRepository } from './customer/repository/DAO/customer.repository';
 import { CustomerRepository } from './customer/repository/DAO/postgres-customer.repository';
+import { CustomerCreateService } from './customer/service/customerCreate.service';
+import { CustomerReadService } from './customer/service/customerRead.service';
+import { OrderCheckService } from './orders/service/orderCheck.service';
+import { OrderReadService } from './orders/service/orderRead.service';
 
 @Module({
   imports: [AuthModule, UserModule, TitleModule, LoggerModule],
+  controllers: [PaymentsController, OrderController],
   providers: [
     OrderCreateService,
+    OrderCheckService,
+    OrderReadService,
+    CustomerCreateService,
+    CustomerReadService,
     { provide: IOrderRepository, useClass: OrderRepository },
     { provide: ICustomerRepository, useClass: CustomerRepository },
   ],
-  controllers: [PaymentsController, OrderController],
+  exports: [CustomerCreateService, CustomerReadService],
 })
 export class PaymentsModule {}
