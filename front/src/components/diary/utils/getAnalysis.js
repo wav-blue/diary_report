@@ -1,4 +1,4 @@
-import * as Api from "../../Api";
+import * as Api from "../../../Api";
 
 async function getAnalysis(diaryId) {
   try {

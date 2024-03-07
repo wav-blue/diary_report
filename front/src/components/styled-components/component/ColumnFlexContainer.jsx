@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const RowFlexContainer = styled.div`
+const ColumnFlexContainer = styled.div`
   ${({ theme }) => {
     return css`
       display: flex;
@@ -14,4 +14,4 @@ const RowFlexContainer = styled.div`
   }}
 `;
 
-export default RowFlexContainer;
+export default ColumnFlexContainer;

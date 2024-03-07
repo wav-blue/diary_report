@@ -4,6 +4,7 @@ import { UserStateContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
 import DiaryDetailCard from "../../diary/DiaryDetailCard";
 import { BigGreenBorderButton } from "../../styled-components/button/BigBorderColorButton";
+import DiaryCard from "../../diary/DiaryCard";
 
 function DiaryPage() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ function DiaryPage() {
     Api.get(`diary/my`)
       .then((res) => setDiarys(res.data))
       .catch((err) => {
-        if (err.response.status === 401) {
+        if (err.response?.status === 401) {
           alert("로그인이 필요한 페이지입니다!");
           navigate("/login");
         }

@@ -1,4 +1,4 @@
-import * as Api from "../../Api";
+import * as Api from "../../../Api";
 
 async function deleteDiary(diaryId) {
   if (confirm("정말 삭제하시겠습니까?\n삭제된 내용은 복구할 수 없습니다.")) {

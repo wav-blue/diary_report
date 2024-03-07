@@ -2,6 +2,11 @@ import React, { useState, useContext } from "react";
 import * as Api from "../../Api";
 import { DispatchContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+import LoginPageContainer from "../styled-components/pageContainer/LoginPageContainer";
+import { DarkGreenBoldText } from "../styled-components/text/BoldText";
+import RowContainer from "../styled-components/component/RowContainer";
+import { GreenButton } from "../styled-components/button/ColorButton";
+import { StyleLoginForm } from "../styled-components/form/StyleLoginForm";
 
 function LoginForm() {
   const dispatch = useContext(DispatchContext);
@@ -24,47 +29,48 @@ function LoginForm() {
     e.preventDefault();
     try {
       if (!email || !password) {
-        alert("이메일이나 비밀번호가 입력되지 않았습니다!");
-      }
-
-      const res = await Api.post("users/login", {
-        email,
-        password,
-      });
-
-      const user = res.data;
-
-      // 세션에 저장: accessToken, refreshToken
-      const accessToken = user.accessToken;
-      const refreshToken = user.refreshToken ?? "";
-
-      if (!accessToken || !user) {
-        alert("로그인 요청이 제대로 완료되지 않았습니다!\n다시 시도해주세요.");
+        alert("로그인 정보를 입력해주세요.");
         return;
       }
+
+      const body = { email, password };
+
+      const res = await Api.post("users/login", body);
+      console.log("?", res);
+
+      const userData = res?.data;
+
+      if (!userData) {
+        console.log("응답 값이 올바르지 않음");
+        alert("서버에 문제가 있습니다.");
+      }
+
+      // 세션에 저장: accessToken, refreshToken
+      const accessToken = userData.accessToken;
+      const refreshToken = userData.refreshToken ?? " ";
 
       sessionStorage.setItem("accessToken", accessToken);
       sessionStorage.setItem("refreshToken", refreshToken);
 
-      // dispatch 함수를 이용해 로그인 성공 상태로
       dispatch({
         type: "LOGIN",
-        payload: { userId: user.userId, userName: user.userName },
+        payload: { userId: userData.userId, userName: userData.userName },
       });
 
       alert("로그인 성공");
       navigate("/diary");
     } catch (err) {
-      if (err.response?.data.message == "가입 이력이 없습니다.") {
-        alert("가입 이력이 없습니다.");
+      console.log(err.response?.data);
+      if (err.response?.data.message == "Wrong email or password") {
+        alert("아이디나 비밀번호가 올바르지 않습니다.");
       } else {
-        alert("로그인 요청이 제대로 완료되지 않았습니다!\n다시 시도해주세요.");
+        alert("로그인 요청이 제대로 완료되지 않았습니다!");
       }
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <div>로그인 정보 입력</div>
+    <StyleLoginForm onSubmit={handleSubmit}>
+      <DarkGreenBoldText>로그인 정보 입력</DarkGreenBoldText>
       <div>
         <h5>이메일</h5> <div>{email}</div>
         <input
@@ -83,11 +89,14 @@ function LoginForm() {
           onChange={(e) => handleChange(e)}
         />
       </div>
-      <button type="submit">로그인</button>
+      <RowContainer>
+        <GreenButton type="submit">로그인</GreenButton>
+        <GreenButton type="submit">회원가입</GreenButton>
+      </RowContainer>
       <button
         onClick={() => {
           setEmail("exam77test.com");
-          setPassword("testPassword!");
+          setPassword("exam77test");
         }}
       >
         테스트용 로그인
@@ -100,7 +109,15 @@ function LoginForm() {
       >
         테스트용 로그인2
       </button>
-    </form>
+      <button
+        onClick={() => {
+          setEmail("exam77test.com");
+          setPassword("exam77test111");
+        }}
+      >
+        테스트용 로그인3
+      </button>
+    </StyleLoginForm>
   );
 }
 

@@ -6,7 +6,7 @@ import MainPageContainer from "../styled-components/pageContainer/MainPageContai
 import { GreenBorderButton } from "../styled-components/button/BorderColorButton";
 import { SmallRedText } from "../styled-components/text/SmallText";
 import { HoverChangeCursor } from "../styled-components/component/HoverChangeCursor";
-import RowFlexContainer from "../styled-components/component/RowFlexContainer";
+import ColumnFlexContainer from "../styled-components/component/ColumnFlexContainer";
 import {
   DarkGreenBoldText,
   GreenBoldText,
@@ -26,7 +26,7 @@ function MainPage() {
         <DarkGreenBoldText>{userName}님, 어서 오세요!</DarkGreenBoldText>
       )}
       {!userName && (
-        <RowFlexContainer>
+        <ColumnFlexContainer>
           <DarkGreenBoldText>처음 오셨나요?</DarkGreenBoldText>
           <SmallRedText> ↓ 로고를 클릭해 두두에 대해 알아보세요!</SmallRedText>
           <HoverChangeCursor onClick={() => navigate("/intro")}>
@@ -35,7 +35,7 @@ function MainPage() {
               alt="로고 이미지"
             />
           </HoverChangeCursor>
-        </RowFlexContainer>
+        </ColumnFlexContainer>
       )}
 
       <GreenBorderButton className="diary" onClick={() => navigate("/diary")}>
