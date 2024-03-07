@@ -35,6 +35,8 @@ import sessionStorageExpireToken from "./utils/login/sessionStorageExpireToken.j
 
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme.js";
+import CustomBody from "./components/styled-components/CustomBody.jsx";
+import Footer from "./components/common/Footer.jsx";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
@@ -131,28 +133,31 @@ function App() {
           <UserStateContext.Provider value={userState}>
             <Router>
               <Header />
-              <Routes>
-                <Route path="/" exact element={<MainPage />} />
-                <Route path="/intro" exact element={<IntroPage />} />
-                <Route path="/login" exact element={<LoginPage />} />
-                <Route path="/register" exact element={<RegisterPage />} />
-                <Route path="/diary" exact element={<DiaryPage />} />
-                <Route path="/diary/edit" exact element={<DiaryEditPage />} />
-                <Route path="/my" exact element={<MyPage />} />
-                <Route path="/my/payments" exact element={<PaymentsPage />} />
-                <Route
-                  path="/payments/checkout"
-                  exact
-                  element={<CheckoutPage />}
-                />
-                <Route
-                  path="/payments/success"
-                  exact
-                  element={<SuccessPage />}
-                />
-                <Route path="/payments/fail" exact element={<FailPage />} />
-                <Route path="/*" element={<NotFoundPage />} />
-              </Routes>
+              <CustomBody>
+                <Routes>
+                  <Route path="/" exact element={<MainPage />} />
+                  <Route path="/intro" exact element={<IntroPage />} />
+                  <Route path="/login" exact element={<LoginPage />} />
+                  <Route path="/register" exact element={<RegisterPage />} />
+                  <Route path="/diary" exact element={<DiaryPage />} />
+                  <Route path="/diary/edit" exact element={<DiaryEditPage />} />
+                  <Route path="/my" exact element={<MyPage />} />
+                  <Route path="/my/payments" exact element={<PaymentsPage />} />
+                  <Route
+                    path="/payments/checkout"
+                    exact
+                    element={<CheckoutPage />}
+                  />
+                  <Route
+                    path="/payments/success"
+                    exact
+                    element={<SuccessPage />}
+                  />
+                  <Route path="/payments/fail" exact element={<FailPage />} />
+                  <Route path="/*" element={<NotFoundPage />} />
+                </Routes>
+              </CustomBody>
+              <Footer />
             </Router>
           </UserStateContext.Provider>
         </ThemeProvider>

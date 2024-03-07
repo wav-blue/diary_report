@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import * as Api from "../../../Api";
 import { useNavigate } from "react-router-dom";
 import { DispatchContext } from "../../../App";
-import { randomUserName } from "./randomUserName";
+import { randomUserName } from "../../../utils/register/randomUserName";
 
 function RegisterForm() {
   const dispatch = useContext(DispatchContext);
