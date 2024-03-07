@@ -13,6 +13,19 @@ export class OrderRepository implements IOrderRepository {
     this.logger.setContext(OrderRepository.name);
   }
 
+  async findUserOrder(
+    userId: string,
+    queryRunner: QueryRunner,
+  ): Promise<Order[]> {
+    const found = queryRunner.manager
+      .createQueryBuilder()
+      .select('order')
+      .from(Order, 'order')
+      .where('order.userId = :userId', { userId })
+      .getMany();
+    return found;
+  }
+
   async createOrder(
     createOrderDto: CreateOrderDto,
     userId: string,

@@ -1,32 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
-import { Order } from '../repository/entity/order.entity';
-import { CreateOrderDto } from '../repository/DTO/CreateOrder.dto';
-import { IOrderRepository } from '../repository/DAO/order.repository';
+import { v4 as uuidv4 } from 'uuid';
+import { ICustomerRepository } from '../repository/DAO/customer.repository';
 
 @Injectable()
-export class OrderCreateService {
+export class CustomerCreateService {
   constructor(
-    private orderRepository: IOrderRepository,
+    private readonly customerRepository: ICustomerRepository,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
-    this.logger.setContext(OrderCreateService.name);
+    this.logger.setContext(CustomerCreateService.name);
   }
 
-  async createOrder(createOrderDto: CreateOrderDto, userId: string) {
+  async createCustomerKey(userId: string) {
+    const customerKey = uuidv4();
+
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
     await queryRunner.startTransaction();
 
-    let result: Promise<Order>;
-
     try {
-      result = this.orderRepository.createOrder(
-        createOrderDto,
+      this.customerRepository.createCustomerKey(
         userId,
+        customerKey,
         queryRunner,
       );
 
@@ -37,6 +36,6 @@ export class OrderCreateService {
     } finally {
       await queryRunner.release();
     }
-    return result;
+    return customerKey;
   }
 }

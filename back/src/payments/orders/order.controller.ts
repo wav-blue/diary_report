@@ -1,39 +1,30 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Controller, Param } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { MyLogger } from 'src/logger/logger.service';
-import { CreateOrderDto } from './repository/DTO/CreateOrder.dto';
-import { Order } from './repository/entity/order.entity';
-import { OrderCreateService } from './service/OrderCreate.service';
-import { CreateTitleService } from 'src/title/service/createTitle.service';
+import { Get } from '@nestjs/common';
+import { ReadOrderDto } from './repository/DTO/readOrder.dto';
+import { OrderReadService } from './service/orderRead.service';
+import { GetUser } from 'common/decorator/get-user.decorator';
 
 @Controller('orders')
 @ApiTags('주문 내역 API')
 export class OrderController {
   constructor(
-    private readonly orderCreateService: OrderCreateService,
-    private readonly createTitleService: CreateTitleService,
+    private readonly orderReadService: OrderReadService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(OrderController.name);
   }
-  @Post('/:userId')
-  @ApiOperation({
-    summary: '결제 성공 처리',
-    description: '주문 내역을 데이터베이스에 저장함',
-  })
-  async successOrderTitle(
-    @Param('userId') userId: string,
-    @Body() createOrderDto: CreateOrderDto,
-  ): Promise<Order> {
-    // 상품 내용 등록
-    await this.createTitleService.createTitle(createOrderDto.orderName, userId);
 
-    // 주문 등록
-    const newOrder = await this.orderCreateService.createOrder(
-      createOrderDto,
-      userId,
-    );
-    return newOrder;
+  @Get('/my')
+  @ApiOperation({
+    summary: '결제 내역 조회',
+    description: '유저의 결제 내역을 조회함',
+  })
+  async getUserOrder(@GetUser() userId: string): Promise<ReadOrderDto[]> {
+    // 결제 내역 조회
+    const orders = await this.orderReadService.readUserOrder(userId);
+    return orders;
   }
 }

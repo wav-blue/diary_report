@@ -2,33 +2,29 @@ import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { Order } from '../repository/entity/order.entity';
-import { CreateOrderDto } from '../repository/DTO/CreateOrder.dto';
 import { IOrderRepository } from '../repository/DAO/order.repository';
+import { ReadOrderDto } from '../repository/DTO/readOrder.dto';
 
 @Injectable()
-export class OrderCreateService {
+export class OrderReadService {
   constructor(
     private orderRepository: IOrderRepository,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
-    this.logger.setContext(OrderCreateService.name);
+    this.logger.setContext(OrderReadService.name);
   }
 
-  async createOrder(createOrderDto: CreateOrderDto, userId: string) {
+  async readUserOrder(userId: string) {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
     await queryRunner.startTransaction();
 
-    let result: Promise<Order>;
+    let orders: Order[];
 
     try {
-      result = this.orderRepository.createOrder(
-        createOrderDto,
-        userId,
-        queryRunner,
-      );
+      orders = await this.orderRepository.findUserOrder(userId, queryRunner);
 
       await queryRunner.commitTransaction();
     } catch (err) {
@@ -37,6 +33,12 @@ export class OrderCreateService {
     } finally {
       await queryRunner.release();
     }
-    return result;
+
+    let readOrderDtos: ReadOrderDto[];
+
+    for (let i = 0; i < orders.length; i++) {
+      readOrderDtos.push(new ReadOrderDto(orders[i]));
+    }
+    return readOrderDtos;
   }
 }
