@@ -1,5 +1,14 @@
 import { User } from 'src/user/repository/entity/user.entity';
-import { BaseEntity, PrimaryColumn, Column, Entity, OneToOne } from 'typeorm';
+import {
+  BaseEntity,
+  PrimaryColumn,
+  Column,
+  Entity,
+  OneToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 
 @Entity('CUSTOMER')
 export class Customer extends BaseEntity {
@@ -10,12 +19,12 @@ export class Customer extends BaseEntity {
   @Column({ type: 'varchar', length: 42 })
   customerKey: string;
 
-  @Column({ type: 'timestamp without time zone' })
+  @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt: Date;
 
-  @Column({ type: 'timestamp without time zone' })
+  @UpdateDateColumn({ type: 'timestamp without time zone' })
   updatedAt: Date;
 
-  @Column({ type: 'timestamp without time zone', nullable: true })
+  @DeleteDateColumn({ type: 'timestamp without time zone', nullable: true })
   deletedAt: Date;
 }

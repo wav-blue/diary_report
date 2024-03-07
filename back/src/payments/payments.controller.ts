@@ -11,74 +11,74 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/authGuard';
 import { MyLogger } from 'src/logger/logger.service';
 import { Order } from './orders/repository/entity/order.entity';
-import { CreateOrderDto } from './orders/repository/DTO/CreateOrder.dto';
-import { OrderCreateService } from './orders/service/OrderCreate.service';
-import { TitleCreateService } from 'src/title/service/titleCreate.service';
-import { OrderCheckService } from './orders/service/orderCheck.service';
-import { CustomerReadService } from './customer/service/customerRead.service';
 import { GetUser } from 'common/decorator/get-user.decorator';
+import { UpdateOrderCompleteDto } from './orders/repository/DTO/UpdateOrderComplete.dto';
+import { SuccessPaymentsForTitleService } from './service/successPaymentsForTitle.service';
+import { BeforePaymentsForTitleService } from './service/beforePaymentsForTitle.service';
+import { ReadClientKeyDto } from './customer/repository/DTO/ReadClientKey.dto';
+import { CreateOrderDto } from './orders/repository/DTO/CreateOrder.dto';
 
 @Controller('payments')
 @ApiTags('결제 API')
 export class PaymentsController {
   constructor(
-    private readonly orderCreateService: OrderCreateService,
-    private readonly orderCheckService: OrderCheckService,
-    private readonly customerReadService: CustomerReadService,
-    private readonly titleCreateService: TitleCreateService,
+    private readonly beforePaymentsForTitleService: BeforePaymentsForTitleService,
+    private readonly successPaymentsForTitleService: SuccessPaymentsForTitleService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(PaymentsController.name);
   }
 
   @UseGuards(AuthGuard)
-  @Get('/customer')
+  @Post('/customer')
   @ApiOperation({
     summary: '결제정보 API',
     description:
       '결제를 위한 정보(clientKey, customerKey)를 응답. 구매하려는 상품이 이미 구매한 상품일 경우 에러',
   })
-  async getPaymentsApiKey(
+  async getPaymentsApiKeyForTitle(
     @GetUser() userId: string,
-    @Query('orderName') orderName: string,
-  ): Promise<{
-    widgetClientKey: string;
-    customerKey: string;
-  }> {
-    // 이미 구매한 상품인지 확인
-    await this.orderCheckService.checkUserOrder(userId, orderName);
-
-    const customerKey = await this.customerReadService.getCustomerKey(userId);
-    const widgetClientKey = process.env.PAYMENTS_CLIENT_KEY;
-    const secretKey = process.env.PAYMENTS_SECRET_KEY;
-
-    const body = {
-      widgetClientKey,
-      customerKey,
-      secretKey,
-    };
-
+    @Query('titleId') titleId: number,
+    @Body() createOrderDto: CreateOrderDto,
+  ): Promise<ReadClientKeyDto> {
+    const body = this.beforePaymentsForTitleService.beforePaymentsForTitle(
+      userId,
+      titleId,
+      createOrderDto,
+    );
     return body;
   }
 
-  @Post('/:userId')
+  @Get('/secretKey')
+  @ApiOperation({
+    summary: '시크릿 키 API',
+    description: '백엔드에 저장 중인 toss payments의 Secret Key 값을 응답',
+  })
+  async getPaymentsSecretKey(): Promise<{
+    secretKey: string;
+  }> {
+    const body = {
+      secretKey: process.env.PAYMENTS_SECRET_KEY,
+    };
+    return body;
+  }
+
+  @Post('success/:userId')
   @ApiOperation({
     summary: '결제 성공 처리',
     description: '주문 내역을 데이터베이스에 저장함',
   })
   async successOrderTitle(
     @Param('userId') userId: string,
-    @Body() createOrderDto: CreateOrderDto,
+    @Query('titleId') titleId: number,
+    @Body() updateOrderCompleteDto: UpdateOrderCompleteDto,
   ): Promise<Order> {
-    // 주문 등록
-    const newOrder = await this.orderCreateService.createOrder(
-      createOrderDto,
-      userId,
-    );
-
-    // 상품 내용 등록(유저 칭호 획득)
-    await this.titleCreateService.createTitle(createOrderDto.orderName, userId);
-
-    return newOrder;
+    const order =
+      await this.successPaymentsForTitleService.successPaymentsForTitle(
+        userId,
+        titleId,
+        updateOrderCompleteDto,
+      );
+    return order;
   }
 }

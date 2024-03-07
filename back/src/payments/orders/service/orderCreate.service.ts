@@ -15,7 +15,11 @@ export class OrderCreateService {
     this.logger.setContext(OrderCreateService.name);
   }
 
-  async createOrder(createOrderDto: CreateOrderDto, userId: string) {
+  async createOrder(
+    createOrderDto: CreateOrderDto,
+    orderId: string,
+    userId: string,
+  ) {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
@@ -26,6 +30,7 @@ export class OrderCreateService {
     try {
       result = this.orderRepository.createOrder(
         createOrderDto,
+        orderId,
         userId,
         queryRunner,
       );

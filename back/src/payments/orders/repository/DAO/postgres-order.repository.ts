@@ -6,6 +6,7 @@ import { CreateOrderDto } from '../DTO/CreateOrder.dto';
 import { VirtualAccountOrder } from '../entity/virtualAccount.entity';
 import { CreateVirtualAccountOrderDto } from '../DTO/CreateVirtualAccountOrder.dto';
 import { IOrderRepository } from './order.repository';
+import { UpdateOrderCompleteDto } from '../DTO/UpdateOrderComplete.dto';
 
 @Injectable()
 export class OrderRepository implements IOrderRepository {
@@ -45,11 +46,13 @@ export class OrderRepository implements IOrderRepository {
 
   async createOrder(
     createOrderDto: CreateOrderDto,
+    orderId: string,
     userId: string,
     queryRunner: QueryRunner,
   ): Promise<Order> {
     const newOrder = queryRunner.manager.create(Order, {
       userId,
+      orderId,
       ...createOrderDto,
     });
 
@@ -69,5 +72,35 @@ export class OrderRepository implements IOrderRepository {
 
     const result = await queryRunner.manager.save(newVirtualAccountOrder);
     return result;
+  }
+
+  async updateOrder(
+    updateOrderCompleteDto: UpdateOrderCompleteDto,
+    orderId: string,
+    queryRunner: QueryRunner,
+  ): Promise<string> {
+    await queryRunner.manager
+      .createQueryBuilder()
+      .update(Order)
+      .set({ ...updateOrderCompleteDto })
+      .where('orderId = :orderId', { orderId })
+      .execute();
+
+    return 'complete';
+  }
+
+  async findOrderByOrderId(
+    orderId: string,
+    queryRunner: QueryRunner,
+  ): Promise<Order> {
+    const found = queryRunner.manager
+      .createQueryBuilder()
+      .select('order')
+      .from(Order, 'order')
+      .where('order.orderId = :orderId', {
+        orderId,
+      })
+      .getOne();
+    return found;
   }
 }

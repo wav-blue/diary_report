@@ -20,6 +20,9 @@ export class CustomerRepository implements ICustomerRepository {
       .from(Customer, 'customer')
       .where('customer.userId = :userId', { userId })
       .getOne();
+    if (!found) {
+      return null;
+    }
     const { customerKey } = found;
     return customerKey;
   }

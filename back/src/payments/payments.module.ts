@@ -14,6 +14,9 @@ import { CustomerCreateService } from './customer/service/customerCreate.service
 import { CustomerReadService } from './customer/service/customerRead.service';
 import { OrderCheckService } from './orders/service/orderCheck.service';
 import { OrderReadService } from './orders/service/orderRead.service';
+import { SuccessPaymentsForTitleService } from './service/successPaymentsForTitle.service';
+import { OrderUpdateCompleteService } from './orders/service/orderUpdateComplete.service';
+import { BeforePaymentsForTitleService } from './service/beforePaymentsForTitle.service';
 
 @Module({
   imports: [AuthModule, UserModule, TitleModule, LoggerModule],
@@ -22,6 +25,9 @@ import { OrderReadService } from './orders/service/orderRead.service';
     OrderCreateService,
     OrderCheckService,
     OrderReadService,
+    OrderUpdateCompleteService,
+    BeforePaymentsForTitleService,
+    SuccessPaymentsForTitleService,
     CustomerCreateService,
     CustomerReadService,
     { provide: IOrderRepository, useClass: OrderRepository },
