@@ -1,9 +1,10 @@
 import { QueryRunner } from 'typeorm';
 import { TitleItem } from '../entity/titleItem.entity';
+import { Title } from '../entity/title.entity';
 
 export abstract class ITitleRepository {
   abstract createTitle(
-    titleCode: string,
+    titleId: number,
     userId: string,
     queryRunner: QueryRunner,
   ): Promise<TitleItem>;
@@ -12,4 +13,12 @@ export abstract class ITitleRepository {
     userId: string,
     queryRunner: QueryRunner,
   ): Promise<TitleItem[]>;
+
+  abstract checkUserTitleByTitleId(
+    userId: string,
+    titleId: number,
+    queryRunner: QueryRunner,
+  ): Promise<TitleItem>;
+
+  abstract findSaleTitle(queryRunner: QueryRunner): Promise<Title[]>;
 }

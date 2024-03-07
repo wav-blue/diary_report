@@ -4,7 +4,11 @@ import {
   PrimaryGeneratedColumn,
   Column,
   Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Title } from './title.entity';
 
@@ -13,20 +17,21 @@ export class TitleItem extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   titleItemId: number;
 
-  @ManyToOne(() => Title, (title: Title) => title.userId)
-  @Column({ type: 'integer' })
-  titleId: string;
+  @ManyToOne(() => Title, (title: Title) => title.titleId)
+  @JoinColumn({ name: 'title_id' })
+  titleId: number;
 
   @ManyToOne(() => User, (user: User) => user.userId)
+  @JoinColumn({ name: 'user_id' })
   @Column({ type: 'varchar', length: 42 })
   userId: string;
 
-  @Column({ type: 'timestamp without time zone' })
+  @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt: Date;
 
-  @Column({ type: 'timestamp without time zone' })
+  @UpdateDateColumn({ type: 'timestamp without time zone' })
   updatedAt: Date;
 
-  @Column({ type: 'timestamp without time zone', nullable: true })
+  @DeleteDateColumn({ type: 'timestamp without time zone', nullable: true })
   deletedAt: Date;
 }

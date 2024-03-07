@@ -5,11 +5,11 @@ export class Title extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
   titleId: number;
 
-  @Column({ type: 'varchar', length: 42 })
-  userId: string;
+  @Column({ type: 'integer' })
+  titleType: number;
 
-  @Column({ type: 'varchar', length: 50 })
-  titleCode: string;
+  @Column({ type: 'integer', default: 0 })
+  titlePrice: number;
 
   @Column({ type: 'varchar', length: 50 })
   titleName: string;
