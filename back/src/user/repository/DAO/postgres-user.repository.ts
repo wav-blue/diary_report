@@ -69,7 +69,6 @@ export class UserRepository implements IUserRepository {
     customerKey: string,
     queryRunner: QueryRunner,
   ): Promise<string> {
-    // update한다
     await queryRunner.manager
       .createQueryBuilder()
       .update(User)

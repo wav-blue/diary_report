@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import * as bcrypt from 'bcrypt';
@@ -42,7 +38,7 @@ export class UserLoginService {
       findUser = await this.userRepository.findUserByEmail(email, queryRunner);
       if (!findUser) {
         this.logger.error('검색된 정보 없음');
-        throw new ConflictException('가입 이력이 없습니다.');
+        throw new InvalidLoginDataException();
       }
       await queryRunner.commitTransaction();
     } catch (err) {

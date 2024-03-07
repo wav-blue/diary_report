@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { LoginUserDto } from './repository/DTO/loginUser.dto';
 import { CreateUserDto } from './repository/DTO/createUser.dto';
@@ -8,22 +8,18 @@ import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from './repository/entity/user.entity';
 import { UserLoginService } from './service/userLogin.service';
 import { AuthGuard } from 'src/auth/guards/authGuard';
-import { CustomerReadService } from './service/customerRead.service';
-import { CheckTitleService } from 'src/title/service/checkTitle.service';
-import { UserGetCurrentService } from './service/userGetCurrent.service';
 import { UserCreateService } from './service/userCreate.service';
 import { ReadLoginUserDto } from './repository/DTO/readLoginUser.dto';
 import { ReadCurrentUserDto } from './repository/DTO/readCurrentUser.dto';
+import { UserCurrentReadService } from './service/userCurrentRead.service';
 
 @Controller('users')
 @ApiTags('유저 API')
 export class UserController {
   constructor(
-    private readonly userGetCurrentService: UserGetCurrentService,
+    private readonly userCurrentReadService: UserCurrentReadService,
     private readonly userCreateService: UserCreateService,
     private readonly userLoginService: UserLoginService,
-    private readonly customerReadService: CustomerReadService,
-    private readonly checkTitleService: CheckTitleService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(UserController.name);
@@ -64,41 +60,11 @@ export class UserController {
   })
   @ApiCreatedResponse({ description: '로그인 유저데이터', type: User })
   async currentUser(@GetUser() userId: string): Promise<ReadCurrentUserDto> {
-    const user = await this.userGetCurrentService.getCurrentUserById(userId);
+    const user = await this.userCurrentReadService.getCurrentUserById(userId);
     const payload = {
       userId,
       userName: user.userName,
     };
     return payload;
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('/customer')
-  @ApiOperation({
-    summary: '결제정보 API',
-    description:
-      '결제를 위한 정보(clientKey, customerKey)를 응답. 구매하려는 상품이 이미 구매한 상품일 경우 에러',
-  })
-  async getPaymentsApiKey(
-    @GetUser() userId: string,
-    @Query('type') type: string,
-  ): Promise<{
-    widgetClientKey: string;
-    customerKey: string;
-  }> {
-    // 이미 구매한 상품인지 확인
-    const titleCode = type;
-    await this.checkTitleService.checkTitle(userId, titleCode);
-
-    const widgetClientKey = process.env.PAYMENTS_CLIENT_KEY;
-    const customerKey = await this.customerReadService.getCustomerKey(userId);
-    const secretKey = process.env.PAYMENTS_SECRET_KEY;
-
-    const body = {
-      widgetClientKey,
-      customerKey,
-      secretKey,
-    };
-    return body;
   }
 }

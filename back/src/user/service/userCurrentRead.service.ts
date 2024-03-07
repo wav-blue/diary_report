@@ -6,13 +6,13 @@ import { IUserRepository } from '../repository/DAO/user.repository';
 import { ReadCurrentUserDto } from '../repository/DTO/readCurrentUser.dto';
 
 @Injectable()
-export class UserGetCurrentService {
+export class UserCurrentReadService {
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly dataSource: DataSource,
     private logger: MyLogger,
   ) {
-    this.logger.setContext(UserGetCurrentService.name);
+    this.logger.setContext(UserCurrentReadService.name);
   }
 
   async getCurrentUserById(userId: string): Promise<ReadCurrentUserDto> {
