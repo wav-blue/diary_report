@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { JwtService } from '@nestjs/jwt';
-import { AccessTokenExpiredException } from 'common/exception-filter/exception/access-token-expired.exception';
-import { MalformedTokenException } from 'common/exception-filter/exception/malformed-token.exception';
 import * as config from 'config';
+import { AccessTokenExpiredException } from 'common/exception-filter/exception/user/access-token-expired.exception';
+import { MalformedTokenException } from 'common/exception-filter/exception/user/malformed-token.exception';
 
 const jwtConfig = config.get('jwt');
 
