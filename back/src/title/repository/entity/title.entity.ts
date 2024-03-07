@@ -3,7 +3,7 @@ import { BaseEntity, PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 @Entity('TITLE')
 export class Title extends BaseEntity {
   @PrimaryGeneratedColumn('increment')
-  titleId: string;
+  titleId: number;
 
   @Column({ type: 'varchar', length: 42 })
   userId: string;

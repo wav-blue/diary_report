@@ -24,18 +24,16 @@ export class TitleRepository implements ITitleRepository {
     return newTitle;
   }
 
-  async checkTitle(
+  async findUserTitle(
     userId: string,
-    titleCode: string,
     queryRunner: QueryRunner,
   ): Promise<TitleItem[]> {
     const found = await queryRunner.manager
       .createQueryBuilder()
       .select('title')
       .from(TitleItem, 'title')
-      .where('title.userId = :userId and title.titleCode = :titleCode', {
+      .where('title.userId = :userId', {
         userId,
-        titleCode,
       })
       .getMany();
     return found;

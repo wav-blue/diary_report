@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
 import { LoggerModule } from 'src/logger/logger.module';
-import { CreateTitleService } from './service/createTitle.service';
-import { CheckTitleService } from './service/checkTitle.service';
 import { TitleController } from './title.controller';
-import { ITitleRepository } from './repository/DTO/title.repository';
-import { TitleRepository } from './repository/DTO/postgres-title.repository';
+import { ITitleRepository } from './repository/DAO/title.repository';
+import { TitleRepository } from './repository/DAO/postgres-title.repository';
+import { TitleReadService } from './service/titleRead.service';
+import { TitleCreateService } from './service/titleCreate.service';
 
 @Module({
   imports: [LoggerModule],
   controllers: [TitleController],
   providers: [
-    CreateTitleService,
-    CheckTitleService,
+    TitleCreateService,
+    TitleReadService,
     { provide: ITitleRepository, useClass: TitleRepository },
   ],
-  exports: [CreateTitleService, CheckTitleService],
+  exports: [TitleCreateService, TitleReadService],
 })
 export class TitleModule {}

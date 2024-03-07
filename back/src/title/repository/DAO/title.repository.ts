@@ -8,9 +8,8 @@ export abstract class ITitleRepository {
     queryRunner: QueryRunner,
   ): Promise<TitleItem>;
 
-  abstract checkTitle(
+  abstract findUserTitle(
     userId: string,
-    type: string,
     queryRunner: QueryRunner,
   ): Promise<TitleItem[]>;
 }
