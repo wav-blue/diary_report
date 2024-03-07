@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import { SmallGreyButton } from "../styled-components/button/SmallColorButton";
 
 function GoodsSelectCard(props) {
@@ -6,20 +6,21 @@ function GoodsSelectCard(props) {
     <>
       <div>
         <div>
-          <p>상품명: {props.GoodsName}</p>
+          <p>상품명: {props.titleName}</p>
         </div>
         <div>
-          <p>상품 가격: {props.GoodsPrice}</p>
+          <p>상품 가격: {props.titlePrice}</p>
         </div>
         <div>
-          <p>설명: {props.GoodsDescription}</p>
+          <p>설명: {props.titleDescription}</p>
         </div>
         <SmallGreyButton
           value={props.GoodsType}
           onClick={(e) => {
             props.setSelected({
-              type: props.GoodsType,
-              price: props.GoodsPrice,
+              titleId: props.titleId,
+              titleName: props.titleName,
+              titlePrice: props.titlePrice,
             });
           }}
         >

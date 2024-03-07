@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { GreenButton } from "../../styled-components/button/ColorButton";
 import * as Api from "../../../Api";
 import { UserStateContext } from "../../../App";
@@ -12,16 +11,24 @@ export function SuccessPage() {
   const userState = useContext(UserStateContext);
 
   useEffect(() => {
+    paymentsConfirm();
+  }, []);
+
+  const paymentsConfirm = async () => {
     const requestData = {
       orderId: searchParams.get("orderId"),
       amount: searchParams.get("amount"),
       paymentKey: searchParams.get("paymentKey"),
     };
 
-    // TODO: 개발자센터에 로그인해서 내 결제위젯 연동 키 > 시크릿 키를 입력하세요. 시크릿 키는 외부에 공개되면 안돼요.
-    // @docs https://docs.tosspayments.com/reference/using-api/api-keys
-    // 현재 공개키로 설정
-    const secretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
+    let secretKey;
+    try {
+      const res = await Api.get(`payments/secretKey`);
+      secretKey = res.data.secretKey;
+    } catch (err) {
+      alert("서버에서 필요한 데이터를 얻지 못했습니다.\n나중에 시도해주세요.");
+      return;
+    }
 
     // 토스페이먼츠 API 인증 (비밀번호 사용하지 않음)
     // @docs https://docs.tosspayments.com/reference/using-api/authorization#%EC%9D%B8%EC%A6%9D
@@ -55,11 +62,16 @@ export function SuccessPage() {
         status: json.status,
         balanceAmount: json.balanceAmount,
         method: json.method,
-        orderName: json.orderName.split(" ")[0],
+        orderName: json.orderName,
       };
 
       // 구매 완료 비즈니스 로직
-      await Api.post(`orders/${userState.userId}`, body)
+      await Api.post(
+        `payments/success/${userState.userId}?titleId=${searchParams.get(
+          "titleId"
+        )}`,
+        body
+      )
         .then((res) => {
           return res.data;
         })
@@ -72,7 +84,7 @@ export function SuccessPage() {
         });
     }
     confirm();
-  }, []);
+  };
 
   return (
     <div className="result wrapper">
@@ -84,9 +96,8 @@ export function SuccessPage() {
           />
           결제에 성공했습니다!
         </h2>
-        <p>{`paymentKey = ${searchParams.get("paymentKey")}`}</p>
-        <p>{`orderId = ${searchParams.get("orderId")}`}</p>
-        <p>{`amount = ${Number(
+        <p>{`주문 번호: ${searchParams.get("orderId")}`}</p>
+        <p>{`결제 금액: ${Number(
           searchParams.get("amount")
         ).toLocaleString()}원`}</p>
         <div className="result wrapper">

@@ -15,15 +15,26 @@ export function CheckoutPage() {
   const navigate = useNavigate();
 
   const location = useLocation();
+
+  // 결제 정보
   const orderData = location.state;
 
-  const clientKey = orderData.widgetClientKey;
-  const customerKey = orderData.customerKey;
+  const {
+    clientKey,
+    customerKey,
+    amountOfPayment,
+    customerName,
+    customerEmail,
+    customerMobilePhone,
+  } = orderData;
+
+  const orderId = orderData.orderId;
+  const titleId = orderData.selectedTitleId;
+  const orderName = orderData.selectedTitleName;
 
   const { data: paymentWidget } = usePaymentWidget(clientKey, customerKey);
   const paymentMethodsWidgetRef = useRef(null);
-  const [price, setPrice] = useState(orderData.amountOfPayment);
-  const orderName = `${orderData.selectedGoods} 타입`;
+  const [price, setPrice] = useState(amountOfPayment);
 
   useEffect(() => {
     if (paymentWidget == null) {
@@ -67,20 +78,7 @@ export function CheckoutPage() {
             <label
               htmlFor="coupon-box"
               className="checkable__label typography--regular"
-            >
-              <input
-                id="coupon-box"
-                className="checkable__input"
-                type="checkbox"
-                aria-checked="true"
-                onChange={(event) => {
-                  setPrice(
-                    event.target.checked ? price - 5_000 : price + 5_000
-                  );
-                }}
-              />
-              <span className="checkable__label-text">5,000원 쿠폰 적용</span>
-            </label>
+            ></label>
           </div>
         </div>
         <div className="result wrapper">
@@ -94,12 +92,12 @@ export function CheckoutPage() {
                 // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
                 // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
                 await paymentWidget?.requestPayment({
-                  orderId: nanoid(),
+                  orderId: orderId,
                   orderName: orderName,
-                  customerName: orderData.customerName,
-                  customerEmail: orderData.customerEmail,
-                  customerMobilePhone: orderData.customerMobilePhone,
-                  successUrl: `${window.location.origin}/payments/success`,
+                  customerName: customerName,
+                  customerEmail: customerEmail,
+                  customerMobilePhone: customerMobilePhone,
+                  successUrl: `${window.location.origin}/payments/success?titleId=${titleId}`,
                   failUrl: `${window.location.origin}/payments/fail`,
                 });
               } catch (error) {

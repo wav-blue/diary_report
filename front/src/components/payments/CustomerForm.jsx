@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { GreenBorderButton } from "../styled-components/button/BorderColorButton";
 
 function CustomerForm(props) {
   const [customerName, setCustomerName] = useState();
@@ -19,19 +20,11 @@ function CustomerForm(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (!customerName || !customerEmail || !customerMobilePhone) {
-        alert("정보가 입력되지 않았습니다!");
-      } else {
-        await props.setCustomer({
-          customerName,
-          customerEmail,
-          customerMobilePhone,
-        });
-        props.completeForm();
-      }
-    } catch (err) {
-      alert("요청이 제대로 완료되지 않았습니다!\n다시 시도해주세요.");
+
+    props.completeForm(customerName, customerEmail, customerMobilePhone);
+
+    if (!customerName || !customerEmail || !customerMobilePhone) {
+      alert("정보가 입력되지 않았습니다!");
     }
   };
   return (
@@ -65,9 +58,8 @@ function CustomerForm(props) {
           onChange={(e) => handleChange(e)}
         />
       </div>
-      <button type="submit">계속하기</button>
+      <GreenBorderButton type="submit">계속하기</GreenBorderButton>
     </form>
   );
 }
-
 export default CustomerForm;
