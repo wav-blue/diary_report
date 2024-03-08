@@ -6,7 +6,7 @@ export class ReadTitleItemDto {
     this.titleId = title.titleId;
     this.titleName = title.titleName;
     this.titleDescription = title.titleDescription;
-    this.titlePrice = title.titlePrice;
+    this.createdAt = title.createdAt;
     this.titleType = title.titleType;
   }
 
@@ -20,7 +20,7 @@ export class ReadTitleItemDto {
   titleDescription: string;
 
   @IsNotEmpty()
-  titlePrice: number;
+  createdAt: Date;
 
   @IsNotEmpty()
   titleType: number;

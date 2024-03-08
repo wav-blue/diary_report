@@ -1,4 +1,12 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import {
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 
 @Entity('TITLE')
 export class Title extends BaseEntity {
@@ -17,12 +25,12 @@ export class Title extends BaseEntity {
   @Column({ type: 'varchar', length: 200 })
   titleDescription: string;
 
-  @Column({ type: 'timestamp without time zone' })
+  @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt: Date;
 
-  @Column({ type: 'timestamp without time zone' })
+  @UpdateDateColumn({ type: 'timestamp without time zone' })
   updatedAt: Date;
 
-  @Column({ type: 'timestamp without time zone', nullable: true })
+  @DeleteDateColumn({ type: 'timestamp without time zone', nullable: true })
   deletedAt: Date;
 }

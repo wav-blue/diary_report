@@ -17,20 +17,21 @@ export class TitleRepository implements ITitleRepository {
     userId: string,
     queryRunner: QueryRunner,
   ): Promise<TitleItem> {
-    const newTitle = queryRunner.manager.create(TitleItem, {
+    const newTitleItem = queryRunner.manager.create(TitleItem, {
       userId,
       titleId,
     });
 
-    await queryRunner.manager.save(newTitle);
-    return newTitle;
+    const result = await queryRunner.manager.save(newTitleItem);
+    return result;
   }
 
   async findTitleItemWithTitle(
     userId: string,
     queryRunner: QueryRunner,
   ): Promise<Title[]> {
-    const titleItemQueryBuilder = await queryRunner.manager
+    // subQuery : 유저가 획득한 titleId 목록
+    const titleItemQueryBuilder = queryRunner.manager
       .createQueryBuilder(TitleItem, 'TI')
       .select('TI.titleId')
       .where('TI.userId = :userId', { userId });
@@ -41,10 +42,12 @@ export class TitleRepository implements ITitleRepository {
       .addSelect('T.titleName', 'titleName')
       .addSelect('T.titleDescription', 'titleDescription')
       .addSelect('T.titleType', 'titleType')
-      .addSelect('T.titlePrice', 'titlePrice')
+      .addSelect('TI.createdAt', 'createdAt')
       .from(Title, 'T')
+      .innerJoin(TitleItem, 'TI', 'TI.titleId = T.titleId')
       .where('T.titleId IN (' + titleItemQueryBuilder.getQuery() + ')')
       .setParameters(titleItemQueryBuilder.getParameters())
+      .orderBy('T.titleId', 'ASC')
       .getRawMany();
     return found;
   }
