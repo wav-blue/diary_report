@@ -2,11 +2,10 @@ import React, { useState, useContext } from "react";
 import * as Api from "../../Api";
 import { DispatchContext } from "../../App";
 import { useNavigate } from "react-router-dom";
-import LoginPageContainer from "../styled-components/pageContainer/LoginPageContainer";
-import { DarkGreenBoldText } from "../styled-components/text/BoldText";
-import RowContainer from "../styled-components/component/RowContainer";
-import { GreenButton } from "../styled-components/button/ColorButton";
-import { StyleLoginForm } from "../styled-components/form/StyleLoginForm";
+import { DarkGreenBoldText } from "../../styles/style-components/text/BoldText";
+import RowContainer from "../../styles/style-components/component/RowContainer";
+import { GreenButton } from "../../styles/style-components/button/ColorButton";
+import { StyleLoginForm } from "../../styles/style-components/form/StyleLoginForm";
 
 function LoginForm() {
   const dispatch = useContext(DispatchContext);

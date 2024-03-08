@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { GreenButton } from "../../styled-components/button/ColorButton";
-import * as Api from "../../../Api";
-import { UserStateContext } from "../../../App";
+import { GreenButton } from "../../styles/style-components/button/ColorButton";
+import * as Api from "../../Api";
+import { UserStateContext } from "../../App";
 
 export function SuccessPage() {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { GreenBorderButton } from "../../styled-components/button/BorderColorButton";
+import { GreenBorderButton } from "../../styles/style-components/button/BorderColorButton";
 
 function MyPage() {
   const navigate = useNavigate();

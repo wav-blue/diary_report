@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import * as Api from "../../Api.js";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext, DispatchContext } from "../../App";
-import CustomHeader from "../styled-components/CustomHeader";
-import { HoverChangeCursor } from "../styled-components/component/HoverChangeCursor.jsx";
+import CustomHeader from "../../styles/style-components/CustomHeader";
+import { HoverChangeCursor } from "../../styles/style-components/component/HoverChangeCursor.jsx";
 
 function Header() {
   const navigate = useNavigate();
@@ -20,16 +20,10 @@ function Header() {
 
   // 로그아웃 클릭 시 실행되는 함수
   async function logout() {
-    const res = await Api.get("users/logout");
-
-    if (res?.data !== "로그아웃 완료") {
-      alert("로그아웃이 정상적으로 완료되지 않았습니다.\n다시 시도해주세요");
-      return;
-    }
-    alert("로그아웃 완료");
-
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("refreshToken");
+
+    alert("로그아웃 완료");
 
     dispatch({
       type: "LOGOUT",

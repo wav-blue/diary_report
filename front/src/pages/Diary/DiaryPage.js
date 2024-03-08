@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
-import * as Api from "../../../Api";
-import { UserStateContext } from "../../../App";
+import * as Api from "../../Api";
+import { UserStateContext } from "../../App";
 import { useNavigate } from "react-router-dom";
-import DiaryDetailCard from "../../diary/DiaryDetailCard";
-import { BigGreenBorderButton } from "../../styled-components/button/BigBorderColorButton";
-import DiaryCard from "../../diary/DiaryCard";
+import { BigGreenBorderButton } from "../../styles/style-components/button/BigBorderColorButton";
+import DiaryDetailCard from "../../components/diary/DiaryDetailCard";
+import DiaryCard from "../../components/diary/DiaryCard";
 
 function DiaryPage() {
   const navigate = useNavigate();

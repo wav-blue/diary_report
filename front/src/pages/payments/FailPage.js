@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import * as Api from "../../../Api";
-import { GreenButton } from "../../styled-components/button/ColorButton";
+import * as Api from "../../Api";
+import { GreenButton } from "../../styles/style-components/button/ColorButton";
 
 export function FailPage() {
   const [searchParams] = useSearchParams();

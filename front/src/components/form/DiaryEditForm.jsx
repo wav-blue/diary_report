@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import * as Api from "../../Api";
 import { UserStateContext, DispatchContext } from "../../App";
 import { ScoreBoard } from "../common/ScoreBoard";
-import { GreenBoldText } from "../styled-components/text/BoldText";
-import { TextArea } from "../styled-components/input/TextArea";
+import { GreenBoldText } from "../../styles/style-components/text/BoldText";
+import { TextArea } from "../../styles/style-components/input/TextArea";
 
 function DiaryEditForm() {
   const [satisfy, setSatisfy] = useState();

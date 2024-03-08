@@ -15,19 +15,6 @@ import { loginReducer } from "./reducer";
 import { ErrorBoundary } from "./errorBoundary/ErrorBoundary.jsx";
 
 import Header from "./components/common/Header";
-import LoginPage from "./components/pages/user/LoginPage.js";
-import RegisterPage from "./components/pages/user/RegisterPage.js";
-import DiaryPage from "./components/pages/Diary/DiaryPage.js";
-import DiaryEditPage from "./components/pages/Diary/DiaryEditPage.js";
-import MyPage from "./components/pages/user/MyPage.js";
-import MainPage from "./components/pages/MainPage.js";
-import IntroPage from "./components/pages/IntroPage.js";
-import PaymentsPage from "./components/pages/payments/PaymentsPage.js";
-import { SuccessPage } from "./components/pages/payments/SuccessPage.js";
-import { FailPage } from "./components/pages/payments/FailPage.js";
-import { CheckoutPage } from "./components/pages/payments/CheckoutPage.js";
-
-import NotFoundPage from "./components/pages/errors/NotFoundPage.js";
 
 import sessionStorageAccessToken from "./utils/login/sessionStorageAccessToken.js";
 import sessionStorageRefreshToken from "./utils/login/sessionStorageRefreshToken.js";
@@ -35,8 +22,20 @@ import sessionStorageExpireToken from "./utils/login/sessionStorageExpireToken.j
 
 import { ThemeProvider } from "styled-components";
 import { theme } from "./styles/theme.js";
-import CustomBody from "./components/styled-components/CustomBody.jsx";
+import CustomBody from "./styles/style-components/CustomBody.jsx";
 import Footer from "./components/common/Footer.jsx";
+import MainPage from "./pages/MainPage.js";
+import IntroPage from "./pages/IntroPage.js";
+import LoginPage from "./pages/user/LoginPage.js";
+import RegisterPage from "./pages/user/RegisterPage.js";
+import DiaryPage from "./pages/Diary/DiaryPage.js";
+import DiaryEditPage from "./pages/Diary/DiaryEditPage.js";
+import MyPage from "./pages/user/MyPage.js";
+import PaymentsPage from "./pages/payments/PaymentsPage.js";
+import { CheckoutPage } from "./pages/payments/CheckoutPage.js";
+import { SuccessPage } from "./pages/payments/SuccessPage.js";
+import { FailPage } from "./pages/payments/FailPage.js";
+import NotFoundPage from "./pages/errors/NotFoundPage.js";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {

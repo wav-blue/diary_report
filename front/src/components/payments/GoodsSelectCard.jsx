@@ -1,5 +1,5 @@
 import React from "react";
-import { SmallGreyButton } from "../styled-components/button/SmallColorButton";
+import { SmallGreyButton } from "../../styles/style-components/button/SmallColorButton";
 
 function GoodsSelectCard(props) {
   return (

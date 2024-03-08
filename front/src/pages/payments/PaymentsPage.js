@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import GoodsSelectBox from "../../payments/GoodsSelectBox";
-import * as Api from "../../../Api";
-import CustomerForm from "../../payments/CustomerForm";
-import { GreenBorderButton } from "../../styled-components/button/BorderColorButton";
+import * as Api from "../../Api";
+import { GreenBorderButton } from "../../styles/style-components/button/BorderColorButton";
+import GoodsSelectBox from "../../components/payments/GoodsSelectBox";
+import CustomerForm from "../../components/payments/CustomerForm";
 
 function PaymentsPage() {
   const navigate = useNavigate();

@@ -1,13 +1,13 @@
 import { DateKorean } from "../common/DateKorean";
 import DiaryContainer from "../../styles/style-components/component/DiaryContainer";
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import deleteDiary from "./utils/deleteDiary";
 import getAnalysis from "./utils/getAnalysis";
 import { LongGreenButton } from "../../styles/style-components/button/LongColorButton";
 import { SmallGreyButton } from "../../styles/style-components/button/SmallColorButton";
 import { SmallDarkGreyText } from "../../styles/style-components/text/SmallText";
 
-function DiaryCard(props) {
+function TitleCard(props) {
   return (
     <>
       <DiaryContainer>

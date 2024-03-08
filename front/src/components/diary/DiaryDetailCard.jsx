@@ -3,7 +3,7 @@ import {
   ModalBackContainer,
   ModalContainer,
   ModalTextBox,
-} from "../styled-components/component/ModalContainer";
+} from "../../styles/style-components/component/ModalContainer";
 
 function DiaryDetailCard(props) {
   return (

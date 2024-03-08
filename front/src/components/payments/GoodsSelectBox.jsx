@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import GoodsSelectCard from "./GoodsSelectCard";
 import * as Api from "../../Api";
-import { GreenBoldText } from "../styled-components/text/BoldText";
+import { GreenBoldText } from "../../styles/style-components/text/BoldText";
 
 function GoodsSelectBox(props) {
   const [goodsData, setGoodsData] = useState([]);

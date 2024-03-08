@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GreenBorderButton } from "../styled-components/button/BorderColorButton";
+import { GreenBorderButton } from "../../styles/style-components/button/BorderColorButton";
 
 function CustomerForm(props) {
   const [customerName, setCustomerName] = useState();
