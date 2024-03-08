@@ -9,10 +9,10 @@ export abstract class ITitleRepository {
     queryRunner: QueryRunner,
   ): Promise<TitleItem>;
 
-  abstract findUserTitle(
+  abstract findTitleItemWithTitle(
     userId: string,
     queryRunner: QueryRunner,
-  ): Promise<TitleItem[]>;
+  ): Promise<Title[]>;
 
   abstract checkUserTitleByTitleId(
     userId: string,

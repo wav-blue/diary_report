@@ -5,6 +5,7 @@ import {
   Column,
   Entity,
   ManyToOne,
+  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
@@ -16,7 +17,7 @@ export class Diary extends BaseEntity {
   diaryId: number;
 
   @ManyToOne(() => User, (user: User) => user.userId)
-  @Column({ type: 'varchar', length: 42 })
+  @JoinColumn({ name: 'user_id' })
   userId: string;
 
   @Column({ type: 'integer' })

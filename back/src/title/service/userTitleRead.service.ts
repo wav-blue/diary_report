@@ -2,28 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { ITitleRepository } from '../repository/DAO/title.repository';
-import { ReadTitleDto } from '../repository/DTO/ReadTitle.dto';
-import { Title } from '../repository/entity/title.entity';
+import { ReadTitleItemDto } from '../repository/DTO/ReadTitleItem.dto';
 
 @Injectable()
-export class TitleReadService {
+export class UserTitleReadService {
   constructor(
     private readonly titleRepository: ITitleRepository,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
-    this.logger.setContext(TitleReadService.name);
+    this.logger.setContext(UserTitleReadService.name);
   }
 
-  async getUserTitle(userId: string): Promise<ReadTitleDto[]> {
+  async getUserTitle(userId: string): Promise<ReadTitleItemDto[]> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
     await queryRunner.startTransaction();
 
-    let titles: Title[];
+    let titles: any[];
     try {
-      titles = await this.titleRepository.findUserTitle(userId, queryRunner);
+      titles = await this.titleRepository.findTitleItemWithTitle(
+        userId,
+        queryRunner,
+      );
 
       await queryRunner.commitTransaction();
     } catch (err) {
@@ -32,11 +34,11 @@ export class TitleReadService {
     } finally {
       await queryRunner.release();
     }
-
-    let readTitleDtos: ReadTitleDto[];
+    const readTitleItemDtos = [];
+    titles.map((item) => {});
     for (let i = 0; i < titles.length; i++) {
-      readTitleDtos.push(new ReadTitleDto(titles[i]));
+      readTitleItemDtos.push(new ReadTitleItemDto(titles[i]));
     }
-    return 'success';
+    return readTitleItemDtos;
   }
 }

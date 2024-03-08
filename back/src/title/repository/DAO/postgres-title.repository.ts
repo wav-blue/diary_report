@@ -26,18 +26,26 @@ export class TitleRepository implements ITitleRepository {
     return newTitle;
   }
 
-  async findUserTitle(
+  async findTitleItemWithTitle(
     userId: string,
     queryRunner: QueryRunner,
-  ): Promise<TitleItem[]> {
+  ): Promise<Title[]> {
+    const titleItemQueryBuilder = await queryRunner.manager
+      .createQueryBuilder(TitleItem, 'TI')
+      .select('TI.titleId')
+      .where('TI.userId = :userId', { userId });
+
     const found = await queryRunner.manager
       .createQueryBuilder()
-      .select('title')
-      .from(TitleItem, 'title')
-      .where('title.userId = :userId', {
-        userId,
-      })
-      .getMany();
+      .select('T.titleId', 'titleId')
+      .addSelect('T.titleName', 'titleName')
+      .addSelect('T.titleDescription', 'titleDescription')
+      .addSelect('T.titleType', 'titleType')
+      .addSelect('T.titlePrice', 'titlePrice')
+      .from(Title, 'T')
+      .where('T.titleId IN (' + titleItemQueryBuilder.getQuery() + ')')
+      .setParameters(titleItemQueryBuilder.getParameters())
+      .getRawMany();
     return found;
   }
 

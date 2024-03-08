@@ -4,15 +4,15 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/authGuard';
 import { GetUser } from 'common/decorator/get-user.decorator';
 import { ReadTitleDto } from './repository/DTO/ReadTitle.dto';
-import { TitleReadService } from './service/titleRead.service';
 import { TitleReadOnlySaleService } from './service/titleReadOnlySale.service';
 import { ReadTitleItemDto } from './repository/DTO/ReadTitleItem.dto';
+import { UserTitleReadService } from './service/userTitleRead.service';
 
 @Controller('title')
 @ApiTags('칭호 API')
 export class TitleController {
   constructor(
-    private readonly titleReadService: TitleReadService,
+    private readonly userTitleReadService: UserTitleReadService,
     private readonly titleReadOnlySaleService: TitleReadOnlySaleService,
     private logger: MyLogger,
   ) {
@@ -26,7 +26,8 @@ export class TitleController {
     description: '유저가 획득한 칭호를 조회함',
   })
   async getUserTitle(@GetUser() userId: string): Promise<ReadTitleItemDto[]> {
-    const titles = await this.titleReadService.getUserTitle(userId);
+    this.logger.log('유저 칭호 조회 실행');
+    const titles = await this.userTitleReadService.getUserTitle(userId);
     return titles;
   }
 
