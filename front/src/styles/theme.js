@@ -52,6 +52,7 @@ const colors = {
   grey: "#E5E1DA",
   pureWhite: "#FFFFFF",
   beige: "#FBF9F1",
+  lightYellowGreen: "#E1ECC8",
 };
 
 const defalutTheme = {

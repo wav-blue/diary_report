@@ -9,6 +9,13 @@ const BoldText = styled(StyleText)`
     `;
   }}
 `;
+const WhiteBoldText = styled(BoldText)`
+  ${({ theme }) => {
+    return css`
+      color: ${theme.colors.pureWhite};
+    `;
+  }}
+`;
 const GreenBoldText = styled(BoldText)`
   ${({ theme }) => {
     return css`
@@ -31,4 +38,10 @@ const RedBoldText = styled(BoldText)`
   }}
 `;
 
-export { BoldText, GreenBoldText, RedBoldText, DarkGreenBoldText };
+export {
+  BoldText,
+  WhiteBoldText,
+  GreenBoldText,
+  RedBoldText,
+  DarkGreenBoldText,
+};

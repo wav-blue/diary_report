@@ -34,9 +34,11 @@ function GoodsSelectBox(props) {
           <a>{props.selected.titleName}를 선택했어요!</a>
         )}
       </GreenBoldText>
-      <GreenBoldText>
-        {!props.selected.titleId && <a>선택된 값이 없습니다.</a>}
-      </GreenBoldText>
+      <p>
+        {!props.selected.titleId && (
+          <GreenBoldText>선택된 값이 없습니다.</GreenBoldText>
+        )}
+      </p>
     </>
   );
 }

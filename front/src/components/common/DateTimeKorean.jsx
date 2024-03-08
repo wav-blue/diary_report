@@ -6,11 +6,15 @@ import "dayjs/locale/ko";
 
 //한국시간으로 변경하는 로직
 const changeUtcTimeToKst = (date) => {
-  // 플러그인 사용
   dayjs.extend(utc);
   dayjs.locale("ko");
 
-  return dayjs(date.children).format("YYYY년 MM월 DD일 HH시 mm분");
+  const dayjsDate = dayjs(date.children);
+  if (dayjsDate.$H > 12) {
+    dayjsDate.$H = dayjsDate.$H - 12;
+    return dayjsDate.format("YYYY년 MM월 DD일 오후 HH시 mm분");
+  }
+  return dayjsDate.format("YYYY년 MM월 DD일 오전 HH시 mm분");
 };
 
 const DateTimeKorean = (props) => {
