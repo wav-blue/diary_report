@@ -22,9 +22,6 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 50 })
   userName: string;
 
-  @Column({ type: 'varchar', length: 42, default: null })
-  customerKey: string;
-
   @CreateDateColumn({ type: 'timestamp without time zone' })
   createdAt: Date;
 

@@ -40,7 +40,7 @@ export class BillingController {
   @UseGuards(AuthGuard)
   @Get('/:orderId/billingCard')
   @ApiOperation({
-    summary: '해당 주문의 가상 계좌 조회',
+    summary: '해당 주문의 결제 카드 조회',
     description:
       'orderId를 파라미터로 받아 해당 주문의 가상 계좌 정보를 return',
   })
