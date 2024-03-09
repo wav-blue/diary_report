@@ -2,7 +2,7 @@
 
 ## 주제
 
-사용자가 입력한 일기를 요약 모델을 활용하여 간략하게 표시해주는 서비스입니다.<br/>텍스트 분석을 활용하여 사용자의 흥미를 유발하고자 했습니다.
+사용자가 입력한 일기를 요약 모델을 활용하여 간략하게 표시해주는 서비스입니다. 일기 서비스에 텍스트 분석을 활용하여 사용자의 흥미를 유발하고자 합니다.
 
 > \* Huggingface에 공유된 모델을 사용했습니다.<br/>
 > 출처 : https://huggingface.co/psyche/KoT5-summarization
@@ -25,7 +25,7 @@
 
    <img src="https://img.shields.io/badge/nestjs-E0234E?logo=nestjs&logoColor=white"/>
 
-   <img src="https://img.shields.io/badge/MySQL-5294E2?logo=MySQL&logoColor=white"/>
+   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=PostgreSQL&logoColor=white"/>
 
 #### AI Server
 
@@ -49,11 +49,37 @@
 #### 칭호
 
 - 결제를 통해 칭호 획득
-- 마이페이지에서 확인 가능
+- 칭호 설명, 유저의 획득일자 조회(inner join)
 
-#### 결제 기능
+#### 결제
 
-- 결제를 통해 칭호를 획득
 - 상품에 따른 결제 가능
+- 주문 내역 조회
+- 결제 수단(가상 계좌, 카드) 조회
 
-\* toss payments의 API를 활용
+\* toss payments API를 활용했습니다.
+
+### 백엔드
+
+#### UserModule
+
+- 유저(USER)의 생성, 정보 조회
+- 로그인 확인
+
+#### DiaryModule
+
+- 일기(DIARY) 생성, 조회, 삭제
+
+#### PaymentsModule
+
+- 결제 성공 처리
+- 주문 내역(ORDER) 저장 및 조회
+
+#### AuthModule
+
+- jwtToken의 생성, 검증 (Access Token, Refresh Token)
+- Access Token에서 userId 추출
+
+#### BillingModule
+
+- 결제 수단(Card, Virtual Account) 저장 및 조회
