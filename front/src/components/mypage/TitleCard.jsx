@@ -1,16 +1,7 @@
-import { DateKorean } from "../common/DateKorean";
 import React from "react";
 import { DateTimeKorean } from "../common/DateTimeKorean";
-import {
-  DarkGreenText,
-  GreenText,
-  RedText,
-} from "../../styles/style-components/text/ColorText";
-import {
-  DarkGreenBoldText,
-  GreenBoldText,
-  WhiteBoldText,
-} from "../../styles/style-components/text/BoldText";
+import { RedText } from "../../styles/style-components/text/ColorText";
+import { DarkGreenBoldText } from "../../styles/style-components/text/BoldText";
 import ContentContainer from "../../styles/style-components/component/ContentContainer";
 import LightGreenCardContainer from "../../styles/style-components/component/LightGreenCardContainer";
 import TitleContainer from "../../styles/style-components/component/TitleContainer";
@@ -57,7 +48,6 @@ function TitleCard(props) {
         </>
       );
     }
-    return summary;
   }
 }
 

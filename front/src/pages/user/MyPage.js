@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect, useReducer } from "react";
 import * as Api from "../../Api";
 import { GreenBorderButton } from "../../styles/style-components/button/BorderColorButton";
-import TitleCard from "../../components/title/TitleCard";
+import TitleCard from "../../components/mypage/TitleCard";
 
 //
 
@@ -42,6 +42,10 @@ function MyPage() {
         return <TitleCard title={title} />;
       })}
       {titles.length === 0 && <p>아직 획득한 칭호가 없습니다</p>}
+
+      <GreenBorderButton onClick={() => navigate("/my/order")}>
+        나의 결제내역
+      </GreenBorderButton>
 
       <p>두두의 친구</p>
       <p>
