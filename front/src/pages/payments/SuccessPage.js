@@ -52,6 +52,9 @@ export function SuccessPage() {
         <p>{`주문명: ${orderInfo.orderName}`}</p>
         <p>{`결제 금액: ${orderInfo.orderPrice.toLocaleString()}원`}</p>
         <div className="result wrapper">
+          <GreenButton onClick={() => navigate("/my/order")}>
+            결제내역 보기
+          </GreenButton>
           <GreenButton
             onClick={() => {
               navigate("/");
@@ -100,35 +103,53 @@ export function SuccessPage() {
 
     // 구매 실패
     if (!response.ok) {
-      failConfirm(json);
+      failConfirm(json.code, json.message);
     }
 
-    // 구매 성공
-    await successConfirm(json);
+    const method = json.method;
+    console.log("method: ", method);
+    // 구매 성공(가상계좌)
+    if (method === "가상계좌") {
+      await successConfirmVirtualAccount(json);
+    }
+
+    // 구매 성공(카드)
+    if (method === "카드") {
+      await successConfirmCard(json);
+    }
     setIsFetchCompleted(true);
   }
 
-  async function failConfirm(json) {
-    navigate(`/payments/fail?code=${json.code}&message=${json.message}`);
+  async function failConfirm(code, message) {
+    navigate(`/payments/fail?code=${code}&message=${message}`);
     return;
   }
 
-  async function successConfirm(json) {
-    const body = {
+  async function successConfirmVirtualAccount(json) {
+    const orderJson = {
       orderId: json.orderId,
       mId: json.mId,
-      requestedAt: json.requestedAt,
+      orderName: json.orderName,
       status: json.status,
+      requestedAt: json.requestedAt,
+      totalAmount: json.totalAmount,
       balanceAmount: json.balanceAmount,
       method: json.method,
-      orderName: json.orderName,
+      approvedAt: json.approvedAt,
+      vat: json.vat,
+      currency: json.currency,
+    };
+
+    const body = {
+      orderJson,
+      virtualAccountJson: json.virtualAccount,
     };
 
     // 구매 완료 비즈니스 로직
     await Api.post(
-      `payments/success/${userState.userId}?titleId=${searchParams.get(
-        "titleId"
-      )}`,
+      `payments/success/${
+        userState.userId
+      }/virtualAccount?titleId=${searchParams.get("titleId")}`,
       body
     )
       .then((res) => {
@@ -140,6 +161,56 @@ export function SuccessPage() {
       })
       .catch((err) => {
         alert(`결제 실패\n다시 시도해주세요.`);
+        failConfirm("SERVER_ERROR", "서버 에러가 발생했습니다.");
+      });
+  }
+
+  async function successConfirmCard(json) {
+    const orderJson = {
+      orderId: json.orderId,
+      mId: json.mId,
+      orderName: json.orderName,
+      status: json.status,
+      requestedAt: json.requestedAt,
+      totalAmount: json.totalAmount,
+      balanceAmount: json.balanceAmount,
+      method: json.method,
+      approvedAt: json.approvedAt,
+      vat: json.vat,
+      currency: json.currency,
+    };
+
+    const billingCardJson = {
+      amount: json.card.amount,
+      number: json.card.number,
+      installmentPlanMonths: json.card.installmentPlanMonths,
+      cardType: json.card.cardType,
+      ownerType: json.card.ownerType,
+      acquireStatus: json.card.acquireStatus,
+    };
+
+    const body = {
+      orderJson,
+      billingCardJson,
+    };
+
+    // 구매 완료 비즈니스 로직
+    await Api.post(
+      `payments/success/${
+        userState.userId
+      }/billingCard?titleId=${searchParams.get("titleId")}`,
+      body
+    )
+      .then((res) => {
+        setOrderInfo({
+          orderId: json.orderId,
+          orderPrice: json.balanceAmount,
+          orderName: json.orderName,
+        });
+      })
+      .catch((err) => {
+        alert(`결제 실패\n다시 시도해주세요.`);
+        failConfirm("SERVER_ERROR", "서버 에러가 발생했습니다.");
       });
   }
 }

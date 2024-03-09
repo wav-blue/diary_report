@@ -36,6 +36,7 @@ import { CheckoutPage } from "./pages/payments/CheckoutPage.js";
 import { SuccessPage } from "./pages/payments/SuccessPage.js";
 import { FailPage } from "./pages/payments/FailPage.js";
 import NotFoundPage from "./pages/errors/NotFoundPage.js";
+import OrderPage from "./pages/user/OrderPage.js";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
@@ -142,6 +143,7 @@ function App() {
                   <Route path="/diary" exact element={<DiaryPage />} />
                   <Route path="/diary/edit" exact element={<DiaryEditPage />} />
                   <Route path="/my" exact element={<MyPage />} />
+                  <Route path="/my/order" exact element={<OrderPage />} />
                   <Route path="/my/payments" exact element={<PaymentsPage />} />
                   <Route
                     path="/payments/checkout"
