@@ -1,11 +1,8 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { IDiaryRepository } from '../repository/DAO/diary.repository';
+import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resource-not-found.exception';
 
 @Injectable()
 export class DiaryDeleteService {
@@ -26,7 +23,7 @@ export class DiaryDeleteService {
     try {
       const diary = await this.diaryRepository.findDiary(diaryId, queryRunner);
       if (!diary) {
-        throw new NotFoundException('해당하는 데이터가 존재하지 않습니다!');
+        throw new ResourceNotFoundException();
       }
       if (diary.userId !== userId) {
         throw new ForbiddenException('삭제 권한이 없습니다!');

@@ -35,7 +35,7 @@ export class UserTitleReadService {
       await queryRunner.release();
     }
     const readTitleItemDtos = [];
-    titles.map((item) => {});
+
     for (let i = 0; i < titles.length; i++) {
       readTitleItemDtos.push(new ReadTitleItemDto(titles[i]));
     }
