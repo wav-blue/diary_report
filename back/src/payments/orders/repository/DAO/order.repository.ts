@@ -1,8 +1,6 @@
 import { QueryRunner } from 'typeorm';
 import { CreateOrderDto } from '../DTO/CreateOrder.dto';
 import { Order } from '../entity/order.entity';
-import { CreateVirtualAccountOrderDto } from '../DTO/CreateVirtualAccountOrder.dto';
-import { VirtualAccountOrder } from '../entity/virtualAccount.entity';
 import { UpdateOrderCompleteDto } from '../DTO/UpdateOrderComplete.dto';
 
 export abstract class IOrderRepository {
@@ -34,10 +32,4 @@ export abstract class IOrderRepository {
     userId: string,
     queryRunner: QueryRunner,
   ): Promise<string>;
-
-  abstract createVirtualAccountOrder(
-    createVirtualAccountOrderDto: CreateVirtualAccountOrderDto,
-    orderId: string,
-    queryRunner: QueryRunner,
-  ): Promise<VirtualAccountOrder>;
 }

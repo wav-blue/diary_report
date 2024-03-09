@@ -6,6 +6,8 @@ import { Get } from '@nestjs/common';
 import { ReadOrderDto } from './repository/DTO/readOrder.dto';
 import { OrderReadService } from './service/orderRead.service';
 import { GetUser } from 'common/decorator/get-user.decorator';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/guards/authGuard';
 
 @Controller('orders')
 @ApiTags('주문 내역 API')
@@ -17,6 +19,7 @@ export class OrderController {
     this.logger.setContext(OrderController.name);
   }
 
+  @UseGuards(AuthGuard)
   @Get('/my')
   @ApiOperation({
     summary: '결제 내역 조회',

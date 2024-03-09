@@ -3,8 +3,6 @@ import { MyLogger } from 'src/logger/logger.service';
 import { QueryRunner } from 'typeorm';
 import { Order } from '../entity/order.entity';
 import { CreateOrderDto } from '../DTO/CreateOrder.dto';
-import { VirtualAccountOrder } from '../entity/virtualAccount.entity';
-import { CreateVirtualAccountOrderDto } from '../DTO/CreateVirtualAccountOrder.dto';
 import { IOrderRepository } from './order.repository';
 import { UpdateOrderCompleteDto } from '../DTO/UpdateOrderComplete.dto';
 
@@ -57,20 +55,6 @@ export class OrderRepository implements IOrderRepository {
     });
 
     const result = await queryRunner.manager.save(newOrder);
-    return result;
-  }
-
-  async createVirtualAccountOrder(
-    createVirtualAccountOrderDto: CreateVirtualAccountOrderDto,
-    orderId: string,
-    queryRunner: QueryRunner,
-  ): Promise<VirtualAccountOrder> {
-    const newVirtualAccountOrder = queryRunner.manager.create(
-      VirtualAccountOrder,
-      { orderId, ...createVirtualAccountOrderDto },
-    );
-
-    const result = await queryRunner.manager.save(newVirtualAccountOrder);
     return result;
   }
 

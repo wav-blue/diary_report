@@ -34,7 +34,7 @@ export class OrderReadService {
       await queryRunner.release();
     }
 
-    let readOrderDtos: ReadOrderDto[];
+    const readOrderDtos = [];
 
     for (let i = 0; i < orders.length; i++) {
       readOrderDtos.push(new ReadOrderDto(orders[i]));
