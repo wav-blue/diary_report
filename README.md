@@ -63,23 +63,28 @@
 
 #### UserModule
 
+- **유저 정보**
 - 유저(USER)의 생성, 정보 조회
 - 로그인 확인
 
+#### AuthModule
+
+- **인증(jwt)**
+- jwtToken의 생성, 검증 (Access Token, Refresh Token)
+- Access Token에서 userId 추출
+
 #### DiaryModule
 
+- **일기**
 - 일기(DIARY) 생성, 조회, 삭제
 
 #### PaymentsModule
 
+- **결제 처리, 주문**
 - 결제 성공 처리
 - 주문 내역(ORDER) 저장 및 조회
 
-#### AuthModule
-
-- jwtToken의 생성, 검증 (Access Token, Refresh Token)
-- Access Token에서 userId 추출
-
 #### BillingModule
 
+- **결제 수단**
 - 결제 수단(Card, Virtual Account) 저장 및 조회
