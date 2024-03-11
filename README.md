@@ -82,6 +82,8 @@
 #### PaymentsModule
 
 - **결제 처리, 주문**
+- 사용자에게 Customer Key를 발급하고 관리함
+- Customer key, Secret key 등 결제에 필요한 정보 조회
 - 결제 성공 처리
 - 주문 내역(ORDER) 저장 및 조회
 
