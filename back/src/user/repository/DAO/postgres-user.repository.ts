@@ -49,33 +49,4 @@ export class UserRepository implements IUserRepository {
 
     return found;
   }
-
-  async findCustomerKey(
-    userId: string,
-    queryRunner: QueryRunner,
-  ): Promise<string> {
-    const found = await queryRunner.manager
-      .createQueryBuilder()
-      .select('user')
-      .from(User, 'user')
-      .where('user.userId = :userId', { userId })
-      .getOne();
-    const { customerKey } = found;
-    return customerKey;
-  }
-
-  async updateCustomerKey(
-    userId: string,
-    customerKey: string,
-    queryRunner: QueryRunner,
-  ): Promise<string> {
-    await queryRunner.manager
-      .createQueryBuilder()
-      .update(User)
-      .set({ customerKey: customerKey })
-      .where('userId = :userId', { userId })
-      .execute();
-
-    return 'complete';
-  }
 }
