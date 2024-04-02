@@ -12,25 +12,23 @@
 
 #### 공통
 
-<img src="https://img.shields.io/badge/npm-CB3837?logo=npm&logoColor=white"/>
+<img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white"/>
 
 #### FRONT
 
-   <img src="https://img.shields.io/badge/react-61DAFB?logo=react&logoColor=white"/>
+   <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"/>
 
-   <img src="https://img.shields.io/badge/styled components-DB7093?logo=styledcomponents&logoColor=white"/>
+   <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white"/>
 
 #### BACK
 
-<img src="https://img.shields.io/badge/Typescript-3178C6?logo=Typescript&logoColor=white"/> <img src="https://img.shields.io/badge/node.js-339933?style=flat&logo=node.js&logoColor=white"/>
+<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/> <img src="https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=white"/>
 
-   <img src="https://img.shields.io/badge/nestjs-E0234E?logo=nestjs&logoColor=white"/>
-
-   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=PostgreSQL&logoColor=white"/>
+   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white"/>
 
 #### AI Server
 
-<img src="https://img.shields.io/badge/Flask-000000?logo=Flask&logoColor=white"/>
+<img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=Flask&logoColor=white"/>
 
 <br/>
 
@@ -94,10 +92,9 @@
 
 #### AxiosModule
 
-- **요청 관리**
-- 분석 서버(Flask)로의 요청 관리
+- **분석 서버로의 요청 관리**
 
 #### LoggerModule
 
 - **로깅**
-- 로그 작업 설정
+
