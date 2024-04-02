@@ -9,6 +9,10 @@ postgres:
   type: 'postgres'
   port: 5432
 
+mssql:
+  type: 'mssql'
+  port: 1433
+
 jwt:
   accessExpiresIn: '30min'
   refreshExpiresIn: '6h'
