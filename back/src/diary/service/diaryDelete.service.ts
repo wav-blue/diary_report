@@ -21,12 +21,15 @@ export class DiaryDeleteService {
     await queryRunner.startTransaction();
 
     try {
-      const diary = await this.diaryRepository.findDiary(diaryId, queryRunner);
+      const diary = await this.diaryRepository.findDiary(
+        diaryId,
+        userId,
+        queryRunner,
+      );
+      console.log(diary);
       if (!diary) {
+        // 해당 권한 없음 오류도 여기에 포함
         throw new ResourceNotFoundException();
-      }
-      if (diary.userId !== userId) {
-        throw new ForbiddenException('삭제 권한이 없습니다!');
       }
       await this.diaryRepository.deleteDiary(diaryId, queryRunner);
       await queryRunner.commitTransaction();

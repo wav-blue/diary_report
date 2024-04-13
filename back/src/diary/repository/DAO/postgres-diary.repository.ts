@@ -50,12 +50,19 @@ export class DiaryRepository implements IDiaryRepository {
     return summary;
   }
 
-  async findDiary(diaryId: number, queryRunner: QueryRunner): Promise<Diary> {
+  async findDiary(
+    diaryId: number,
+    userId: string,
+    queryRunner: QueryRunner,
+  ): Promise<Diary> {
     const diary = await queryRunner.manager
       .createQueryBuilder()
       .select('diary')
       .from(Diary, 'diary')
-      .where(`diary.diaryId = :diaryId`, { diaryId })
+      .where(`diary.diaryId = :diaryId and diary.userId = :userId`, {
+        diaryId,
+        userId,
+      })
       .getOne();
 
     return diary;
