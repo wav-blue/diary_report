@@ -34,8 +34,9 @@
 
 ## 구현 화면
 
-<img src="./image/screenshot2.jpg" >
-<img src="./image/screenshot1.jpg" >
+<img src="./image/view1.jpg" >
+<img src="./image/view2.jpg" >
+<img src="./image/view3.jpg" >
 
 ## 주요 기능
 
