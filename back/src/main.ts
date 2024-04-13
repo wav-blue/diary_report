@@ -12,13 +12,11 @@ async function bootstrap() {
   });
   const serverConfig = config.get('server');
 
-  // app.setGlobalPrefix('/api');
   app.enableCors({
     origin: ['http://localhost:3000'],
     credentials: true,
   });
-  app.use(cookieParser('other-cookie-secret!!'));
-  //app.use(cookieParser("secret"));
+  app.use(cookieParser('secret'));
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

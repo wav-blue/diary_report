@@ -1,24 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStateContext } from "../App";
-import * as Api from "../Api";
 import MainPageContainer from "../styles/style-components/pageContainer/MainPageContainer";
 import { GreenBorderButton } from "../styles/style-components/button/BorderColorButton";
 import { SmallRedText } from "../styles/style-components/text/SmallText";
 import { HoverChangeCursor } from "../styles/style-components/component/HoverChangeCursor";
 import ColumnFlexContainer from "../styles/style-components/component/ColumnFlexContainer";
-import {
-  DarkGreenBoldText,
-  GreenBoldText,
-} from "../styles/style-components/text/BoldText";
+import { DarkGreenBoldText } from "../styles/style-components/text/BoldText";
 
 function MainPage() {
   const navigate = useNavigate();
   const userState = useContext(UserStateContext);
   const { userName } = userState;
-
-  // useState 훅을 통해 users 상태를 생성함.
-  // const [user, setUser] = useState();
 
   return (
     <MainPageContainer id="mainContainer">

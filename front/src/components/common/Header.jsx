@@ -34,12 +34,7 @@ function Header() {
   return (
     <CustomHeader activeKey={location.pathname}>
       <HoverChangeCursor onClick={() => navigate("/")}>
-        <img
-          src={process.env.PUBLIC_URL + "/image/Logo.png"}
-          alt="로고"
-          width="70"
-          height="35"
-        />
+        <h2>두두</h2>
       </HoverChangeCursor>
       <a id="stateText">
         {!isLogin && <a onClick={login}>로그인</a>}
