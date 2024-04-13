@@ -32,6 +32,11 @@
 
 <br/>
 
+## 구현 화면
+
+<img src="./image/screenshot2.jpg" >
+<img src="./image/screenshot1.jpg" >
+
 ## 주요 기능
 
 #### 일기 작성
@@ -97,4 +102,3 @@
 #### LoggerModule
 
 - **로깅**
-
