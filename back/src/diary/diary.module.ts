@@ -8,6 +8,7 @@ import { DiaryDeleteService } from './service/diaryDelete.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { IDiaryRepository } from './repository/DAO/diary.repository';
 import { DiaryRepository } from './repository/DAO/postgres-diary.repository';
+import { DiarySummaryService } from './service/diarySummary.service';
 
 @Module({
   imports: [LoggerModule, AxiosModule, AuthModule],
@@ -16,6 +17,7 @@ import { DiaryRepository } from './repository/DAO/postgres-diary.repository';
     DiaryCreateService,
     DiaryReadService,
     DiaryDeleteService,
+    DiarySummaryService,
     { provide: IDiaryRepository, useClass: DiaryRepository },
   ],
 })

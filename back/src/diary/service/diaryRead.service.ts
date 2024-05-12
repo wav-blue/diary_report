@@ -3,6 +3,8 @@ import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { Diary } from '../repository/entity/diary.entity';
 import { IDiaryRepository } from '../repository/DAO/diary.repository';
+import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resource-not-found.exception';
+import { ReadDiaryDto } from '../repository/DTO/readDiary.dto';
 
 @Injectable()
 export class DiaryReadService {
@@ -32,5 +34,33 @@ export class DiaryReadService {
       await queryRunner.release();
     }
     return result;
+  }
+
+  async getDiaryById(userId: string, diaryId: number): Promise<ReadDiaryDto> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+
+    await queryRunner.startTransaction();
+
+    let diary: ReadDiaryDto;
+
+    try {
+      diary = await this.diaryRepository.findDiary(
+        diaryId,
+        userId,
+        queryRunner,
+      );
+      if (!diary) {
+        // 해당 권한 없음 오류도 포함
+        throw new ResourceNotFoundException();
+      }
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+    return diary;
   }
 }

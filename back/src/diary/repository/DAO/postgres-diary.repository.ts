@@ -44,10 +44,14 @@ export class DiaryRepository implements IDiaryRepository {
     summary: string,
     queryRunner: QueryRunner,
   ) {
-    // await queryRunner.manager.update(diaryId, {
-    //   summary,
-    // });
-    return summary;
+    await queryRunner.manager
+      .createQueryBuilder()
+      .update(Diary)
+      .set({ summary })
+      .where('diaryId = :diaryId', { diaryId })
+      .execute();
+
+    return 'complete';
   }
 
   async findDiary(

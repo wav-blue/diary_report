@@ -37,10 +37,7 @@ export class DiaryCreateService {
 
       this.logger.verbose(`Flask 서버로의 요청 성공! ${summary}`);
     } catch (err) {
-      throw new InternalServerErrorException(
-        '요약 요청이 이루어지지 않았습니다',
-      );
-      // this.logger.verbose(`요청 실패 ${createDiaryDto.summary}`);
+      this.logger.verbose(`요청 실패 ${createDiaryDto.summary}`);
     }
 
     let result: Diary;

@@ -17,6 +17,7 @@ import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Diary } from './repository/entity/diary.entity';
 import { DiaryDeleteService } from './service/diaryDelete.service';
 import { AuthGuard } from 'src/auth/guards/authGuard';
+import { DiarySummaryService } from './service/diarySummary.service';
 
 @Controller('diary')
 @ApiTags('일기 관련 API')
@@ -25,6 +26,8 @@ export class DiaryController {
     private diaryCreateService: DiaryCreateService,
     private diaryReadService: DiaryReadService,
     private diaryDeleteService: DiaryDeleteService,
+    private diarySummaryService: DiarySummaryService,
+
     private logger: MyLogger,
   ) {
     this.logger.setContext(DiaryController.name);
@@ -40,6 +43,22 @@ export class DiaryController {
   createUser(@GetUser() userId: string): any {
     this.logger.log(`일기 조회 요청!`);
     const diarys = this.diaryReadService.getDiary(userId);
+    return diarys;
+  }
+
+  @Get('/:diaryId/summary')
+  @UseGuards(AuthGuard)
+  @ApiOperation({
+    summary: '일기의 요약 재요청',
+    description: '분석 실패한 일기의 요약을 요청하고 수정한다.',
+  })
+  @ApiCreatedResponse({ description: '일기 데이터', type: Diary })
+  updateSummary(
+    @GetUser() userId: string,
+    @Param('diaryId') diaryId: number,
+  ): any {
+    this.logger.log(`일기 요약 재요청!`);
+    const diarys = this.diarySummaryService.updateSummary(userId, diaryId);
     return diarys;
   }
 
