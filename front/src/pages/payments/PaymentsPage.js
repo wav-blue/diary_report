@@ -4,6 +4,7 @@ import * as Api from "../../Api";
 import { GreenBorderButton } from "../../styles/style-components/button/BorderColorButton";
 import GoodsSelectBox from "../../components/payments/GoodsSelectBox";
 import CustomerForm from "../../components/payments/CustomerForm";
+import { DarkGreenBoldText } from "../../styles/style-components/text/BoldText";
 
 function PaymentsPage() {
   const navigate = useNavigate();
@@ -73,9 +74,7 @@ function PaymentsPage() {
 
   return (
     <>
-      <div>
-        <p>확인용</p>
-      </div>
+      <DarkGreenBoldText>상품 선택</DarkGreenBoldText>
       <GoodsSelectBox selected={selected} setSelected={setSelected} />
 
       <GreenBorderButton

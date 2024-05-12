@@ -3,8 +3,16 @@ import { useNavigate } from "react-router-dom";
 import * as Api from "../../Api";
 import { UserStateContext, DispatchContext } from "../../App";
 import { ScoreBoard } from "../common/ScoreBoard";
-import { GreenBoldText } from "../../styles/style-components/text/BoldText";
+import {
+  DarkGreenBoldText,
+  GreenBoldText,
+} from "../../styles/style-components/text/BoldText";
 import { TextArea } from "../../styles/style-components/input/TextArea";
+import { GreenBorderButton } from "../../styles/style-components/button/BorderColorButton";
+import { GreenButton } from "../../styles/style-components/button/ColorButton";
+import { LongGreenButton } from "../../styles/style-components/button/LongColorButton";
+import { StyleDiaryEditForm } from "../../styles/style-components/form/StyleDiaryEditForm";
+import { RadioBox } from "../../styles/style-components/component/RadioBox";
 
 function DiaryEditForm() {
   const [satisfy, setSatisfy] = useState();
@@ -67,11 +75,10 @@ function DiaryEditForm() {
   }, [userName]);
 
   return (
-    <form>
-      <hr />
+    <StyleDiaryEditForm>
       {userName && (
         <div>
-          <GreenBoldText>{userName}</GreenBoldText>님의 하루 어떠셨나요?
+          <DarkGreenBoldText>{userName}</DarkGreenBoldText>님의 하루 어떠셨나요?
         </div>
       )}
       <h4>Content</h4>
@@ -86,12 +93,14 @@ function DiaryEditForm() {
       />
       <p>현재 {contentLength}자 / 최대 200자</p>
       <h4>전체 만족도</h4>
-      <ScoreBoard title="전체 만족도" name="satisfy" setScore={setSatisfy} />
-      <hr />
-      <button onClick={handleSubmit} variant="primary" type="submit">
+      <RadioBox>
+        <ScoreBoard title="전체 만족도" name="satisfy" setScore={setSatisfy} />
+      </RadioBox>
+      <br />
+      <LongGreenButton onClick={handleSubmit} variant="primary" type="submit">
         제출
-      </button>
-    </form>
+      </LongGreenButton>
+    </StyleDiaryEditForm>
   );
 }
 

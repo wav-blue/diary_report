@@ -68,7 +68,6 @@ export function SuccessPage() {
   );
 
   async function paymentsConfirm() {
-    console.log("confirm 실행");
     let secretKey;
     // 서버에서 secretKey 조회
     try {

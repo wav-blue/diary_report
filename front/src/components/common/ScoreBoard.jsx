@@ -12,7 +12,7 @@ const ScoreBoard = (props) => {
       name={props.name}
       value={score}
       onChange={(e) => handleContent(e)}
-    ></input>
+    />
   ));
 };
 export { ScoreBoard };
