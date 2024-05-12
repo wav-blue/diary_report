@@ -29,7 +29,7 @@ import { ICustomerRepository } from './customer/repository/DAO/customer.reposito
 import { CustomerRepository } from './customer/repository/DAO/postgres-customer.repository';
 
 @Module({
-  imports: [AuthModule, UserModule, BillingModule, TitleModule, LoggerModule],
+  imports: [AuthModule, BillingModule, TitleModule, LoggerModule],
   controllers: [PaymentsController, OrderController],
   providers: [
     OrderCreateService,
@@ -45,6 +45,6 @@ import { CustomerRepository } from './customer/repository/DAO/postgres-customer.
     { provide: IOrderRepository, useClass: OrderRepository },
     { provide: ICustomerRepository, useClass: CustomerRepository },
   ],
-  exports: [CustomerCreateService, CustomerReadService],
+  exports: [],
 })
 export class PaymentsModule {}

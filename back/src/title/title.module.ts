@@ -19,6 +19,6 @@ import { UserTitleReadService } from './service/userTitleRead.service';
     TitleCheckService,
     { provide: ITitleRepository, useClass: TitleRepository },
   ],
-  exports: [TitleCreateService, UserTitleReadService, TitleCheckService],
+  exports: [TitleCreateService, TitleCheckService],
 })
 export class TitleModule {}
