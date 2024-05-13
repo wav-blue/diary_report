@@ -34,9 +34,9 @@
 
 ## 구현 화면
 
-<img src="./image/view1.jpg" >
-<img src="./image/view2.jpg" >
-<img src="./image/view3.jpg" >
+<img src="./image/1메인.jpg" >
+<img src="./image/2일기 작성.jpg" >
+<img src="./image/3결제화면.jpg" >
 
 ## 주요 기능
 
@@ -83,6 +83,10 @@
 - **일기**
 - 일기(DIARY) 생성, 조회, 삭제
 
+#### AxiosModule
+
+- **분석 서버로의 요청 관리**
+
 #### PaymentsModule
 
 - **결제 처리, 주문**
@@ -96,9 +100,10 @@
 - **결제 수단**
 - 결제 수단(Card, Virtual Account) 저장 및 조회
 
-#### AxiosModule
+#### TitleModule
 
-- **분석 서버로의 요청 관리**
+- **칭호(구입으로 획득)**
+- 칭호의 생성, 조회
 
 #### LoggerModule
 
