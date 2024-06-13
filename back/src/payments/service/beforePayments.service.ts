@@ -9,17 +9,17 @@ import { CreateOrderDto } from '../orders/repository/DTO/CreateOrder.dto';
 import { createRandomId } from 'src/user/utils/loginUtils';
 
 @Injectable()
-export class BeforePaymentsForTitleService {
+export class BeforePaymentsService {
   constructor(
     private readonly titleCheckService: TitleCheckService,
     private readonly customerReadService: CustomerReadService,
     private readonly orderCreateService: OrderCreateService,
     private logger: MyLogger,
   ) {
-    this.logger.setContext(BeforePaymentsForTitleService.name);
+    this.logger.setContext(BeforePaymentsService.name);
   }
 
-  async beforePaymentsForTitle(
+  async beforePayments(
     userId: string,
     titleId: number,
     createOrderDto: CreateOrderDto,

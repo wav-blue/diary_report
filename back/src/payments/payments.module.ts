@@ -16,17 +16,17 @@ import { CustomerCreateService } from './customer/service/customerCreate.service
 import { CustomerReadService } from './customer/service/customerRead.service';
 import { OrderCheckService } from './orders/service/orderCheck.service';
 import { OrderReadService } from './orders/service/orderRead.service';
-import { SuccessPaymentsForTitleService } from './service/successPaymentsForTitle.service';
 import { OrderUpdateCompleteService } from './orders/service/orderUpdateComplete.service';
-import { BeforePaymentsForTitleService } from './service/beforePaymentsForTitle.service';
-import { SuccessPaymentsForTitleWithVirtualAccountService } from './service/successPaymentsForTitleWithVirtualAccount.service';
-import { SuccessPaymentsForTitleWithBillingCard } from './service/successPaymentsForTitleWithCard.service';
 
 // Repository import
 import { IOrderRepository } from './orders/repository/DAO/order.repository';
 import { OrderRepository } from './orders/repository/DAO/postgres-order.repository';
 import { ICustomerRepository } from './customer/repository/DAO/customer.repository';
 import { CustomerRepository } from './customer/repository/DAO/postgres-customer.repository';
+import { SuccessPaymentsWithVirtualAccountService } from './service/successPaymentsWithVirtualAccount.service';
+import { SuccessPaymentsWithBillingCardService } from './service/successPaymentsWithBillingCard.service';
+import { SuccessPaymentsService } from './service/successPayments.service';
+import { BeforePaymentsService } from './service/beforePayments.service';
 
 @Module({
   imports: [AuthModule, BillingModule, TitleModule, LoggerModule],
@@ -36,10 +36,10 @@ import { CustomerRepository } from './customer/repository/DAO/postgres-customer.
     OrderCheckService,
     OrderReadService,
     OrderUpdateCompleteService,
-    BeforePaymentsForTitleService,
-    SuccessPaymentsForTitleService,
-    SuccessPaymentsForTitleWithVirtualAccountService,
-    SuccessPaymentsForTitleWithBillingCard,
+    BeforePaymentsService,
+    SuccessPaymentsService,
+    SuccessPaymentsWithVirtualAccountService,
+    SuccessPaymentsWithBillingCardService,
     CustomerCreateService,
     CustomerReadService,
     { provide: IOrderRepository, useClass: OrderRepository },

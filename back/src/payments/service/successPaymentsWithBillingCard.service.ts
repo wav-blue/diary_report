@@ -9,7 +9,7 @@ import { BillingCardCreateService } from 'src/billing/service/billingCardCreate.
 import { CraeteBillingCardDto } from 'src/billing/repository/DTO/CraeteBillingCard.dto';
 
 @Injectable()
-export class SuccessPaymentsForTitleWithBillingCard {
+export class SuccessPaymentsWithBillingCardService {
   constructor(
     private readonly orderUpdateCompleteService: OrderUpdateCompleteService,
     private readonly titleCreateService: TitleCreateService,
@@ -17,10 +17,10 @@ export class SuccessPaymentsForTitleWithBillingCard {
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
-    this.logger.setContext(SuccessPaymentsForTitleWithBillingCard.name);
+    this.logger.setContext(SuccessPaymentsWithBillingCardService.name);
   }
 
-  async successPaymentsForTitleWithBillingCard(
+  async successPaymentsWithBillingCard(
     userId: string,
     titleId: number,
     updateOrderCompleteDto: UpdateOrderCompleteDto,

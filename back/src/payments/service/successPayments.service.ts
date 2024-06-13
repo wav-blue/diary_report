@@ -7,17 +7,17 @@ import { UpdateOrderCompleteDto } from '../orders/repository/DTO/UpdateOrderComp
 import { Order } from '../orders/repository/entity/order.entity';
 
 @Injectable()
-export class SuccessPaymentsForTitleService {
+export class SuccessPaymentsService {
   constructor(
     private readonly orderUpdateCompleteService: OrderUpdateCompleteService,
     private readonly titleCreateService: TitleCreateService,
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
-    this.logger.setContext(SuccessPaymentsForTitleService.name);
+    this.logger.setContext(SuccessPaymentsService.name);
   }
 
-  async successPaymentsForTitle(
+  async successPayments(
     userId: string,
     titleId: number,
     updateOrderCompleteDto: UpdateOrderCompleteDto,

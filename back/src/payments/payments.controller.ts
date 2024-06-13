@@ -13,23 +13,23 @@ import { MyLogger } from 'src/logger/logger.service';
 import { Order } from './orders/repository/entity/order.entity';
 import { GetUser } from 'common/decorator/get-user.decorator';
 import { UpdateOrderCompleteDto } from './orders/repository/DTO/UpdateOrderComplete.dto';
-import { SuccessPaymentsForTitleService } from './service/successPaymentsForTitle.service';
-import { BeforePaymentsForTitleService } from './service/beforePaymentsForTitle.service';
 import { ReadClientKeyDto } from './customer/repository/DTO/ReadClientKey.dto';
 import { CreateOrderDto } from './orders/repository/DTO/CreateOrder.dto';
-import { SuccessPaymentsForTitleWithVirtualAccountService } from './service/successPaymentsForTitleWithVirtualAccount.service';
-import { SuccessPaymentsForTitleWithBillingCard } from './service/successPaymentsForTitleWithCard.service';
 import { CreateVirtualAccountDto } from 'src/billing/repository/DTO/CreateVirtualAccountOrder.dto';
 import { CraeteBillingCardDto } from 'src/billing/repository/DTO/CraeteBillingCard.dto';
+import { BeforePaymentsService } from './service/beforePayments.service';
+import { SuccessPaymentsService } from './service/successPayments.service';
+import { SuccessPaymentsWithVirtualAccountService } from './service/successPaymentsWithVirtualAccount.service';
+import { SuccessPaymentsWithBillingCardService } from './service/successPaymentsWithBillingCard.service';
 
 @Controller('payments')
 @ApiTags('결제 API')
 export class PaymentsController {
   constructor(
-    private readonly beforePaymentsForTitleService: BeforePaymentsForTitleService,
-    private readonly successPaymentsForTitleService: SuccessPaymentsForTitleService,
-    private readonly successPaymentsForTitleWithVirtualAccountService: SuccessPaymentsForTitleWithVirtualAccountService,
-    private readonly successPaymentsForTitleWithBillingCard: SuccessPaymentsForTitleWithBillingCard,
+    private readonly beforePaymentsService: BeforePaymentsService,
+    private readonly successPaymentsService: SuccessPaymentsService,
+    private readonly successPaymentsWithVirtualAccountService: SuccessPaymentsWithVirtualAccountService,
+    private readonly successPaymentsWithBillingCardService: SuccessPaymentsWithBillingCardService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(PaymentsController.name);
@@ -42,12 +42,12 @@ export class PaymentsController {
     description:
       '결제를 위한 정보(clientKey, customerKey)를 응답. 구매하려는 상품이 이미 구매한 상품일 경우 에러',
   })
-  async getPaymentsApiKeyForTitle(
+  async getPaymentsApiKey(
     @GetUser() userId: string,
     @Query('titleId') titleId: number,
     @Body() createOrderDto: CreateOrderDto,
   ): Promise<ReadClientKeyDto> {
-    const body = this.beforePaymentsForTitleService.beforePaymentsForTitle(
+    const body = this.beforePaymentsService.beforePayments(
       userId,
       titleId,
       createOrderDto,
@@ -79,12 +79,11 @@ export class PaymentsController {
     @Query('titleId') titleId: number,
     @Body() updateOrderCompleteDto: UpdateOrderCompleteDto,
   ): Promise<Order> {
-    const order =
-      await this.successPaymentsForTitleService.successPaymentsForTitle(
-        userId,
-        titleId,
-        updateOrderCompleteDto,
-      );
+    const order = await this.successPaymentsService.successPayments(
+      userId,
+      titleId,
+      updateOrderCompleteDto,
+    );
     return order;
   }
 
@@ -101,7 +100,7 @@ export class PaymentsController {
     createVirtualAccountDto: CreateVirtualAccountDto,
   ): Promise<Order> {
     const order =
-      await this.successPaymentsForTitleWithVirtualAccountService.successPaymentsForTitleWithVirtualAccount(
+      await this.successPaymentsWithVirtualAccountService.successPaymentsWithVirtualAccount(
         userId,
         titleId,
         updateOrderCompleteDto,
@@ -122,7 +121,7 @@ export class PaymentsController {
     craeteBillingCardDto: CraeteBillingCardDto,
   ): Promise<Order> {
     const order =
-      await this.successPaymentsForTitleWithBillingCard.successPaymentsForTitleWithBillingCard(
+      await this.successPaymentsWithBillingCardService.successPaymentsWithBillingCard(
         userId,
         titleId,
         updateOrderCompleteDto,

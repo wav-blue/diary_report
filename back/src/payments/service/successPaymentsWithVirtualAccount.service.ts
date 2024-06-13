@@ -9,7 +9,7 @@ import { VirtualAccountCreateService } from 'src/billing/service/virtualAccountC
 import { CreateVirtualAccountDto } from 'src/billing/repository/DTO/CreateVirtualAccountOrder.dto';
 
 @Injectable()
-export class SuccessPaymentsForTitleWithVirtualAccountService {
+export class SuccessPaymentsWithVirtualAccountService {
   constructor(
     private readonly orderUpdateCompleteService: OrderUpdateCompleteService,
     private readonly titleCreateService: TitleCreateService,
@@ -17,12 +17,10 @@ export class SuccessPaymentsForTitleWithVirtualAccountService {
     private logger: MyLogger,
     private readonly dataSource: DataSource,
   ) {
-    this.logger.setContext(
-      SuccessPaymentsForTitleWithVirtualAccountService.name,
-    );
+    this.logger.setContext(SuccessPaymentsWithVirtualAccountService.name);
   }
 
-  async successPaymentsForTitleWithVirtualAccount(
+  async successPaymentsWithVirtualAccount(
     userId: string,
     titleId: number,
     updateOrderCompleteDto: UpdateOrderCompleteDto,
