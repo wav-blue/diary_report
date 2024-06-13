@@ -12,7 +12,7 @@ import {
 } from 'typeorm';
 
 // 주문 내역
-@Entity('ORDERS')
+@Entity('ORDER')
 export class Order extends BaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 100 })
   orderId: string;
