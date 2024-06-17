@@ -1,19 +1,16 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
 import { GetUser } from 'common/decorator/get-user.decorator';
 import { DiaryCreateService } from './service/diaryCreate.service';
 import { DiaryReadService } from './service/diaryRead.service';
 import { CreateDiaryDto } from './repository/DTO/createDiary.dto';
-import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Diary } from './repository/entity/diary.entity';
 import { DiaryDeleteService } from './service/diaryDelete.service';
 import { AuthGuard } from 'src/auth/guards/authGuard';
@@ -46,13 +43,18 @@ export class DiaryController {
     return diarys;
   }
 
-  @Get('/:diaryId/summary')
+  @Post('/:diaryId/summary')
   @UseGuards(AuthGuard)
   @ApiOperation({
     summary: '일기의 요약 재요청',
     description: '분석 실패한 일기의 요약을 요청하고 수정한다.',
   })
   @ApiCreatedResponse({ description: '일기 데이터', type: Diary })
+  @ApiResponse({
+    status: 201,
+    description: 'Diary Summary Updated',
+    type: Diary,
+  })
   updateSummary(
     @GetUser() userId: string,
     @Param('diaryId') diaryId: number,
@@ -68,9 +70,14 @@ export class DiaryController {
     summary: '일기 작성 API',
     description: '유저의 일기 데이터 생성',
   })
+  @ApiResponse({
+    status: 201,
+    description: 'Diary Created',
+    type: Diary,
+  })
   @ApiCreatedResponse({ description: '일기 데이터', type: Diary })
   async createDiary(
-    @GetUser() userId: string,
+    @Param('userId') userId: string,
     @Body() createDiaryDto: CreateDiaryDto,
   ) {
     this.logger.log(`일기작성 요청!`);
@@ -87,7 +94,11 @@ export class DiaryController {
     summary: '일기 삭제 API',
     description: '유저의 해당 일기 삭제',
   })
-  @ApiCreatedResponse({ description: '일기 데이터', type: Diary })
+  @ApiResponse({
+    status: 204,
+    description: 'Diary Deleted',
+    type: Diary,
+  })
   async logoutUser(
     @Param('diaryId') diaryId: number,
     @GetUser() userId: string,
@@ -95,16 +106,5 @@ export class DiaryController {
     this.logger.log(`일기삭제 요청!`);
     await this.diaryDeleteService.deleteDiary(diaryId, userId);
     return '삭제 완료';
-  }
-  // 분석 요청
-  @Put('/:diaryId')
-  @UseGuards(AuthGuard)
-  @ApiOperation({
-    summary: '일기 요약 재요청 API',
-    description: '일기 요약 재요청',
-  })
-  @ApiCreatedResponse({ description: '일기 데이터', type: Diary })
-  async currentUser(@GetUser() userId: string) {
-    return '수정완료';
   }
 }

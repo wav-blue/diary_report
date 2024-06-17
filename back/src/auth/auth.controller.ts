@@ -14,11 +14,6 @@ export class AuthController {
   ) {
     this.logger.setContext(AuthController.name);
   }
-  @Get('/test')
-  test(): any {
-    // 토큰 파기
-    return '요청 완료';
-  }
 
   @Post('/accessToken')
   @ApiOperation({
