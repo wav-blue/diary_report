@@ -45,7 +45,7 @@ export class TitleRepository implements ITitleRepository {
       .addSelect('TI.createdAt', 'createdAt')
       .from(Title, 'T')
       .innerJoin(TitleItem, 'TI', 'TI.titleId = T.titleId')
-      .where('T.titleId IN (' + titleItemQueryBuilder.getQuery() + ')')
+      .where('TI.userId = :userId', { userId })
       .setParameters(titleItemQueryBuilder.getParameters())
       .orderBy('T.titleId', 'ASC')
       .getRawMany();
