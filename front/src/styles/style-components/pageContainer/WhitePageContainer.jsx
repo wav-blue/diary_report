@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
 
-const LoginPageContainer = styled.div`
+const WhitePageContainer = styled.div`
   ${({ theme }) => {
     return css`
-      width: 50%;
-      padding: 5% 10%;
+      width: 80%;
+      padding: 5%;
       border: ${theme.colors.grey} 3.5px solid;
       display: flex;
       flex-direction: column;
@@ -13,4 +13,4 @@ const LoginPageContainer = styled.div`
   }}
 `;
 
-export default LoginPageContainer;
+export default WhitePageContainer;

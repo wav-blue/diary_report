@@ -3,6 +3,13 @@ import * as Api from "../../Api";
 import { useNavigate } from "react-router-dom";
 import { DispatchContext } from "../../App";
 import { randomUserName } from "../../utils/register/randomUserName";
+import { DarkGreenBoldText } from "../../styles/style-components/text/BoldText";
+import {
+  GreenButton,
+  RedButton,
+} from "../../styles/style-components/button/ColorButton";
+import { SmallDarkGreenBoldText } from "../../styles/style-components/text/SmallBoldText";
+import { LongGreenButton } from "../../styles/style-components/button/LongColorButton";
 
 function RegisterForm() {
   const dispatch = useContext(DispatchContext);
@@ -41,7 +48,7 @@ function RegisterForm() {
     setComplete(true);
   };
 
-  const handleSubmit = async (e) => {
+  const registerCompleteSubmit = async (e) => {
     e.preventDefault();
     try {
       if (!email || !password) {
@@ -76,20 +83,22 @@ function RegisterForm() {
         navigate("/diary");
       }
     } catch (err) {
-      if (err.response.data.message == "가입 이력이 없습니다.") {
-        alert("가입 이력이 없습니다.");
+      if (err.response.data.message) {
+        alert(
+          `로그인 요청이 제대로 완료되지 않았습니다!\n다시 시도해주세요.\n(에러 메시지: ${err.response.data.message})`
+        );
       } else {
-        alert("로그인 요청이 제대로 완료되지 않았습니다!\n다시 시도해주세요.");
+        alert(`로그인 요청이 제대로 완료되지 않았습니다!\n다시 시도해주세요.`);
       }
     }
   };
   return (
-    <div id="registerContainer">
+    <div>
       {!complete && (
         <>
-          <div>정보 입력</div>
+          <DarkGreenBoldText>회원가입 정보 입력</DarkGreenBoldText>
           <div>
-            <h5>이메일</h5> <div>{email}</div>
+            <h5>이메일</h5>
             <input
               type="text"
               name="email"
@@ -100,56 +109,68 @@ function RegisterForm() {
           <div>
             <h5>비밀번호</h5>{" "}
             <input
-              type="text"
+              type="password"
               name="password"
               value={password}
               onChange={(e) => handleChange(e)}
             />
           </div>
-          <button
+          <GreenButton
             onClick={(e) => {
               checkComplete(e);
             }}
           >
             다음으로 →
-          </button>
+          </GreenButton>
           <p>{warn}</p>
         </>
       )}
 
       {complete && (
         <>
-          <button
+          <RedButton
             onClick={(e) => {
               setComplete(false);
             }}
           >
             돌아가기
-          </button>
+          </RedButton>
+          <br />
+          <br />
           <div>
-            <h4>당신의 이름을 알려주세요 *</h4>
+            <p>
+              <SmallDarkGreenBoldText>
+                당신의 이름을 알려주세요 *
+              </SmallDarkGreenBoldText>
+            </p>
             <input
               type="text"
               value={userName}
               onChange={(e) => handleChange(e)}
             />
-            <p>랜덤 이름 생성</p>
-            <button
+            <br />
+            <br />
+
+            <p>
+              <SmallDarkGreenBoldText>랜덤 이름 생성</SmallDarkGreenBoldText>
+            </p>
+            <GreenButton
               onClick={(e) => {
                 setRandomUserName();
               }}
             >
-              두두에게 추천받기
-            </button>
+              두두에게
+              <br /> 추천받기
+            </GreenButton>
             <br />
             <br />
-            <button
+            <LongGreenButton
               onClick={(e) => {
-                handleSubmit(e);
+                registerCompleteSubmit(e);
               }}
             >
               회원가입
-            </button>
+            </LongGreenButton>
           </div>
         </>
       )}

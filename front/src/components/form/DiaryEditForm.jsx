@@ -81,7 +81,10 @@ function DiaryEditForm() {
           <DarkGreenBoldText>{userName}</DarkGreenBoldText>님의 하루 어떠셨나요?
         </div>
       )}
-      <h4>Content</h4>
+      <br />
+      <p>
+        <DarkGreenBoldText>Content</DarkGreenBoldText>
+      </p>
       <TextArea
         type="text"
         id="content"
@@ -92,7 +95,10 @@ function DiaryEditForm() {
         }}
       />
       <p>현재 {contentLength}자 / 최대 200자</p>
-      <h4>전체 만족도</h4>
+      <br />
+      <p>
+        <DarkGreenBoldText>전체 만족도</DarkGreenBoldText>
+      </p>
       <RadioBox>
         <ScoreBoard title="전체 만족도" name="satisfy" setScore={setSatisfy} />
       </RadioBox>

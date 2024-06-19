@@ -6,6 +6,7 @@ import { DarkGreenBoldText } from "../../styles/style-components/text/BoldText";
 import RowContainer from "../../styles/style-components/component/RowContainer";
 import { GreenButton } from "../../styles/style-components/button/ColorButton";
 import { StyleLoginForm } from "../../styles/style-components/form/StyleLoginForm";
+import { SmallDarkGreenBoldText } from "../../styles/style-components/text/SmallBoldText";
 
 function LoginForm() {
   const dispatch = useContext(DispatchContext);
@@ -69,20 +70,28 @@ function LoginForm() {
   };
   return (
     <StyleLoginForm onSubmit={handleSubmit}>
-      <DarkGreenBoldText>로그인 정보 입력</DarkGreenBoldText>
+      <p>
+        <DarkGreenBoldText>로그인 정보 입력</DarkGreenBoldText>
+      </p>
+      <br />
       <div>
-        <h5>이메일</h5> <div>{email}</div>
+        <p>
+          <SmallDarkGreenBoldText>이메일</SmallDarkGreenBoldText>
+        </p>
         <input
-          type="text"
+          type="id"
           name="email"
           value={email}
           onChange={(e) => handleChange(e)}
         />
       </div>
       <div>
-        <h5>비밀번호</h5>{" "}
+        <br />
+        <p>
+          <SmallDarkGreenBoldText>비밀번호</SmallDarkGreenBoldText>
+        </p>
         <input
-          type="text"
+          type="password"
           name="password"
           value={password}
           onChange={(e) => handleChange(e)}
@@ -90,32 +99,10 @@ function LoginForm() {
       </div>
       <RowContainer>
         <GreenButton type="submit">로그인</GreenButton>
-        <GreenButton type="submit">회원가입</GreenButton>
+        <GreenButton onClick={() => navigate("/register")}>
+          회원가입
+        </GreenButton>
       </RowContainer>
-      <button
-        onClick={() => {
-          setEmail("exam77test.com");
-          setPassword("exam77test");
-        }}
-      >
-        테스트용 로그인
-      </button>
-      <button
-        onClick={() => {
-          setEmail("abc1212111111");
-          setPassword("abc");
-        }}
-      >
-        테스트용 로그인2
-      </button>
-      <button
-        onClick={() => {
-          setEmail("exam77test.com");
-          setPassword("exam77test111");
-        }}
-      >
-        테스트용 로그인3
-      </button>
     </StyleLoginForm>
   );
 }
