@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { GreenBorderButton } from "../../styles/style-components/button/BorderColorButton";
+import { SmallDarkGreenBoldText } from "../../styles/style-components/text/SmallBoldText";
+import { SmallDarkGreyText } from "../../styles/style-components/text/SmallText";
+import { FormLabel } from "../../styles/style-components/form/FormLabel";
 
 function CustomerForm(props) {
   const [customerName, setCustomerName] = useState();
@@ -29,10 +32,15 @@ function CustomerForm(props) {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <div>결제 정보 입력</div>
-      <p>결제를 위한 정보를 입력합니다.</p>
+      <h4>
+        <SmallDarkGreenBoldText>결제 정보 입력</SmallDarkGreenBoldText>
+      </h4>
+      <p>
+        <SmallDarkGreyText>결제를 위한 정보를 입력합니다.</SmallDarkGreyText>
+      </p>
+      <br />
       <div>
-        <h5>이름</h5>
+        <FormLabel>이름</FormLabel>
         <input
           type="text"
           name="customerName"
@@ -41,7 +49,7 @@ function CustomerForm(props) {
         />
       </div>
       <div>
-        <h5>이메일</h5>{" "}
+        <FormLabel>이메일</FormLabel>
         <input
           type="text"
           name="customerEmail"
@@ -50,7 +58,7 @@ function CustomerForm(props) {
         />
       </div>
       <div>
-        <h5>전화번호</h5>{" "}
+        <FormLabel>전화번호</FormLabel>
         <input
           type="text"
           name="customerMobilePhone"

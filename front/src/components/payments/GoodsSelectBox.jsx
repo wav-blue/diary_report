@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import GoodsSelectCard from "./GoodsSelectCard";
 import * as Api from "../../Api";
-import { GreenBoldText } from "../../styles/style-components/text/BoldText";
+import { SmallRedBoldText } from "../../styles/style-components/text/SmallBoldText";
 
 function GoodsSelectBox(props) {
   const [goodsData, setGoodsData] = useState([]);
@@ -29,14 +29,14 @@ function GoodsSelectBox(props) {
           />
         );
       })}
-      <GreenBoldText>
+      <SmallRedBoldText>
         {props.selected.titleId && (
           <a>{props.selected.titleName}를 선택했어요!</a>
         )}
-      </GreenBoldText>
+      </SmallRedBoldText>
       <p>
         {!props.selected.titleId && (
-          <GreenBoldText>선택된 값이 없습니다.</GreenBoldText>
+          <SmallRedBoldText>선택된 상품이 없습니다.</SmallRedBoldText>
         )}
       </p>
     </>
