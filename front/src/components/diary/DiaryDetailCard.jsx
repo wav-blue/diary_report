@@ -1,28 +1,19 @@
 import { DateTimeKorean } from "../common/DateTimeKorean";
 import {
-  ModalBackContainer,
-  ModalContainer,
-  ModalTextBox,
-} from "../../styles/style-components/component/ModalContainer";
+  StyleModalBackContainer,
+  StyleModalButton,
+  StyleModalContainer,
+  StyleModalTextBox,
+} from "../../styles/style-components/component/StyleModalContainer";
+import { ModalContainer } from "../common/ModalContainer";
 
 function DiaryDetailCard(props) {
   return (
-    <ModalBackContainer>
-      <ModalContainer>
-        <ModalTextBox>
-          <DateTimeKorean>{props.modal.date}</DateTimeKorean>
-          <p>{props.modal.content}</p>
-        </ModalTextBox>
-
-        <button
-          onClick={(e) => {
-            props.setModal(null);
-          }}
-        >
-          뒤로 가기
-        </button>
-      </ModalContainer>
-    </ModalBackContainer>
+    <ModalContainer
+      title={<DateTimeKorean>{props.modal.date}</DateTimeKorean>}
+      detail={props.modal.content}
+      setModal={props.setModal}
+    />
   );
 }
 

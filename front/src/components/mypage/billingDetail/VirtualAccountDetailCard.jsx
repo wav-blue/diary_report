@@ -1,11 +1,7 @@
 import { DateTimeKorean } from "../../common/DateTimeKorean";
 import * as Api from "../../../Api";
-import {
-  ModalBackContainer,
-  ModalContainer,
-  ModalTextBox,
-} from "../../../styles/style-components/component/ModalContainer";
 import { useEffect, useState } from "react";
+import { ModalContainer } from "../../common/ModalContainer";
 
 function VirtualAccountDetailCard(props) {
   const [detail, setDetail] = useState(null);
@@ -19,7 +15,6 @@ function VirtualAccountDetailCard(props) {
   async function getDetail(orderId) {
     Api.get(`billing/${orderId}/virtualAccount`)
       .then((res) => {
-        console.log("res.data: ", res);
         setDetail(res.data);
       })
       .catch((err) => {
@@ -68,22 +63,11 @@ function VirtualAccountDetailCard(props) {
   }
 
   return (
-    <ModalBackContainer>
-      <ModalContainer>
-        <ModalTextBox>
-          <h3>가상계좌 정보</h3>
-          <br />
-          {renderPage()}
-        </ModalTextBox>
-        <button
-          onClick={(e) => {
-            props.setModal(null);
-          }}
-        >
-          뒤로 가기
-        </button>
-      </ModalContainer>
-    </ModalBackContainer>
+    <ModalContainer
+      title={"결제 상세 정보"}
+      detail={renderPage()}
+      setModal={props.setModal}
+    />
   );
 }
 

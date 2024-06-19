@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
+import { StyleButton } from "../button/StyleButton";
 
-const ModalBackContainer = styled.div`
+const StyleModalBackContainer = styled.div`
   ${({ theme }) => {
     return css`
       position: absolute;
@@ -12,13 +13,12 @@ const ModalBackContainer = styled.div`
   }}
 `;
 
-const ModalContainer = styled.div`
+const StyleModalContainer = styled.div`
   ${({ theme }) => {
     return css`
       position: fixed;
       background-color: #ffffff;
-      width: 70%;
-      padding: 15px;
+      width: 100%;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -26,13 +26,28 @@ const ModalContainer = styled.div`
   }}
 `;
 
-const ModalTextBox = styled.div`
+const StyleModalTextBox = styled.div`
   ${({ theme }) => {
     return css`
+      margin: 10%;
       overflow: auto;
       height: 450px;
     `;
   }}
 `;
 
-export { ModalContainer, ModalBackContainer, ModalTextBox };
+const StyleModalButton = styled(StyleButton)`
+  ${({ theme }) => {
+    return css`
+      padding: ${theme.paddings.small};
+      width: 30%;
+    `;
+  }}
+`;
+
+export {
+  StyleModalContainer,
+  StyleModalBackContainer,
+  StyleModalTextBox,
+  StyleModalButton,
+};

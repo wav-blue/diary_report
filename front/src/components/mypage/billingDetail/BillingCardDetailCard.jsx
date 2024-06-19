@@ -1,11 +1,8 @@
 import { DateTimeKorean } from "../../common/DateTimeKorean";
 import * as Api from "../../../Api";
-import {
-  ModalBackContainer,
-  ModalContainer,
-  ModalTextBox,
-} from "../../../styles/style-components/component/ModalContainer";
+
 import { useEffect, useState } from "react";
+import { ModalContainer } from "../../common/ModalContainer";
 
 function BillingCardDetailCard(props) {
   const [detail, setDetail] = useState(null);
@@ -19,7 +16,6 @@ function BillingCardDetailCard(props) {
   async function getDetail(orderId) {
     Api.get(`billing/${orderId}/billingCard`)
       .then((res) => {
-        console.log("res.data: ", res);
         setDetail(res.data);
       })
       .catch((err) => {
@@ -65,28 +61,17 @@ function BillingCardDetailCard(props) {
         {detail && <>{content("카드 소유자", detail.ownerType)}</>}
         <br />
 
-        {detail && <>{content("결제 금액", detail.amount)}</>}
+        {detail && <>{content("결제 금액", detail.amount + "원")}</>}
       </>
     );
   }
 
   return (
-    <ModalBackContainer>
-      <ModalContainer>
-        <ModalTextBox>
-          <h3>결제 상세 정보</h3>
-          <br />
-          {renderPage()}
-        </ModalTextBox>
-        <button
-          onClick={(e) => {
-            props.setModal(null);
-          }}
-        >
-          뒤로 가기
-        </button>
-      </ModalContainer>
-    </ModalBackContainer>
+    <ModalContainer
+      title={"결제 상세 정보"}
+      detail={renderPage()}
+      setModal={props.setModal}
+    />
   );
 }
 
