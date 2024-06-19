@@ -16,7 +16,13 @@ function MainPage() {
   return (
     <MainPageContainer id="mainContainer">
       {userName && (
-        <DarkGreenBoldText>{userName}님, 어서 오세요!</DarkGreenBoldText>
+        <>
+          <DarkGreenBoldText>{userName}님, 어서 오세요!</DarkGreenBoldText>
+          <img
+            src={process.env.PUBLIC_URL + "/image/Logo.png"}
+            alt="로고 이미지"
+          />
+        </>
       )}
       {!userName && (
         <ColumnFlexContainer>
@@ -34,9 +40,12 @@ function MainPage() {
       <GreenBorderButton className="diary" onClick={() => navigate("/diary")}>
         일기 보기
       </GreenBorderButton>
-      <GreenBorderButton className="login" onClick={() => navigate("/login")}>
-        로그인
-      </GreenBorderButton>
+      {!userName && (
+        <GreenBorderButton className="login" onClick={() => navigate("/login")}>
+          로그인
+        </GreenBorderButton>
+      )}
+
       <GreenBorderButton
         className="report"
         onClick={() => navigate("/diary/edit")}

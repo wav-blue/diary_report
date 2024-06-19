@@ -5,6 +5,7 @@ import { GreenBorderButton } from "../../styles/style-components/button/BorderCo
 import OrderCard from "../../components/mypage/OrderCard";
 import VirtualAccountDetailCard from "../../components/mypage/billingDetail/VirtualAccountDetailCard";
 import BillingCardDetailCard from "../../components/mypage/billingDetail/BillingCardDetailCard";
+import { DarkGreenBoldText } from "../../styles/style-components/text/BoldText";
 
 function OrderPage() {
   const navigate = useNavigate();
@@ -45,7 +46,9 @@ function OrderPage() {
   return (
     <>
       {modal && methodModal(modal.method)}
-      <p>나의 주문 내역</p>
+      <DarkGreenBoldText style={{ margin: "8px" }}>
+        나의 주문 내역
+      </DarkGreenBoldText>
       {orders.map((order) => {
         if (order.orderName)
           return <OrderCard order={order} setModal={setModal} />;

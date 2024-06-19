@@ -1,11 +1,14 @@
 import LoginForm from "../../components/form/LoginForm";
-import LoginPageContainer from "../../styles/style-components/pageContainer/LoginPageContainer";
+import CenterContainer from "../../styles/style-components/pageContainer/CenterContainer";
+import WhitePageContainer from "../../styles/style-components/pageContainer/WhitePageContainer";
 
 function LoginPage() {
   return (
-    <LoginPageContainer>
-      <LoginForm />
-    </LoginPageContainer>
+    <CenterContainer>
+      <WhitePageContainer>
+        <LoginForm />
+      </WhitePageContainer>
+    </CenterContainer>
   );
 }
 

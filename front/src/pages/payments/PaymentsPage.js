@@ -5,6 +5,8 @@ import { GreenBorderButton } from "../../styles/style-components/button/BorderCo
 import GoodsSelectBox from "../../components/payments/GoodsSelectBox";
 import CustomerForm from "../../components/payments/CustomerForm";
 import { DarkGreenBoldText } from "../../styles/style-components/text/BoldText";
+import WhitePageContainer from "../../styles/style-components/pageContainer/WhitePageContainer";
+import CenterContainer from "../../styles/style-components/pageContainer/CenterContainer";
 
 function PaymentsPage() {
   const navigate = useNavigate();
@@ -60,6 +62,7 @@ function PaymentsPage() {
         return res.data;
       })
       .catch((err) => {
+        console.log("client Key : ", res);
         if (
           err.response.status === 409 &&
           err.response.data.message === "Duplicate purchase request"
@@ -73,23 +76,25 @@ function PaymentsPage() {
   }
 
   return (
-    <>
-      <DarkGreenBoldText>상품 선택</DarkGreenBoldText>
-      <GoodsSelectBox selected={selected} setSelected={setSelected} />
+    <CenterContainer>
+      <WhitePageContainer>
+        <DarkGreenBoldText>상품 선택</DarkGreenBoldText>
+        <GoodsSelectBox selected={selected} setSelected={setSelected} />
 
-      <GreenBorderButton
-        onClick={() => {
-          if (selected.titleId) {
-            setComplete(true);
-          } else {
-            alert("상품을 선택해주세요!");
-          }
-        }}
-      >
-        다음으로
-      </GreenBorderButton>
-      {complete && <CustomerForm completeForm={completeForm} />}
-    </>
+        <GreenBorderButton
+          onClick={() => {
+            if (selected.titleId) {
+              setComplete(true);
+            } else {
+              alert("상품을 선택해주세요!");
+            }
+          }}
+        >
+          다음으로
+        </GreenBorderButton>
+        {complete && <CustomerForm completeForm={completeForm} />}
+      </WhitePageContainer>
+    </CenterContainer>
   );
 }
 

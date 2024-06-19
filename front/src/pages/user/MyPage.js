@@ -3,8 +3,9 @@ import React, { useState, useEffect, useReducer } from "react";
 import * as Api from "../../Api";
 import { GreenBorderButton } from "../../styles/style-components/button/BorderColorButton";
 import TitleCard from "../../components/mypage/TitleCard";
-
-//
+import WhitePageContainer from "../../styles/style-components/pageContainer/WhitePageContainer";
+import { DarkGreenBoldText } from "../../styles/style-components/text/BoldText";
+import CenterContainer from "../../styles/style-components/pageContainer/CenterContainer";
 
 function MyPage() {
   const navigate = useNavigate();
@@ -36,27 +37,29 @@ function MyPage() {
   };
 
   return (
-    <>
-      <p>칭호 목록</p>
-      {titles.map((title) => {
-        return <TitleCard title={title} />;
-      })}
-      {titles.length === 0 && <p>아직 획득한 칭호가 없습니다</p>}
+    <CenterContainer>
+      <WhitePageContainer>
+        <DarkGreenBoldText>칭호 목록</DarkGreenBoldText>
+        {titles.map((title) => {
+          return <TitleCard title={title} />;
+        })}
+        {titles.length === 0 && <p>아직 획득한 칭호가 없습니다</p>}
 
-      <GreenBorderButton onClick={() => navigate("/my/order")}>
-        나의 결제내역
-      </GreenBorderButton>
+        <GreenBorderButton onClick={() => navigate("/my/order")}>
+          나의 결제내역
+        </GreenBorderButton>
 
-      <p>두두의 친구</p>
-      <p>
-        두두에게 커피를 사주고 [두두의 친구] 칭호를 얻어보세요!
-        <br />
-      </p>
+        <DarkGreenBoldText>두두의 친구</DarkGreenBoldText>
+        <p>
+          두두에게 커피를 사주고 [두두의 친구] 칭호를 얻어보세요!
+          <br />
+        </p>
 
-      <GreenBorderButton onClick={() => navigate("/my/payments")}>
-        두두를 돕는다
-      </GreenBorderButton>
-    </>
+        <GreenBorderButton onClick={() => navigate("/my/payments")}>
+          두두를 돕는다
+        </GreenBorderButton>
+      </WhitePageContainer>
+    </CenterContainer>
   );
 }
 

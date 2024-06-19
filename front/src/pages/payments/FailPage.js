@@ -1,5 +1,4 @@
 import { useSearchParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import * as Api from "../../Api";
 import { GreenButton } from "../../styles/style-components/button/ColorButton";
 

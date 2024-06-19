@@ -30,9 +30,12 @@ function DiaryPage() {
   }
 
   return (
-    <>
+    <div>
       {modal && <DiaryDetailCard modal={modal} setModal={setModal} />}
-      <BigGreenBorderButton onClick={(e) => navigate("/diary/edit")}>
+      <BigGreenBorderButton
+        onClick={(e) => navigate("/diary/edit")}
+        style={{ display: "column" }}
+      >
         오늘의 일기 작성
       </BigGreenBorderButton>
 
@@ -46,7 +49,7 @@ function DiaryPage() {
           setModal={setModal}
         />
       ))}
-    </>
+    </div>
   );
 }
 

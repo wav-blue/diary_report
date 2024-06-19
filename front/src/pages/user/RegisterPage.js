@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+
 import RegisterForm from "../../components/form/RegisterForm";
+import WhitePageContainer from "../../styles/style-components/pageContainer/WhitePageContainer";
+import CenterContainer from "../../styles/style-components/pageContainer/CenterContainer";
 
 function RegisterPage() {
   return (
-    <div id="mainContainer">
-      <h3>회원가입 페이지 </h3>
-      <RegisterForm />
-    </div>
+    <CenterContainer>
+      <WhitePageContainer>
+        <RegisterForm />
+      </WhitePageContainer>
+    </CenterContainer>
   );
 }
 
