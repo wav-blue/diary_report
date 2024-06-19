@@ -16,13 +16,11 @@ function OrderPage() {
   const getUserOrder = async () => {
     await Api.get(`orders/my`)
       .then((res) => {
-        console.log("res : ", res.data);
         setOrders(res.data);
         setIsFetchCompleted(true);
         return res.data;
       })
       .catch((err) => {
-        console.log(err);
         if (err?.response.status === 401) {
           alert("로그인이 필요한 페이지입니다!");
           navigate("/login");

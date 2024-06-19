@@ -36,12 +36,10 @@ function LoginForm() {
       const body = { email, password };
 
       const res = await Api.post("users/login", body);
-      console.log("?", res);
 
       const userData = res?.data;
 
       if (!userData) {
-        console.log("응답 값이 올바르지 않음");
         alert("서버에 문제가 있습니다.");
       }
 
@@ -60,7 +58,6 @@ function LoginForm() {
       alert("로그인 성공");
       navigate("/diary");
     } catch (err) {
-      console.log(err.response?.data);
       if (err.response?.data.message == "Wrong email or password") {
         alert("아이디나 비밀번호가 올바르지 않습니다.");
       } else {

@@ -18,12 +18,10 @@ function MyPage() {
   const getUserTitle = async () => {
     await Api.get(`title/my`)
       .then((res) => {
-        console.log(res.data);
         setTitles(res.data);
         return res.data;
       })
       .catch((err) => {
-        console.log(err);
         if (err?.response.status === 401) {
           alert("로그인이 필요한 페이지입니다!");
           navigate("/login");

@@ -23,7 +23,6 @@ export class DiarySummaryService {
       userId,
       diaryId,
     );
-    console.log(foundDiary);
     const content = foundDiary.content;
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();

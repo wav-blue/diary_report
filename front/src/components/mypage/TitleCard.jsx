@@ -7,7 +7,6 @@ import LightGreenCardContainer from "../../styles/style-components/component/Lig
 import TitleContainer from "../../styles/style-components/component/TitleContainer";
 
 function TitleCard(props) {
-  console.log(props.title);
   const { titleId, titleName, titleDescription, createdAt, titleType } =
     props.title;
   return (

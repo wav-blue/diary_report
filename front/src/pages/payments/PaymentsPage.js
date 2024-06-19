@@ -62,7 +62,6 @@ function PaymentsPage() {
         return res.data;
       })
       .catch((err) => {
-        console.log("client Key : ", res);
         if (
           err.response.status === 409 &&
           err.response.data.message === "Duplicate purchase request"

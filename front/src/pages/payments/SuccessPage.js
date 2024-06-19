@@ -34,10 +34,6 @@ export function SuccessPage() {
     return <div>결제 정보를 불러오는 중입니다...</div>;
   }
 
-  async function rendorSuccessPage() {
-    console.log("rendoring!!");
-  }
-
   return (
     <div className="result wrapper">
       <div className="box_section">
@@ -98,7 +94,6 @@ export function SuccessPage() {
     );
 
     const json = await response.json();
-    console.log("json : ", json);
 
     // 구매 실패
     if (!response.ok) {
@@ -106,7 +101,6 @@ export function SuccessPage() {
     }
 
     const method = json.method;
-    console.log("method: ", method);
     // 구매 성공(가상계좌)
     if (method === "가상계좌") {
       await successConfirmVirtualAccount(json);

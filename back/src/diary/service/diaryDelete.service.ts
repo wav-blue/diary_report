@@ -26,7 +26,6 @@ export class DiaryDeleteService {
         userId,
         queryRunner,
       );
-      console.log(diary);
       if (!diary) {
         // 해당 권한 없음 오류도 여기에 포함
         throw new ResourceNotFoundException();

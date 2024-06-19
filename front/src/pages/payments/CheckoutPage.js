@@ -29,8 +29,6 @@ export function CheckoutPage() {
   const titleId = orderData.selectedTitleId;
   const orderName = orderData.selectedTitleName;
 
-  console.log("clientKey!!", clientKey);
-  console.log("customerKey!!", customerKey);
   const { data: paymentWidget } = usePaymentWidget(clientKey, customerKey);
   const paymentMethodsWidgetRef = useRef(null);
   const [price, setPrice] = useState(amountOfPayment);
