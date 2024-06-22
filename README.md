@@ -34,9 +34,12 @@
 
 ## 구현 화면
 
-<img src="./image/1메인.jpg" >
-<img src="./image/2일기 작성.jpg" >
-<img src="./image/3결제화면.jpg" >
+<img src="./image/capture1.jpg" >
+<img src="./image/capture3.jpg" >
+<img src="./image/capture2.jpg" >
+<img src="./image/capture4.jpg" >
+<img src="./image/capture5.jpg" >
+<img src="./image/capture6.jpg" >
 
 ## 주요 기능
 
