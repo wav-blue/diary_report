@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
-import { nanoid } from "nanoid";
 
 import { useQuery } from "@tanstack/react-query";
-import CenterContainer from "../../styles/style-components/pageContainer/CenterContainer";
 import { PaymentButton } from "../../styles/style-components/button/PaymentButton";
 
 const selector = "#payment-widget";
@@ -79,7 +78,7 @@ export function CheckoutPage() {
               ></label>
             </div>
           </div>
-          <WhiteContainer className="result wrapper">
+          <div className="result wrapper">
             <PaymentButton
               className="button"
               style={{ marginTop: "30px" }}
@@ -116,7 +115,7 @@ export function CheckoutPage() {
             >
               취소하기
             </PaymentButton>
-          </WhiteContainer>
+          </div>
         </div>
       </div>
     </>

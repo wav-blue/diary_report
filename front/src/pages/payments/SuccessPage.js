@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { GreenButton } from "../../styles/style-components/button/ColorButton";
 import * as Api from "../../Api";
 import { UserStateContext } from "../../App";
+import { DarkGreenBoldText } from "../../styles/style-components/text/BoldText";
+import ContentPaddingContainer from "../../styles/style-components/component/ContentPaddingContainer";
 
 export function SuccessPage() {
   const navigate = useNavigate();
@@ -25,9 +27,6 @@ export function SuccessPage() {
     if (!isFetchCompleted) {
       paymentsConfirm();
     }
-    return () => {
-      rendorSuccessPage();
-    };
   }, [isFetchCompleted]);
 
   if (!isFetchCompleted) {
@@ -37,16 +36,24 @@ export function SuccessPage() {
   return (
     <div className="result wrapper">
       <div className="box_section">
-        <h2 style={{ padding: "20px 0px 10px 0px" }}>
+        <DarkGreenBoldText style={{ padding: "20px 0px 10px 0px" }}>
           <img
             width="35px"
             src="https://static.toss.im/3d-emojis/u1F389_apng.png"
           />
-          결제에 성공했습니다!
-        </h2>
-        <p>{`주문 번호: ${orderInfo.orderId}`}</p>
-        <p>{`주문명: ${orderInfo.orderName}`}</p>
-        <p>{`결제 금액: ${orderInfo.orderPrice.toLocaleString()}원`}</p>
+          결제 성공!
+        </DarkGreenBoldText>
+        <br />
+        <br />
+        <h3>
+          <DarkGreenBoldText>결제 정보</DarkGreenBoldText>
+        </h3>
+        <ContentPaddingContainer>
+          <p>{`주문 번호: ${orderInfo.orderId}`}</p>
+          <p>{`주문명: ${orderInfo.orderName}`}</p>
+          <p>{`결제 금액: ${orderInfo.orderPrice.toLocaleString()}원`}</p>
+        </ContentPaddingContainer>
+
         <div className="result wrapper">
           <GreenButton onClick={() => navigate("/my/order")}>
             결제내역 보기
