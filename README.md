@@ -40,6 +40,7 @@
 <img src="./image/capture4.jpg" >
 <img src="./image/capture5.jpg" >
 <img src="./image/capture6.jpg" >
+<img src="./image/capture7.jpg" >
 
 ## 주요 기능
 
