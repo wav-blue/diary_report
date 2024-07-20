@@ -7,7 +7,7 @@ import { UserCreateService } from './service/userCreate.service';
 import { UserCurrentReadService } from './service/userCurrentRead.service';
 import { UserSettingTokenService } from './service/userSettingToken.service';
 import { IUserRepository } from './repository/DAO/user.repository';
-import { UserRepository } from './repository/DAO/postgres-user.repository';
+import { UserRepository } from './repository/DAO/user.postgresql.repository';
 
 @Module({
   imports: [AuthModule, LoggerModule],
