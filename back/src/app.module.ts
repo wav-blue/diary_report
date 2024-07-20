@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
+import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { DiaryModule } from './diary/diary.module';
 import { LoggerModule } from './logger/logger.module';
-import { AuthModule } from './auth/auth.module';
 import { PaymentsModule } from './payments/payments.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BillingModule } from './billing/billing.module';
 import { typeORMPostgresConfig } from './configs/typeorm-postgres.config';
 
 @Module({
@@ -15,7 +14,6 @@ import { typeORMPostgresConfig } from './configs/typeorm-postgres.config';
     AuthModule,
     DiaryModule,
     PaymentsModule,
-    BillingModule,
     LoggerModule,
   ],
 })
