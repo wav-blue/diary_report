@@ -1,15 +1,8 @@
-import {
-  BaseEntity,
-  PrimaryColumn,
-  Column,
-  Entity,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-} from 'typeorm';
+import { TimeBaseEntity } from 'common/entity/timeBase.entity';
+import { PrimaryColumn, Column, Entity } from 'typeorm';
 
 @Entity('USER')
-export class User extends BaseEntity {
+export class User extends TimeBaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 42 })
   userId: string;
 
@@ -21,13 +14,4 @@ export class User extends BaseEntity {
 
   @Column({ type: 'varchar', length: 50 })
   userName: string;
-
-  @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date;
-
-  @DeleteDateColumn({ type: 'timestamp without time zone', nullable: true })
-  deletedAt: Date;
 }

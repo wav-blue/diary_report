@@ -1,15 +1,8 @@
-import {
-  BaseEntity,
-  PrimaryGeneratedColumn,
-  Column,
-  Entity,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-} from 'typeorm';
+import { TimeBaseEntity } from 'common/entity/timeBase.entity';
+import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 
 @Entity('TITLE')
-export class Title extends BaseEntity {
+export class Title extends TimeBaseEntity {
   @PrimaryGeneratedColumn('increment')
   titleId: number;
 
@@ -24,13 +17,4 @@ export class Title extends BaseEntity {
 
   @Column({ type: 'varchar', length: 200 })
   titleDescription: string;
-
-  @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date;
-
-  @DeleteDateColumn({ type: 'timestamp without time zone', nullable: true })
-  deletedAt: Date;
 }

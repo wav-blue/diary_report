@@ -1,19 +1,10 @@
+import { TimeBaseEntity } from 'common/entity/timeBase.entity';
 import { User } from 'src/user/repository/entity/user.entity';
-import {
-  BaseEntity,
-  PrimaryColumn,
-  Column,
-  Entity,
-  ManyToOne,
-  JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-} from 'typeorm';
+import { PrimaryColumn, Column, Entity, ManyToOne, JoinColumn } from 'typeorm';
 
 // 주문 내역
 @Entity('ORDER')
-export class Order extends BaseEntity {
+export class Order extends TimeBaseEntity {
   @PrimaryColumn({ type: 'varchar', length: 100 })
   orderId: string;
 
@@ -56,13 +47,4 @@ export class Order extends BaseEntity {
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   orderName: string;
-
-  @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date;
-
-  @DeleteDateColumn({ type: 'timestamp without time zone', nullable: true })
-  deletedAt: Date;
 }

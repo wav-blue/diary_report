@@ -1,18 +1,15 @@
+import { TimeBaseEntity } from 'common/entity/timeBase.entity';
 import { User } from 'src/user/repository/entity/user.entity';
 import {
-  BaseEntity,
   PrimaryGeneratedColumn,
   Column,
   Entity,
   ManyToOne,
   JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
 } from 'typeorm';
 
 @Entity('DIARY')
-export class Diary extends BaseEntity {
+export class Diary extends TimeBaseEntity {
   @PrimaryGeneratedColumn('increment')
   diaryId: number;
 
@@ -28,13 +25,4 @@ export class Diary extends BaseEntity {
 
   @Column({ type: 'text', nullable: true })
   summary: string;
-
-  @CreateDateColumn({ type: 'timestamp without time zone' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp without time zone' })
-  updatedAt: Date;
-
-  @DeleteDateColumn({ nullable: true })
-  deletedAt: Date | null;
 }
