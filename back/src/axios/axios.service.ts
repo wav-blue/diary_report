@@ -24,7 +24,7 @@ export class AxiosService {
   async FlaskRequest(body: { content: string }): Promise<any> {
     // flask 서버로 요청 보낼 body 내용
     const apiUrl =
-      `http://127.0.0.1` + ':' + `${flaskConfig.port}` + `/summary`;
+      `http://${flaskConfig.url}` + ':' + `${flaskConfig.port}` + `/summary`;
 
     this.logger.log(`http://${apiUrl}로 Post 요청!`);
 

@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { AccessTokenService } from './service/accessToken.service';
+import { RefreshTokenService } from './service/refreshToken.service';
 import { MyLogger } from 'src/logger/logger.service';
 import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AccessTokenService } from 'src/auth/service/accessToken.service';
-import { RefreshTokenService } from './service/refreshToken.service';
+import { AccessTokenRefreshDto } from './repository/dto/accessTokenRefresh.dto';
 
 @Controller('auth')
 @ApiTags('인증 관련 API')
@@ -23,10 +24,12 @@ export class AuthController {
   @ApiCreatedResponse({
     description: '새롭게 access Token을 쿠키에 설정',
   })
-  async createAccessToken(
-    @Body('accessToken') oldAccessToken: string,
-    @Body('refreshToken') refreshToken: string,
+  async accessTokenRefresh(
+    @Body() accessTokenRefreshDto: AccessTokenRefreshDto,
   ): Promise<{ userId: string; userName: string; accessToken: string }> {
+    const oldAccessToken = accessTokenRefreshDto.accessToken;
+    const refreshToken = accessTokenRefreshDto.refreshToken;
+
     // Refresh Token의 유효기간 검증
     this.refreshTokenService.validRereshToken(refreshToken);
 
