@@ -5,9 +5,10 @@ import { TitleCreateService } from 'src/title/service/titleCreate.service';
 import { OrderUpdateCompleteService } from '../orders/service/orderUpdateComplete.service';
 import { UpdateOrderCompleteDto } from '../orders/repository/DTO/UpdateOrderComplete.dto';
 import { Order } from '../orders/repository/entity/order.entity';
+import { ISuccessPaymentsService } from './successPayments.interface.service';
 
 @Injectable()
-export class SuccessPaymentsService {
+export class SuccessPaymentsService implements ISuccessPaymentsService {
   constructor(
     private readonly orderUpdateCompleteService: OrderUpdateCompleteService,
     private readonly titleCreateService: TitleCreateService,

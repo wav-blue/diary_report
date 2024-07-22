@@ -7,9 +7,10 @@ import { ReadClientKeyDto } from '../customer/repository/DTO/ReadClientKey.dto';
 import { OrderCreateService } from '../orders/service/OrderCreate.service';
 import { CreateOrderDto } from '../orders/repository/DTO/CreateOrder.dto';
 import { createRandomId } from 'src/user/utils/loginUtils';
+import { IBeforePaymentsService } from './beforePayments.interface.service';
 
 @Injectable()
-export class BeforePaymentsService {
+export class BeforePaymentsService implements IBeforePaymentsService {
   constructor(
     private readonly titleCheckService: TitleCheckService,
     private readonly customerReadService: CustomerReadService,

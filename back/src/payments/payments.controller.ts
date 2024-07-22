@@ -6,6 +6,7 @@ import {
   Get,
   Query,
   UseGuards,
+  Inject,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/authGuard';
@@ -15,15 +16,17 @@ import { GetUser } from 'common/decorator/get-user.decorator';
 import { UpdateOrderCompleteDto } from './orders/repository/DTO/UpdateOrderComplete.dto';
 import { ReadClientKeyDto } from './customer/repository/DTO/ReadClientKey.dto';
 import { CreateOrderDto } from './orders/repository/DTO/CreateOrder.dto';
-import { BeforePaymentsService } from './service/beforePayments.service';
-import { SuccessPaymentsService } from './service/successPayments.service';
+import { IBeforePaymentsService } from './service/beforePayments.interface.service';
+import { ISuccessPaymentsService } from './service/successPayments.interface.service';
 
 @Controller('payments')
 @ApiTags('결제 API')
 export class PaymentsController {
   constructor(
-    private readonly beforePaymentsService: BeforePaymentsService,
-    private readonly successPaymentsService: SuccessPaymentsService,
+    @Inject('BEFORE_PAYMENT')
+    private readonly beforePaymentsService: IBeforePaymentsService,
+    @Inject('SUCCESS_PAYMENT')
+    private readonly successPaymentsService: ISuccessPaymentsService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(PaymentsController.name);
