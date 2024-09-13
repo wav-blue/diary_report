@@ -21,7 +21,7 @@ export class AxiosService {
     return btoa(binString);
   }
 
-  async FlaskRequest(body: { content: string }): Promise<any> {
+  async FlaskRequest(body: { content: string }): Promise<string> {
     // flask 서버로 요청 보낼 body 내용
     const apiUrl =
       `http://${flaskConfig.url}` + ':' + `${flaskConfig.port}` + `/summary`;
