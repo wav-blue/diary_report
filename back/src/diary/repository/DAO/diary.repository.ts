@@ -19,15 +19,24 @@ export abstract class IDiaryRepository {
     diaryId: number,
     summary: string,
     queryRunner: QueryRunner,
-  );
+  ): Promise<string>;
 
   abstract findDiary(
     diaryId: number,
-    userId: string,
     queryRunner: QueryRunner,
   ): Promise<ReadDiaryDto>;
 
   abstract deleteDiary(
+    diaryId: number,
+    queryRunner: QueryRunner,
+  ): Promise<string>;
+
+  abstract updateDiarySummaryToFailed(
+    diaryId: number,
+    queryRunner: QueryRunner,
+  ): Promise<string>;
+
+  abstract updateDiarySummaryToLoading(
     diaryId: number,
     queryRunner: QueryRunner,
   ): Promise<string>;

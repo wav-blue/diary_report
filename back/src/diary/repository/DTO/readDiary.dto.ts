@@ -4,6 +4,7 @@ export class ReadDiaryDto {
   @IsNotEmpty()
   diaryId: number;
 
+  @IsNotEmpty()
   userId: string;
 
   @IsNotEmpty()
@@ -14,6 +15,8 @@ export class ReadDiaryDto {
 
   @IsNotEmpty()
   summary = 'fail';
+
+  status: number;
 
   createdAt: Date;
 

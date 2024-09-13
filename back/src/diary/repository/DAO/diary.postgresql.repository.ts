@@ -4,6 +4,8 @@ import { QueryRunner } from 'typeorm';
 import { CreateDiaryDto } from '../DTO/createDiary.dto';
 import { Diary } from '../entity/diary.entity';
 import { IDiaryRepository } from './diary.repository';
+import { DiaryStatus } from 'src/diary/enum/diaryStatus.enum';
+import { ReadDiaryDto } from '../DTO/readDiary.dto';
 
 @Injectable()
 export class DiaryRepository implements IDiaryRepository {
@@ -19,6 +21,7 @@ export class DiaryRepository implements IDiaryRepository {
     const newDiary = queryRunner.manager.create(Diary, {
       ...createDiaryDto,
       userId,
+      status: DiaryStatus.LOADING,
     });
 
     const result = await queryRunner.manager.save(newDiary);
@@ -39,15 +42,37 @@ export class DiaryRepository implements IDiaryRepository {
     return diarys;
   }
 
+  async updateDiarySummaryToLoading(diaryId: number, queryRunner: QueryRunner) {
+    await queryRunner.manager
+      .createQueryBuilder()
+      .update(Diary)
+      .set({ status: DiaryStatus.LOADING })
+      .where('diaryId = :diaryId', { diaryId })
+      .execute();
+
+    return 'complete';
+  }
+
   async updateSummary(
     diaryId: number,
     summary: string,
     queryRunner: QueryRunner,
-  ) {
+  ): Promise<string> {
     await queryRunner.manager
       .createQueryBuilder()
       .update(Diary)
-      .set({ summary })
+      .set({ summary, status: DiaryStatus.COMPLETED })
+      .where('diaryId = :diaryId', { diaryId })
+      .execute();
+
+    return 'complete';
+  }
+
+  async updateDiarySummaryToFailed(diaryId: number, queryRunner: QueryRunner) {
+    await queryRunner.manager
+      .createQueryBuilder()
+      .update(Diary)
+      .set({ status: DiaryStatus.FAILED })
       .where('diaryId = :diaryId', { diaryId })
       .execute();
 
@@ -56,19 +81,19 @@ export class DiaryRepository implements IDiaryRepository {
 
   async findDiary(
     diaryId: number,
-    userId: string,
     queryRunner: QueryRunner,
-  ): Promise<Diary> {
+  ): Promise<ReadDiaryDto> {
     const diary = await queryRunner.manager
       .createQueryBuilder()
       .select('diary')
       .from(Diary, 'diary')
-      .where(`diary.diaryId = :diaryId and diary.userId = :userId`, {
+      .where(`diary.diaryId = :diaryId`, {
         diaryId,
-        userId,
       })
       .getOne();
 
+    console.log('diary');
+    console.log(diary);
     return diary;
   }
 

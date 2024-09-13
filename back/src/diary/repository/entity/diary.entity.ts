@@ -1,20 +1,13 @@
 import { TimeBaseEntity } from 'common/entity/timeBase.entity';
-import { User } from 'src/user/repository/entity/user.entity';
-import {
-  PrimaryGeneratedColumn,
-  Column,
-  Entity,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { DiaryStatus } from 'src/diary/enum/diaryStatus.enum';
+import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
 
 @Entity('DIARY')
 export class Diary extends TimeBaseEntity {
   @PrimaryGeneratedColumn('increment')
   diaryId: number;
 
-  @ManyToOne(() => User, (user: User) => user.userId)
-  @JoinColumn({ name: 'user_id' })
+  @Column({ type: 'varchar', length: 42 })
   userId: string;
 
   @Column({ type: 'integer' })
@@ -25,4 +18,7 @@ export class Diary extends TimeBaseEntity {
 
   @Column({ type: 'text', nullable: true })
   summary: string;
+
+  @Column({ type: 'smallint', nullable: false })
+  status: number = DiaryStatus.LOADING;
 }

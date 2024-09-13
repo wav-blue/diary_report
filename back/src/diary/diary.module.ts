@@ -7,17 +7,33 @@ import { AxiosModule } from 'src/axios/axios.module';
 import { DiaryDeleteService } from './service/diaryDelete.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { IDiaryRepository } from './repository/DAO/diary.repository';
-import { DiarySummaryService } from './service/diarySummary.service';
 import { DiaryRepository } from './repository/DAO/diary.postgresql.repository';
+import { BullModule } from '@nestjs/bullmq';
+import { AnalysisConsumer } from './analysis.consumer';
+import { DiaryUpdateSummaryService } from './service/diaryUpdateSummary.service';
+import { DiaryUpdateStatusToFailedService } from './service/diaryUpdateStatusToFailed.service';
+import { AnalysisService } from './analysis.service';
+import { RetrySummaryService } from './service/retrySummary.service';
 
 @Module({
-  imports: [LoggerModule, AxiosModule, AuthModule],
+  imports: [
+    BullModule.registerQueue({
+      name: 'summary',
+    }),
+    LoggerModule,
+    AxiosModule,
+    AuthModule,
+  ],
   controllers: [DiaryController],
   providers: [
     DiaryCreateService,
     DiaryReadService,
     DiaryDeleteService,
-    DiarySummaryService,
+    DiaryUpdateSummaryService,
+    DiaryUpdateStatusToFailedService,
+    RetrySummaryService,
+    AnalysisConsumer,
+    AnalysisService,
     { provide: IDiaryRepository, useClass: DiaryRepository },
   ],
 })

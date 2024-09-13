@@ -14,7 +14,7 @@ import {
 import { Diary } from './repository/entity/diary.entity';
 import { DiaryDeleteService } from './service/diaryDelete.service';
 import { AuthGuard } from 'src/auth/guards/authGuard';
-import { DiarySummaryService } from './service/diarySummary.service';
+import { RetrySummaryService } from './service/retrySummary.service';
 
 @Controller('diary')
 @ApiTags('일기 관련 API')
@@ -23,7 +23,7 @@ export class DiaryController {
     private diaryCreateService: DiaryCreateService,
     private diaryReadService: DiaryReadService,
     private diaryDeleteService: DiaryDeleteService,
-    private diarySummaryService: DiarySummaryService,
+    private retrySummaryService: RetrySummaryService,
 
     private logger: MyLogger,
   ) {
@@ -37,7 +37,7 @@ export class DiaryController {
     description: 'Access Token에 해당하는 유저의 일기 전체 조회',
   })
   @ApiCreatedResponse({ description: '일기 데이터', type: Diary })
-  createUser(@GetUser() userId: string): any {
+  createUser(@GetUser() userId: string): Promise<Diary[]> {
     this.logger.log(`일기 조회 요청!`);
     const diarys = this.diaryReadService.getDiary(userId);
     return diarys;
@@ -58,9 +58,9 @@ export class DiaryController {
   updateSummary(
     @GetUser() userId: string,
     @Param('diaryId') diaryId: number,
-  ): any {
+  ): Promise<Diary[]> {
     this.logger.log(`일기 요약 재요청!`);
-    const diarys = this.diarySummaryService.updateSummary(userId, diaryId);
+    const diarys = this.retrySummaryService.retrySummary(userId, diaryId);
     return diarys;
   }
 

@@ -36,7 +36,7 @@ export class DiaryReadService {
     return result;
   }
 
-  async getDiaryById(userId: string, diaryId: number): Promise<ReadDiaryDto> {
+  async getDiaryById(diaryId: number): Promise<ReadDiaryDto> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
@@ -45,13 +45,8 @@ export class DiaryReadService {
     let diary: ReadDiaryDto;
 
     try {
-      diary = await this.diaryRepository.findDiary(
-        diaryId,
-        userId,
-        queryRunner,
-      );
+      diary = await this.diaryRepository.findDiary(diaryId, queryRunner);
       if (!diary) {
-        // 해당 권한 없음 오류도 포함
         throw new ResourceNotFoundException();
       }
       await queryRunner.commitTransaction();
