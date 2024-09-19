@@ -52,37 +52,32 @@ export class AnalysisConsumer extends WorkerHost {
 
     let summary: string;
 
+    this.logger.debug('요약 요청 시작');
+    // 요약 요청
+    const content = diary.content;
+    const body = {
+      content,
+    };
     try {
-      this.logger.debug('요약 요청 시작');
-      // 요약 요청
-      const content = diary.content;
-      const body = {
-        content,
-      };
       summary = await this.axiosService.FlaskRequest(body);
 
       this.logger.verbose(`Flask 서버로의 요청 성공! ${summary}`);
     } catch (err) {
-      if (err instanceof AxiosError) {
-        this.logger.error(`요청 실패 `);
-      }
-      await queryRunner.rollbackTransaction();
-      throw err;
-    } finally {
-      await queryRunner.release();
+      this.logger.error('Axios Error 발생');
+      this.logger.error(`diaryId: ${diaryId}`);
     }
 
-    if (!summary) {
+    if (summary) {
+      await this.diaryUpdateSummaryService.updateSummary(
+        userId,
+        summary,
+        diaryId,
+      );
+    } else {
       await this.diaryUpdateStatusToFailedService.updateDiaryStatusToFailed(
         diaryId,
       );
     }
-
-    await this.diaryUpdateSummaryService.updateSummary(
-      userId,
-      summary,
-      diaryId,
-    );
     this.logger.verbose(`Completed`);
   }
 }
