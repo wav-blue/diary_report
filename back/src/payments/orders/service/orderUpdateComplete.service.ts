@@ -21,6 +21,7 @@ export class OrderUpdateCompleteService {
   ): Promise<Order> {
     const { orderId } = updateOrderCompleteDto;
 
+    // 사전에 저장한 주문 정보
     const foundOrder = await this.orderRepository.findOrderByOrderId(
       orderId,
       queryRunner,

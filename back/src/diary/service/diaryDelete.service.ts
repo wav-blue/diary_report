@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { IDiaryRepository } from '../repository/DAO/diary.repository';
@@ -21,13 +21,9 @@ export class DiaryDeleteService {
     await queryRunner.startTransaction();
 
     try {
-      const diary = await this.diaryRepository.findDiary(
-        diaryId,
-        userId,
-        queryRunner,
-      );
-      if (!diary) {
-        // 해당 권한 없음 오류도 여기에 포함
+      const diary = await this.diaryRepository.findDiary(diaryId, queryRunner);
+      if (!diary || diary.userId !== userId) {
+        // 존재하지 않거나 해당 권한 없음
         throw new ResourceNotFoundException();
       }
       await this.diaryRepository.deleteDiary(diaryId, queryRunner);
