@@ -13,7 +13,7 @@ function DiaryCard(props) {
       <DiaryContainer>
         <DateKorean>{props.date}</DateKorean>
         <div>
-          <p>{setSummary(props.summary)}</p>
+          <p>{setSummary(props.summary, props.status)}</p>
         </div>
         <div>
           <label> 만족도 </label>
@@ -40,17 +40,28 @@ function DiaryCard(props) {
     </>
   );
 
-  function setSummary(summary) {
-    if (summary === "fail") {
-      return (
-        <>
-          <p>{props.content.substr(0, 50)} ...</p>
-          <SmallDarkGreyText>분석에 실패했습니다 </SmallDarkGreyText>
-          <SmallGreyButton onClick={() => getAnalysis(props.diaryId)}>
-            다시 요청하기
-          </SmallGreyButton>
-        </>
-      );
+  function setSummary(summary, status) {
+    if (!summary) {
+      // fail
+      if (status == -1) {
+        return (
+          <>
+            <p>{props.content.substr(0, 50)} ...</p>
+            <SmallDarkGreyText>분석에 실패했습니다 </SmallDarkGreyText>
+            <SmallGreyButton onClick={() => getAnalysis(props.diaryId)}>
+              다시 요청하기
+            </SmallGreyButton>
+          </>
+        );
+      } else {
+        //loading
+        return (
+          <>
+            <p>{props.content.substr(0, 50)} ...</p>
+            <SmallDarkGreyText>분석 중입니다 </SmallDarkGreyText>
+          </>
+        );
+      }
     }
     return summary;
   }

@@ -46,6 +46,7 @@ function DiaryPage() {
           summary={diary.summary}
           satisfy={diary.satisfy}
           content={diary.content}
+          status={diary.status}
           setModal={setModal}
         />
       ))}
