@@ -4,11 +4,12 @@ import { StyleButton } from "../button/StyleButton";
 const StyleModalBackContainer = styled.div`
   ${({ theme }) => {
     return css`
-      position: absolute;
+      position: relative;
       width: 100%;
       height: 100%;
       justify-content: center;
       background-color: rgba(0, 0, 0, 0.4);
+      overflow: hidden;
     `;
   }}
 `;
@@ -18,7 +19,7 @@ const StyleModalContainer = styled.div`
     return css`
       position: fixed;
       background-color: #ffffff;
-      width: 100%;
+      width: 35vw;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);

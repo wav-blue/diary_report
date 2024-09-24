@@ -3,13 +3,15 @@ import styled, { css } from "styled-components";
 const CustomFooter = styled.footer`
   ${({ theme }) => {
     return css`
-      padding: 0.5rem;
-      line-height: 1rem;
-      width: 100%;
-      height: 1rem;
+      height: 3vh;
+      position: fixed;
+      transform: translateY(0%);
+      width: 100vw;
+
+      display: flex;
+      align-items: center;
       background-color: ${theme.colors.grey};
       bottom: 0px;
-      position: absolute;
     `;
   }}
 `;

@@ -3,10 +3,10 @@ import styled, { css } from "styled-components";
 const CustomBody = styled.header`
   ${({ theme }) => {
     return css`
-      background-color: ${theme.colors.beige};
-      margin: 10px auto;
-      width: 100%;
-      height: 100%;
+      background-color: ${theme.colors.pureWhite};
+      margin: 0 auto;
+      width: 35vw;
+      height: 93vh;
     `;
   }}
 `;
