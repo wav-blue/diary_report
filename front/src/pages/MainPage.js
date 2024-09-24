@@ -48,7 +48,7 @@ function MainPage() {
 
       <GreenBorderButton
         className="report"
-        onClick={() => navigate("/diary/edit")}
+        onClick={() => navigate("/diary/new")}
       >
         작성하기
       </GreenBorderButton>
