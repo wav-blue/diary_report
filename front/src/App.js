@@ -37,6 +37,7 @@ import { SuccessPage } from "./pages/payments/SuccessPage.js";
 import { FailPage } from "./pages/payments/FailPage.js";
 import NotFoundPage from "./pages/errors/NotFoundPage.js";
 import OrderPage from "./pages/user/OrderPage.js";
+import BackgroundBody from "./styles/style-components/BackgroundBody.jsx";
 
 function App() {
   const [userState, dispatch] = useReducer(loginReducer, {
@@ -72,12 +73,12 @@ function App() {
 
       console.log("%c Access Token 인증 성공.", "color: #d93d1a;");
     } catch (err) {
-      console.log(err.response);
       // 419 : Token Expired
       if (err.response?.status === 419) {
         console.log("%c Access Token 재발급 실행.", "color: #d93d1a;");
         refreshAccessToken();
       } else if (err?.response?.status === 401) {
+        console.log(err.response);
         alert("유효하지 않은 토큰입니다.");
         // 토큰 삭제
         sessionStorageExpireToken();
@@ -96,7 +97,7 @@ function App() {
       refreshToken,
     };
     try {
-      const res = await Api.post("auth/accessToken", body);
+      const res = await Api.post("users/accessToken", body);
 
       // 유저 정보
       const { accessToken, userId, userName } = res.data;
@@ -134,31 +135,41 @@ function App() {
           <UserStateContext.Provider value={userState}>
             <Router>
               <Header />
-              <CustomBody>
-                <Routes>
-                  <Route path="/" exact element={<MainPage />} />
-                  <Route path="/intro" exact element={<IntroPage />} />
-                  <Route path="/login" exact element={<LoginPage />} />
-                  <Route path="/register" exact element={<RegisterPage />} />
-                  <Route path="/diary" exact element={<DiaryPage />} />
-                  <Route path="/diary/edit" exact element={<DiaryEditPage />} />
-                  <Route path="/my" exact element={<MyPage />} />
-                  <Route path="/my/order" exact element={<OrderPage />} />
-                  <Route path="/my/payments" exact element={<PaymentsPage />} />
-                  <Route
-                    path="/payments/checkout"
-                    exact
-                    element={<CheckoutPage />}
-                  />
-                  <Route
-                    path="/payments/success"
-                    exact
-                    element={<SuccessPage />}
-                  />
-                  <Route path="/payments/fail" exact element={<FailPage />} />
-                  <Route path="/*" element={<NotFoundPage />} />
-                </Routes>
-              </CustomBody>
+              <BackgroundBody>
+                <CustomBody>
+                  <Routes>
+                    <Route path="/" exact element={<MainPage />} />
+                    <Route path="/intro" exact element={<IntroPage />} />
+                    <Route path="/login" exact element={<LoginPage />} />
+                    <Route path="/register" exact element={<RegisterPage />} />
+                    <Route path="/diary" exact element={<DiaryPage />} />
+                    <Route
+                      path="/diary/new"
+                      exact
+                      element={<DiaryEditPage />}
+                    />
+                    <Route path="/my" exact element={<MyPage />} />
+                    <Route path="/my/order" exact element={<OrderPage />} />
+                    <Route
+                      path="/my/payments"
+                      exact
+                      element={<PaymentsPage />}
+                    />
+                    <Route
+                      path="/payments/checkout"
+                      exact
+                      element={<CheckoutPage />}
+                    />
+                    <Route
+                      path="/payments/success"
+                      exact
+                      element={<SuccessPage />}
+                    />
+                    <Route path="/payments/fail" exact element={<FailPage />} />
+                    <Route path="/*" element={<NotFoundPage />} />
+                  </Routes>
+                </CustomBody>
+              </BackgroundBody>
               <Footer />
             </Router>
           </UserStateContext.Provider>
