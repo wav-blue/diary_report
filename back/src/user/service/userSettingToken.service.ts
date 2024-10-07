@@ -3,12 +3,14 @@ import { MyLogger } from 'src/logger/logger.service';
 import { AccessTokenService } from 'src/auth/service/accessToken.service';
 import { RefreshTokenService } from 'src/auth/service/refreshToken.service';
 import { ReadLoginUserDto } from '../repository/DTO/readLoginUser.dto';
+import { RedisService } from '../../auth/service/auth.service';
 
 @Injectable()
 export class UserSettingTokenService {
   constructor(
     private readonly accessTokenService: AccessTokenService,
     private readonly refreshTokenService: RefreshTokenService,
+    private readonly redisService: RedisService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(UserSettingTokenService.name);
@@ -25,6 +27,10 @@ export class UserSettingTokenService {
     );
     const { refreshToken } =
       await this.refreshTokenService.createRefreshToken();
+
+    this.logger.verbose('Redis에 Refresh Token 값 저장');
+    this.redisService.setValueToRedis(userId, refreshToken);
+    this.logger.verbose('Complete');
 
     // 반환할 loginuser 객체
     const loginUser = {
