@@ -9,22 +9,25 @@ import { typeORMPostgresConfig } from './configs/typeorm-postgres.config';
 import { BullModule } from '@nestjs/bullmq';
 import { CacheModule } from '@nestjs/cache-manager';
 import * as redisStore from 'cache-manager-redis-store';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeORMPostgresConfig),
     BullModule.forRoot({
       connection: {
-        host: '127.0.0.1',
+        host: process.env.REDIS_HOST,
         port: 6379,
       },
     }),
     CacheModule.register({
       store: redisStore,
-      host: '127.0.0.1',
+      host: process.env.REDIS_HOST,
       port: 6379,
       isGlobal: true,
-      ttl: 21600, // 시간(밀리초)
+      ttl: 21600, // 6h, 단위 : ms
     }),
     UserModule,
     AuthModule,
