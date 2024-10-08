@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
 import { LoggerModule } from 'src/logger/logger.module';
 import { JwtModule } from '@nestjs/jwt';
-import { AccessTokenService } from './service/accessToken.service';
-import { RefreshTokenService } from './service/refreshToken.service';
 import { AuthController } from './auth.controller';
 import { RedisService } from './service/redis.service';
 import { RedisRepository } from './repository/dao/redis.repository';
+import { ValidRefreshTokenService } from './service/validRefreshToken.service';
+import { CreateRefreshTokenService } from './service/createRefreshToken.service';
+import { ValidAccessTokenService } from './service/validAccessToken.service';
+import { CreateAccessTokenService } from './service/createAccessToken.service';
+import { ExtractAccessTokenService } from './service/extractOldAccessToken.service';
 
 @Module({
   imports: [
@@ -14,11 +17,14 @@ import { RedisRepository } from './repository/dao/redis.repository';
   ],
   controllers: [AuthController],
   providers: [
-    AccessTokenService,
-    RefreshTokenService,
+    ValidAccessTokenService,
+    CreateAccessTokenService,
+    ExtractAccessTokenService,
+    ValidRefreshTokenService,
+    CreateRefreshTokenService,
     RedisService,
     RedisRepository,
   ],
-  exports: [AccessTokenService, RefreshTokenService, RedisService],
+  exports: [CreateRefreshTokenService, RedisService],
 })
 export class AuthModule {}

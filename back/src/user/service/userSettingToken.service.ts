@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
-import { AccessTokenService } from 'src/auth/service/accessToken.service';
-import { RefreshTokenService } from 'src/auth/service/refreshToken.service';
 import { ReadLoginUserDto } from '../repository/DTO/readLoginUser.dto';
 import { RedisService } from '../../auth/service/redis.service';
+import { CreateRefreshTokenService } from 'src/auth/service/createRefreshToken.service';
+import { CreateAccessTokenService } from 'src/auth/service/createAccessToken.service';
 
 @Injectable()
 export class UserSettingTokenService {
   constructor(
-    private readonly accessTokenService: AccessTokenService,
-    private readonly refreshTokenService: RefreshTokenService,
+    private readonly createAccessTokenService: CreateAccessTokenService,
+    private readonly createRefreshTokenService: CreateRefreshTokenService,
     private readonly redisService: RedisService,
     private logger: MyLogger,
   ) {
@@ -21,12 +21,10 @@ export class UserSettingTokenService {
     userName: string,
   ): Promise<ReadLoginUserDto> {
     // 로그인 성공 -> JWT 웹 토큰 생성
-    const { accessToken } = await this.accessTokenService.createAccessToken(
-      userId,
-      userName,
-    );
+    const { accessToken } =
+      await this.createAccessTokenService.createAccessToken(userId, userName);
     const { refreshToken } =
-      await this.refreshTokenService.createRefreshToken();
+      await this.createRefreshTokenService.createRefreshToken();
 
     this.logger.verbose('Redis에 Refresh Token 값 저장');
     this.redisService.setValueToRedis(userId, refreshToken);

@@ -5,11 +5,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { AccessTokenService } from 'src/auth/service/accessToken.service';
+import { ValidAccessTokenService } from '../service/validAccessToken.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private accessTokenService: AccessTokenService) {}
+  constructor(private validAccessTokenService: ValidAccessTokenService) {}
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('Access Token이 존재하지 않음');
     }
     try {
-      const userId = this.accessTokenService.validAccessToken(accessToken);
+      const userId = this.validAccessTokenService.validAccessToken(accessToken);
       request.userId = userId;
     } catch (err) {
       throw err;
