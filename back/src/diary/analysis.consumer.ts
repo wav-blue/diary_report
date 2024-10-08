@@ -1,12 +1,11 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
-import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resource-not-found.exception';
+import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resourceNotFound.exception';
 import { IDiaryRepository } from './repository/DAO/diary.repository';
 import { DataSource } from 'typeorm';
 import { ReadDiaryDto } from './repository/DTO/readDiary.dto';
 import { AxiosService } from '../axios/axios.service';
-import { AxiosError } from 'axios';
 import { DiaryUpdateStatusToFailedService } from './service/diaryUpdateStatusToFailed.service';
 import { DiaryUpdateSummaryService } from './service/diaryUpdateSummary.service';
 

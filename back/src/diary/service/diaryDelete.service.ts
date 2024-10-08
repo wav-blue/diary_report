@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { IDiaryRepository } from '../repository/DAO/diary.repository';
-import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resource-not-found.exception';
+import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resourceNotFound.exception';
 
 @Injectable()
 export class DiaryDeleteService {

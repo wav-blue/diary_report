@@ -92,8 +92,6 @@ export class DiaryRepository implements IDiaryRepository {
       })
       .getOne();
 
-    console.log('diary');
-    console.log(diary);
     return diary;
   }
 

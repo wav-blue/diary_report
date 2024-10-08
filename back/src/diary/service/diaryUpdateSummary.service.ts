@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { IDiaryRepository } from '../repository/DAO/diary.repository';
-import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resource-not-found.exception';
+import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resourceNotFound.exception';
 
 /*
 status 'completed'로 UPDATE, summary UPDATE
@@ -27,13 +27,12 @@ export class DiaryUpdateSummaryService {
 
     await queryRunner.startTransaction();
 
-    this.logger.verbose(`Summary Update! ${summary}`);
     try {
       const foundDiary = await this.diaryRepository.findDiary(
         diaryId,
         queryRunner,
       );
-      console.log(foundDiary);
+
       if (!foundDiary || foundDiary.userId !== userId) {
         this.logger.debug('해당하는 리소스가 존재하지 않음');
         this.logger.debug(`${foundDiary.userId} //  ${userId}`);

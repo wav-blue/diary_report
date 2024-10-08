@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 import { MyLogger } from 'src/logger/logger.service';
 import { Diary } from '../repository/entity/diary.entity';
 import { IDiaryRepository } from '../repository/DAO/diary.repository';
-import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resource-not-found.exception';
+import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resourceNotFound.exception';
 import { ReadDiaryDto } from '../repository/DTO/readDiary.dto';
 
 @Injectable()

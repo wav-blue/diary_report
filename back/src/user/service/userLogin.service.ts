@@ -6,7 +6,7 @@ import { LoginUserDto } from '../repository/DTO/loginUser.dto';
 import { User } from '../repository/entity/user.entity';
 import { IUserRepository } from '../repository/DAO/user.repository';
 import { UserSettingTokenService } from './userSettingToken.service';
-import { InvalidLoginDataException } from 'common/exception-filter/exception/user/invalid-login-data.exception';
+import { InvalidLoginDataException } from 'common/exception-filter/exception/user/invalidLoginData.exception';
 import { ReadLoginUserDto } from '../repository/DTO/readLoginUser.dto';
 
 @Injectable()
@@ -37,7 +37,6 @@ export class UserLoginService {
     try {
       findUser = await this.userRepository.findUserByEmail(email, queryRunner);
       if (!findUser) {
-        this.logger.error('검색된 정보 없음');
         throw new InvalidLoginDataException();
       }
       await queryRunner.commitTransaction();

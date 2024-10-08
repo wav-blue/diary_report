@@ -4,7 +4,7 @@ import { MyLogger } from 'src/logger/logger.service';
 import { Order } from '../repository/entity/order.entity';
 import { IOrderRepository } from '../repository/DAO/order.repository';
 import { UpdateOrderCompleteDto } from '../repository/DTO/UpdateOrderComplete.dto';
-import { BalanceAmountNotMatchException } from 'common/exception-filter/exception/payments/balance-amount-not-match.exception';
+import { BalanceAmountNotMatchException } from 'common/exception-filter/exception/payments/balanceAmountNotMatch.exception';
 
 @Injectable()
 export class OrderUpdateCompleteService {

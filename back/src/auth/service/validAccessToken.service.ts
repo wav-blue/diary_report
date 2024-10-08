@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { JwtService } from '@nestjs/jwt';
-import { AccessTokenExpiredException } from 'common/exception-filter/exception/user/access-token-expired.exception';
-import { MalformedTokenException } from 'common/exception-filter/exception/user/malformed-token.exception';
+import { AccessTokenExpiredException } from 'common/exception-filter/exception/user/accessTokenExpired.exception';
+import { MalformedTokenException } from 'common/exception-filter/exception/user/malformedToken.exception';
 
 @Injectable()
 export class ValidAccessTokenService {

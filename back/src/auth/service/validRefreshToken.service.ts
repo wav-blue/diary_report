@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { JwtService } from '@nestjs/jwt';
-import { RefreshTokenExpiredException } from 'common/exception-filter/exception/user/refresh-token-expired.exception';
-import { MalformedTokenException } from 'common/exception-filter/exception/user/malformed-token.exception';
+import { RefreshTokenExpiredException } from 'common/exception-filter/exception/user/refreshTokenExpired.exception';
+import { MalformedTokenException } from 'common/exception-filter/exception/user/malformedToken.exception';
 
 @Injectable()
 export class ValidRefreshTokenService {

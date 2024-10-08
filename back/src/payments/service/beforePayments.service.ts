@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MyLogger } from 'src/logger/logger.service';
 import { TitleCheckService } from 'src/title/service/titleCheck.service';
 import { CustomerReadService } from '../customer/service/customerRead.service';
-import { DuplicatePurchaseReqestException } from 'common/exception-filter/exception/payments/duplicate-purchase-request.exception';
+import { DuplicatePurchaseReqestException } from 'common/exception-filter/exception/payments/duplicatePurchaseRequest.exception';
 import { ReadClientKeyDto } from '../customer/repository/DTO/ReadClientKey.dto';
 import { OrderCreateService } from '../orders/service/OrderCreate.service';
 import { CreateOrderDto } from '../orders/repository/DTO/CreateOrder.dto';
