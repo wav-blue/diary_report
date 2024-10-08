@@ -5,7 +5,7 @@ import { RedisRepository } from '../repository/dao/redis.repository';
 export class RedisService {
   constructor(private readonly redisRepository: RedisRepository) {}
 
-  async getValueFromRedis(key: string) {
+  async getValueFromRedis(key: string): Promise<string> {
     return this.redisRepository.get(key);
   }
 

@@ -12,9 +12,9 @@ export class RedisRepository {
     this.logger.setContext(RedisRepository.name);
   }
 
-  async get(key: string) {
+  async get(key: string): Promise<string> {
     try {
-      const value = await this.cacheManager.get(key);
+      const value = (await this.cacheManager.get(key)) as string;
       return value;
     } catch (err) {
       this.logger.error('NOT FOUND / ERROR INCURRED');
@@ -25,7 +25,7 @@ export class RedisRepository {
     }
   }
 
-  async set(key: string, value: string) {
+  async set(key: string, value: string): Promise<void> {
     try {
       await this.cacheManager.set(key, value);
     } catch (error) {

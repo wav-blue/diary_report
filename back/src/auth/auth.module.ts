@@ -25,6 +25,13 @@ import { ExtractAccessTokenService } from './service/extractOldAccessToken.servi
     RedisService,
     RedisRepository,
   ],
-  exports: [CreateRefreshTokenService, RedisService],
+  exports: [
+    ValidAccessTokenService,
+    CreateAccessTokenService,
+    CreateRefreshTokenService,
+    RedisService,
+    ExtractAccessTokenService,
+    ValidRefreshTokenService,
+  ],
 })
 export class AuthModule {}
