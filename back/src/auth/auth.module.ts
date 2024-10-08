@@ -4,7 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AccessTokenService } from './service/accessToken.service';
 import { RefreshTokenService } from './service/refreshToken.service';
 import { AuthController } from './auth.controller';
-import { RedisService } from './service/auth.service';
+import { RedisService } from './service/redis.service';
 import { RedisRepository } from './repository/dao/redis.repository';
 
 @Module({

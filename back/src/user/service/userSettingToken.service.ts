@@ -3,7 +3,7 @@ import { MyLogger } from 'src/logger/logger.service';
 import { AccessTokenService } from 'src/auth/service/accessToken.service';
 import { RefreshTokenService } from 'src/auth/service/refreshToken.service';
 import { ReadLoginUserDto } from '../repository/DTO/readLoginUser.dto';
-import { RedisService } from '../../auth/service/auth.service';
+import { RedisService } from '../../auth/service/redis.service';
 
 @Injectable()
 export class UserSettingTokenService {
