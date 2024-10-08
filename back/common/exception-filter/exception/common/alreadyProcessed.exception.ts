@@ -1,5 +1,8 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
+/**
+ * Redis Queue
+ */
 export class AlreadyProcessedException extends HttpException {
   constructor() {
     super(
