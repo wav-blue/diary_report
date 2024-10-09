@@ -43,12 +43,10 @@ function LoginForm() {
         alert("서버에 문제가 있습니다.");
       }
 
-      // 세션에 저장: accessToken, refreshToken
+      // Save Access Token
       const accessToken = userData.accessToken;
-      const refreshToken = userData.refreshToken ?? " ";
 
       sessionStorage.setItem("accessToken", accessToken);
-      sessionStorage.setItem("refreshToken", refreshToken);
 
       dispatch({
         type: "LOGIN",

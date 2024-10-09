@@ -17,7 +17,6 @@ import { ErrorBoundary } from "./errorBoundary/ErrorBoundary.jsx";
 import Header from "./components/common/Header";
 
 import sessionStorageAccessToken from "./utils/login/sessionStorageAccessToken.js";
-import sessionStorageRefreshToken from "./utils/login/sessionStorageRefreshToken.js";
 import sessionStorageExpireToken from "./utils/login/sessionStorageExpireToken.js";
 
 import { ThemeProvider } from "styled-components";
@@ -76,9 +75,8 @@ function App() {
       // 419 : Token Expired
       if (err.response?.status === 419) {
         console.log("%c Access Token 재발급 실행.", "color: #d93d1a;");
-        refreshAccessToken();
+        reissueAccessToken();
       } else if (err?.response?.status === 401) {
-        console.log(err.response);
         alert("유효하지 않은 토큰입니다.");
         // 토큰 삭제
         sessionStorageExpireToken();
@@ -88,23 +86,20 @@ function App() {
     setIsFetchCompleted(true);
   };
 
-  const refreshAccessToken = async () => {
+  const reissueAccessToken = async () => {
     const accessToken = sessionStorageAccessToken();
-    const refreshToken = sessionStorageRefreshToken();
 
     const body = {
       accessToken,
-      refreshToken,
     };
     try {
       const res = await Api.post("users/accessToken", body);
 
-      // 유저 정보
+      // Response
       const { accessToken, userId, userName } = res.data;
-
       sessionStorage.setItem("accessToken", accessToken);
 
-      // dispatch 함수 - 로그인 성공 상태
+      // Login Success
       dispatch({
         type: "LOGIN",
         payload: { userId, userName },
@@ -113,12 +108,12 @@ function App() {
       sessionStorageExpireToken();
 
       if (err?.response?.status === 419) {
-        // refresh token 만료
+        // refresh token Expired
         alert("인증 정보가 만료되었습니다.\n다시 로그인해주세요.");
       } else if (err?.response?.status === 401) {
         alert("유효하지 않은 토큰입니다.");
       }
-      // 토큰 파기
+      // Remove Token
       sessionStorageExpireToken();
     }
   };

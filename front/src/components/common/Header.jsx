@@ -21,7 +21,6 @@ function Header() {
   // 로그아웃 클릭 시 실행되는 함수
   async function logout() {
     sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("refreshToken");
 
     alert("로그아웃 완료");
 

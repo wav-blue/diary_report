@@ -66,10 +66,8 @@ function RegisterForm() {
       const user = res.data;
 
       const accessToken = user.accessToken;
-      const refreshToken = user.refreshToken ?? "";
 
       sessionStorage.setItem("accessToken", accessToken);
-      sessionStorage.setItem("refreshToken", refreshToken);
 
       // 로그인 성공 상태로
       dispatch({

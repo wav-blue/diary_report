@@ -12,12 +12,9 @@ export function FailPage() {
         paymentErrMessage: searchParams.get("message"),
       };
       const res = await Api.post(`payments/report`, req);
-      console.log("요청에 성공하였습니다.\n응답: ", res);
       alert("신고가 접수되었습니다");
       navigate("/diary");
-    } catch (err) {
-      console.log("요청에 실패하였습니다.\n", err);
-    }
+    } catch (err) {}
   };
 
   return (
