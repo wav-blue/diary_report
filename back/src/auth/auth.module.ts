@@ -9,6 +9,7 @@ import { CreateRefreshTokenService } from './service/createRefreshToken.service'
 import { ValidAccessTokenService } from './service/validAccessToken.service';
 import { CreateAccessTokenService } from './service/createAccessToken.service';
 import { ExtractAccessTokenService } from './service/extractOldAccessToken.service';
+import { ReissueAccessTokenService } from './service/reissueAccessToken.service';
 
 @Module({
   imports: [
@@ -24,14 +25,13 @@ import { ExtractAccessTokenService } from './service/extractOldAccessToken.servi
     CreateRefreshTokenService,
     RedisService,
     RedisRepository,
+    ReissueAccessTokenService,
   ],
   exports: [
     ValidAccessTokenService,
-    CreateAccessTokenService,
     CreateRefreshTokenService,
-    RedisService,
-    ExtractAccessTokenService,
-    ValidRefreshTokenService,
+    ReissueAccessTokenService,
+    CreateAccessTokenService,
   ],
 })
 export class AuthModule {}

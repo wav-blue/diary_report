@@ -12,6 +12,8 @@ import { UserCreateService } from './service/userCreate.service';
 import { ReadLoginUserDto } from './repository/DTO/readLoginUser.dto';
 import { ReadCurrentUserDto } from './repository/DTO/readCurrentUser.dto';
 import { UserCurrentReadService } from './service/userCurrentRead.service';
+import { MalformedTokenException } from 'common/exception-filter/exception/user/malformedToken.exception';
+import { ReissueAccessTokenService } from 'src/auth/service/reissueAccessToken.service';
 
 @Controller('users')
 @ApiTags('유저 API')
@@ -20,6 +22,7 @@ export class UserController {
     private readonly userCurrentReadService: UserCurrentReadService,
     private readonly userCreateService: UserCreateService,
     private readonly userLoginService: UserLoginService,
+    private readonly reissueAccessTokenService: ReissueAccessTokenService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(UserController.name);
@@ -66,5 +69,25 @@ export class UserController {
       userName: user.userName,
     };
     return payload;
+  }
+
+  @Post('/accessToken')
+  @ApiOperation({
+    summary: 'Access Token 재발급 API',
+    description: '리프레시 토큰을 확인하고 액세스 토큰을 재발급한다',
+  })
+  @ApiCreatedResponse({
+    description: '새롭게 access Token을 쿠키에 설정',
+  })
+  async accessTokenRefresh(
+    @Body('accessToken') oldAccessToken: string,
+  ): Promise<{ userId: string; userName: string; accessToken: string }> {
+    if (!oldAccessToken) {
+      throw new MalformedTokenException();
+    }
+
+    return await this.reissueAccessTokenService.reissueAccessToken(
+      oldAccessToken,
+    );
   }
 }
