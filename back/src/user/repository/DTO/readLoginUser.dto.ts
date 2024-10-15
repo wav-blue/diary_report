@@ -1,16 +1,10 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class ReadLoginUserDto {
-  constructor(
-    userId: string,
-    userName: string,
-    accessToken: string,
-    refreshToken: string,
-  ) {
+  constructor(userId: string, userName: string, accessToken: string) {
     this.userId = userId;
     this.userName = userName;
     this.accessToken = accessToken;
-    this.refreshToken = refreshToken;
   }
   @IsNotEmpty()
   userId: string;
@@ -20,7 +14,4 @@ export class ReadLoginUserDto {
 
   @IsNotEmpty()
   accessToken: string;
-
-  @IsNotEmpty()
-  refreshToken: string;
 }
