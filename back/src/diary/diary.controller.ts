@@ -15,6 +15,7 @@ import { Diary } from './repository/entity/diary.entity';
 import { DiaryDeleteService } from './service/diaryDelete.service';
 import { AuthGuard } from 'src/auth/guards/authGuard';
 import { RetrySummaryService } from './service/retrySummary.service';
+import { DiaryUpdateSummaryByUserService } from './service/diaryUpdateSummaryByUser.service';
 
 @Controller('diary')
 @ApiTags('일기 관련 API')
@@ -24,7 +25,7 @@ export class DiaryController {
     private diaryReadService: DiaryReadService,
     private diaryDeleteService: DiaryDeleteService,
     private retrySummaryService: RetrySummaryService,
-
+    private diaryUpdateSummaryByUserService: DiaryUpdateSummaryByUserService,
     private logger: MyLogger,
   ) {
     this.logger.setContext(DiaryController.name);
@@ -60,7 +61,35 @@ export class DiaryController {
     @Param('diaryId') diaryId: number,
   ): Promise<Diary[]> {
     this.logger.log(`일기 요약 재요청!`);
-    const diarys = this.retrySummaryService.retrySummary(userId, diaryId);
+    this.retrySummaryService.retrySummary(userId, diaryId);
+    const diarys = this.diaryReadService.getDiary(userId);
+    return diarys;
+  }
+
+  @Post('/:diaryId')
+  @UseGuards(AuthGuard)
+  @ApiOperation({
+    summary: '일기의 요약 수정 요청',
+    description: '분석 성공한 일기의 요약을 수정한다.',
+  })
+  @ApiCreatedResponse({ description: '일기 데이터', type: Diary })
+  @ApiResponse({
+    status: 201,
+    description: 'Diary Summary Updated By User',
+    type: Diary,
+  })
+  updateSummaryByUser(
+    @GetUser() userId: string,
+    @Param('diaryId') diaryId: number,
+    @Body('summary') summary: string,
+  ): Promise<Diary[]> {
+    this.logger.log(`일기 요약 내용 수정!`);
+    this.diaryUpdateSummaryByUserService.updateSummaryByUser(
+      userId,
+      summary,
+      diaryId,
+    );
+    const diarys = this.diaryReadService.getDiary(userId);
     return diarys;
   }
 

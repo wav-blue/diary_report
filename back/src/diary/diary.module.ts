@@ -14,6 +14,7 @@ import { DiaryUpdateSummaryService } from './service/diaryUpdateSummary.service'
 import { DiaryUpdateStatusToFailedService } from './service/diaryUpdateStatusToFailed.service';
 import { AnalysisService } from './analysis.service';
 import { RetrySummaryService } from './service/retrySummary.service';
+import { DiaryUpdateSummaryByUserService } from './service/diaryUpdateSummaryByUser.service';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RetrySummaryService } from './service/retrySummary.service';
     DiaryReadService,
     DiaryDeleteService,
     DiaryUpdateSummaryService,
+    DiaryUpdateSummaryByUserService,
     DiaryUpdateStatusToFailedService,
     RetrySummaryService,
     AnalysisConsumer,
