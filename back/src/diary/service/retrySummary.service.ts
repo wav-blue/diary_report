@@ -7,8 +7,6 @@ import { DiaryStatus } from '../enum/diaryStatus.enum';
 import { AlreadyProcessedException } from 'common/exception-filter/exception/common/alreadyProcessed.exception';
 import { AnalysisService } from '../analysis.service';
 import { ReadDiaryDto } from '../repository/DTO/readDiary.dto';
-import { Diary } from '../repository/entity/diary.entity';
-import { DiaryReadService } from './diaryRead.service';
 
 /*
 status 'loading'으로 UPDATE, 요약 job 생성
@@ -18,14 +16,13 @@ export class RetrySummaryService {
   constructor(
     private readonly diaryRepository: IDiaryRepository,
     private readonly analysisService: AnalysisService,
-    private readonly diaryReadService: DiaryReadService,
     private readonly dataSource: DataSource,
     private logger: MyLogger,
   ) {
     this.logger.setContext(RetrySummaryService.name);
   }
 
-  async retrySummary(userId: string, diaryId: number): Promise<Diary[]> {
+  async retrySummary(userId: string, diaryId: number): Promise<string> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
 
@@ -58,8 +55,6 @@ export class RetrySummaryService {
     // 댓글 분석 요청(job queue 등록)
     this.analysisService.addJob(diaryId, userId);
 
-    const diarys = await this.diaryReadService.getDiary(userId);
-
-    return diarys;
+    return 'complete';
   }
 }
