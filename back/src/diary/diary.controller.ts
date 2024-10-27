@@ -78,13 +78,13 @@ export class DiaryController {
     description: 'Diary Summary Updated By User',
     type: Diary,
   })
-  updateSummaryByUser(
+  async updateSummaryByUser(
     @GetUser() userId: string,
     @Param('diaryId') diaryId: number,
     @Body('summary') summary: string,
   ): Promise<Diary[]> {
     this.logger.log(`일기 요약 내용 수정!`);
-    this.diaryUpdateSummaryByUserService.updateSummaryByUser(
+    await this.diaryUpdateSummaryByUserService.updateSummaryByUser(
       userId,
       summary,
       diaryId,
