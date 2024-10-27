@@ -5,6 +5,7 @@ import { IDiaryRepository } from '../repository/DAO/diary.repository';
 import { ResourceNotFoundException } from 'common/exception-filter/exception/common/resourceNotFound.exception';
 import { DiaryStatus } from '../enum/diaryStatus.enum';
 import { AlreadyProcessedException } from 'common/exception-filter/exception/common/alreadyProcessed.exception';
+import { ReadDiaryDto } from '../repository/DTO/readDiary.dto';
 
 /*
 User가 원하는 내용으로 Summary 변경
@@ -29,17 +30,21 @@ export class DiaryUpdateSummaryByUserService {
 
     await queryRunner.startTransaction();
 
-    try {
-      const foundDiary = await this.diaryRepository.findDiary(
-        diaryId,
-        queryRunner,
-      );
+    let foundDiary: ReadDiaryDto;
 
+    try {
+      foundDiary = await this.diaryRepository.findDiary(diaryId, queryRunner);
+
+      // 해당하는 일기 존재하지 않음 또는 권한 없는 유저의 요청
       if (!foundDiary || foundDiary.userId !== userId) {
-        this.logger.debug(`해당하는 리소스가 존재하지 않음`);
-        this.logger.debug(`User 불일치 요청`);
-        this.logger.debug(`- diary 작성 ID: ${foundDiary.userId}`);
-        this.logger.debug(`- 요청 ID: ${userId}`);
+        if (!foundDiary) {
+          this.logger.debug(`해당하는 리소스가 존재하지 않음`);
+        } else {
+          this.logger.debug(`User 불일치 요청`);
+          this.logger.debug(`- diary 작성 ID: ${foundDiary.userId}`);
+          this.logger.debug(`- 요청 ID: ${userId}`);
+        }
+        // 보안을 위해 같은 응답
         throw new ResourceNotFoundException();
       }
 
