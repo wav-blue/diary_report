@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 /**
- * 해당 리소스에 대한 권한 없음(로그인 정보 존재함)
+ * 로그인이 필요한 상황(로그인 정보가 존재하지 않음)
  */
-export class UserAccessDeniedException extends HttpException {
+export class LoginRequiredException extends HttpException {
   constructor() {
     super(
       // response
-      'Access denied',
+      'Login required',
       // status
       HttpStatus.UNAUTHORIZED, // 401
     );
