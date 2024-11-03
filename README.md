@@ -24,7 +24,7 @@
 
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white"/> <img src="https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=white"/>
 
-   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white"/>
+<img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=PostgreSQL&logoColor=white"/> <img src="https://img.shields.io/badge/redis-E0234E?style=for-the-badge&logo=redis&logoColor=white"/>
 
 #### AI Server
 
@@ -86,6 +86,8 @@
 
 - **일기**
 - 일기(DIARY) 생성, 조회, 삭제
+- BullMQ 라이브러리, Redis 저장소를 활용한 메세지 큐 구현
+  - 일기 분석을 비동기적으로 처리
 
 #### AxiosModule
 
