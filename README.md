@@ -92,7 +92,3 @@
 - 결제 수단(가상 계좌, 카드) 조회
 
 \* toss payments API를 활용했습니다.
-
-
-#### TitleModule
-
